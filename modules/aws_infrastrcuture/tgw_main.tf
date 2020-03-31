@@ -153,6 +153,7 @@ resource "aws_route" "sec-vpc-routes" {
   route_table_id         = aws_route_table.sec_Internal_rt.id
   destination_cidr_block = var.cidr-2
   transit_gateway_id     = aws_ec2_transit_gateway.security-app-tgw.id
+  depends_on             = [aws_ec2_transit_gateway_vpc_attachment.security-app-tgw-security-vpc]
 }
 
 
@@ -160,30 +161,33 @@ resource "aws_route" "sec-container-vpc-routes" {
   route_table_id         = aws_route_table.sec_Internal_rt.id
   destination_cidr_block = var.cidr-3
   transit_gateway_id     = aws_ec2_transit_gateway.security-app-tgw.id
+  depends_on             = [aws_ec2_transit_gateway_vpc_attachment.security-app-tgw-security-vpc]
 }
 
 resource "aws_route" "sec-vpc-nat-routes" {
   route_table_id         = aws_route_table.internet_rt.id
   destination_cidr_block = var.cidr-2
   transit_gateway_id     = aws_ec2_transit_gateway.security-app-tgw.id
+  depends_on             = [aws_ec2_transit_gateway_vpc_attachment.security-app-tgw-security-vpc]
 }
 
 resource "aws_route" "sec-container-vpc-nat-routes" {
   route_table_id         = aws_route_table.internet_rt.id
   destination_cidr_block = var.cidr-3
   transit_gateway_id     = aws_ec2_transit_gateway.security-app-tgw.id
+  depends_on             = [aws_ec2_transit_gateway_vpc_attachment.security-app-tgw-security-vpc]
 }
 
 resource "aws_route" "sec-default-routes" {
   route_table_id         = aws_route_table.internet_rt.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id     = aws_internet_gateway.gw.id
+  gateway_id             = aws_internet_gateway.gw.id
 }
 
 resource "aws_route" "nat-default-routes" {
   route_table_id         = aws_route_table.sec_Internal_rt.id
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id     = aws_nat_gateway.sec-gw.id
+  nat_gateway_id         = aws_nat_gateway.sec-gw.id
 }
 
 
@@ -192,6 +196,7 @@ resource "aws_route" "app-vpc-routes" {
   route_table_id         = aws_route_table.app_tgw_main_rt.id
   destination_cidr_block = "0.0.0.0/0"
   transit_gateway_id     = aws_ec2_transit_gateway.security-app-tgw.id
+  depends_on             = [aws_ec2_transit_gateway_vpc_attachment.security-app-tgw-app-vpc]
 }
 
 #Conatiner VPC Default to TGW
@@ -199,6 +204,7 @@ resource "aws_route" "container-vpc-routes" {
   route_table_id         = aws_route_table.container_tgw_main_rt.id
   destination_cidr_block = "0.0.0.0/0"
   transit_gateway_id     = aws_ec2_transit_gateway.security-app-tgw.id
+  depends_on             = [aws_ec2_transit_gateway_vpc_attachment.security-app-tgw-container-vpc]
 }
 
 
