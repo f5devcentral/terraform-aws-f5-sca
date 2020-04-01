@@ -4,7 +4,7 @@ provider "aws" {
 
 # Deploy the base AWS infrastructure
 module aws_infrastructure {
-  source = "./modules/aws_infrastructure"
+  source = "./modules/awsInfrastructure"
 
   aws_region  = var.aws_region
   project     = var.project
