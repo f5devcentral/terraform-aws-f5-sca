@@ -28,7 +28,7 @@ resource "random_id" "id" {
 resource "random_password" "password" {
   length           = 16
   special          = true
-  override_special = " #%*+,-./:=?@[]^_~"
+  override_special = "_%@"
 }
 
 #
@@ -132,43 +132,23 @@ resource "aws_subnet" "sec_subnet_ingress_frm_ch2_region-az-1" {
   }
 }
 
-resource "aws_subnet" "sec_subnet_sec_services_ingress_ch1_region-az-1" {
+resource "aws_subnet" "sec_subnet_dmz_outside_region-az-1" {
   cidr_block        = cidrsubnet(aws_vpc.security-vpc.cidr_block, 8, 6)
   vpc_id            = aws_vpc.security-vpc.id
   availability_zone = var.region-az-1
 
   tags = {
-    Name = "${var.project}_sec_subnet_sec_services_ingress_ch1_region-az-1"
+    Name = "${var.project}_sec_subnet_dmz_outside_region-az-1"
   }
 }
 
-resource "aws_subnet" "sec_subnet_sec_services_egress_ch1_region-az-1" {
+resource "aws_subnet" "sec_subnet_dmz_inside_region-az-1" {
   cidr_block        = cidrsubnet(aws_vpc.security-vpc.cidr_block, 8, 7)
   vpc_id            = aws_vpc.security-vpc.id
   availability_zone = var.region-az-1
 
   tags = {
-    Name = "${var.project}_sec_subnet_sec_services_egress_ch1_region-az-1"
-  }
-}
-
-resource "aws_subnet" "sec_subnet_sec_services_ingress_ch2_region-az-1" {
-  cidr_block        = cidrsubnet(aws_vpc.security-vpc.cidr_block, 8, 8)
-  vpc_id            = aws_vpc.security-vpc.id
-  availability_zone = var.region-az-1
-
-  tags = {
-    Name = "${var.project}_sec_subnet_sec_services_ingress_ch2_region-az-1"
-  }
-}
-
-resource "aws_subnet" "sec_subnet_sec_services_egress_ch2_region-az-1" {
-  cidr_block        = cidrsubnet(aws_vpc.security-vpc.cidr_block, 8, 9)
-  vpc_id            = aws_vpc.security-vpc.id
-  availability_zone = var.region-az-1
-
-  tags = {
-    Name = "${var.project}_sec_subnet_sec_services_egress_ch1_region-az-1"
+    Name = "${var.project}_sec_subnet_dmz_inside_region-az-1"
   }
 }
 
@@ -244,43 +224,23 @@ resource "aws_subnet" "sec_subnet_ingress_frm_ch2_region-az-2" {
   }
 }
 
-resource "aws_subnet" "sec_subnet_sec_services_ingress_ch1_region-az-2" {
+resource "aws_subnet" "sec_subnet_dmz_outside_region-az-2" {
   cidr_block        = cidrsubnet(aws_vpc.security-vpc.cidr_block, 8, 16)
   vpc_id            = aws_vpc.security-vpc.id
   availability_zone = var.region-az-2
 
   tags = {
-    Name = "${var.project}_sec_subnet_sec_services_ingress_ch1_region-az-2"
+    Name = "${var.project}_sec_subnet_dmz_outside_region-az-2"
   }
 }
 
-resource "aws_subnet" "sec_subnet_sec_services_egress_ch1_region-az-2" {
+resource "aws_subnet" "sec_subnet_dmz_inside_region-az-2" {
   cidr_block        = cidrsubnet(aws_vpc.security-vpc.cidr_block, 8, 17)
   vpc_id            = aws_vpc.security-vpc.id
   availability_zone = var.region-az-2
 
   tags = {
-    Name = "${var.project}_sec_subnet_sec_services_egress_ch1_region-az-2"
-  }
-}
-
-resource "aws_subnet" "sec_subnet_sec_services_ingress_ch2_region-az-2" {
-  cidr_block        = cidrsubnet(aws_vpc.security-vpc.cidr_block, 8, 18)
-  vpc_id            = aws_vpc.security-vpc.id
-  availability_zone = var.region-az-2
-
-  tags = {
-    Name = "${var.project}_sec_subnet_sec_services_ingress_ch2_region-az-2"
-  }
-}
-
-resource "aws_subnet" "sec_subnet_sec_services_egress_ch2_region-az-2" {
-  cidr_block        = cidrsubnet(aws_vpc.security-vpc.cidr_block, 8, 19)
-  vpc_id            = aws_vpc.security-vpc.id
-  availability_zone = var.region-az-2
-
-  tags = {
-    Name = "${var.project}_sec_subnet_sec_services_egress_ch2_region-az-2"
+    Name = "${var.project}_sec_subnet_dmz_inside_region-az-2"
   }
 }
 
@@ -437,14 +397,14 @@ resource "aws_route_table_association" "sec_subnet_egress_to_ch1_region-az-2" {
   subnet_id      = aws_subnet.sec_subnet_egress_to_ch1_region-az-2.id
 }
 
-resource "aws_route_table_association" "sec_subnet_sec_services_ingress_ch1_region-az-1" {
+resource "aws_route_table_association" "sec_subnet_dmz_outside_region-az-1" {
   route_table_id = aws_route_table.to_security_insepction_1_rt.id
-  subnet_id      = aws_subnet.sec_subnet_sec_services_ingress_ch1_region-az-1.id
+  subnet_id      = aws_subnet.sec_subnet_dmz_outside_region-az-1.id
 }
 
-resource "aws_route_table_association" "sec_subnet_sec_services_ingress_ch1_region-az-2" {
+resource "aws_route_table_association" "sec_subnet_dmz_outside_region-az-2" {
   route_table_id = aws_route_table.to_security_insepction_1_rt.id
-  subnet_id      = aws_subnet.sec_subnet_sec_services_ingress_ch1_region-az-2.id
+  subnet_id      = aws_subnet.sec_subnet_dmz_outside_region-az-2.id
 }
 
 /*
@@ -469,14 +429,14 @@ resource "aws_route_table_association" "sec_subnet_ingress_frm_ch1_region-az-2" 
   subnet_id      = aws_subnet.sec_subnet_ingress_frm_ch1_region-az-2.id
 }
 
-resource "aws_route_table_association" "sec_subnet_sec_services_egress_ch1_region-az-1" {
+resource "aws_route_table_association" "sec_subnet_dmz_inside_region-az-1" {
   route_table_id = aws_route_table.frm_security_insepction_1_rt.id
-  subnet_id      = aws_subnet.sec_subnet_sec_services_egress_ch1_region-az-1.id
+  subnet_id      = aws_subnet.sec_subnet_dmz_inside_region-az-1.id
 }
 
-resource "aws_route_table_association" "sec_subnet_sec_services_egress_ch1_region-az-2" {
+resource "aws_route_table_association" "sec_subnet_dmz_inside_region-az-2" {
   route_table_id = aws_route_table.frm_security_insepction_1_rt.id
-  subnet_id      = aws_subnet.sec_subnet_sec_services_egress_ch1_region-az-2.id
+  subnet_id      = aws_subnet.sec_subnet_dmz_inside_region-az-2.id
 }
 
 ## Create the Second Inspection Route table Egress from BIG-IP to security servcies
@@ -499,15 +459,6 @@ resource "aws_route_table_association" "sec_subnet_egress_to_ch2_region-az-2" {
   subnet_id      = aws_subnet.sec_subnet_egress_to_ch2_region-az-2.id
 }
 
-resource "aws_route_table_association" "sec_subnet_sec_services_ingress_ch2_region-az-1" {
-  route_table_id = aws_route_table.to_security_insepction_2_rt.id
-  subnet_id      = aws_subnet.sec_subnet_sec_services_ingress_ch2_region-az-1.id
-}
-
-resource "aws_route_table_association" "sec_subnet_sec_services_ingress_ch2_region-az-2" {
-  route_table_id = aws_route_table.to_security_insepction_2_rt.id
-  subnet_id      = aws_subnet.sec_subnet_sec_services_ingress_ch2_region-az-2.id
-}
 
 /*
 Creat Security Chain 2 Ingress Chain Route Table back to Big-IP
@@ -530,15 +481,6 @@ resource "aws_route_table_association" "sec_subnet_ingress_frm_ch2_region-az-2" 
   subnet_id      = aws_subnet.sec_subnet_ingress_frm_ch2_region-az-2.id
 }
 
-resource "aws_route_table_association" "sec_subnet_sec_services_egress_ch2_region-az-1" {
-  route_table_id = aws_route_table.frm_security_insepction_2_rt.id
-  subnet_id      = aws_subnet.sec_subnet_sec_services_egress_ch2_region-az-1.id
-}
-
-resource "aws_route_table_association" "sec_subnet_sec_services_egress_ch2_region-az-2" {
-  route_table_id = aws_route_table.frm_security_insepction_2_rt.id
-  subnet_id      = aws_subnet.sec_subnet_sec_services_egress_ch2_region-az-2.id
-}
 
 #Enpoint Security Group
 
