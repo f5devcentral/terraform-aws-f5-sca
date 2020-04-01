@@ -28,7 +28,7 @@ resource "random_id" "id" {
 resource "random_password" "password" {
   length           = 16
   special          = true
-  override_special = "_%@"
+  override_special = " #%*+,-./:=?@[]^_~"
 }
 
 #
@@ -377,7 +377,7 @@ resource "aws_eip" "sec_nat" {
 
 resource "aws_nat_gateway" "sec-gw" {
   allocation_id = aws_eip.sec_nat.id
-  subnet_id     = aws_subnet.sec_subnet_internet_region-az-2.id 
+  subnet_id     = aws_subnet.sec_subnet_internet_region-az-2.id
 
   tags = {
     Name = "${var.project}_gw_SEC_VPC_NAT_EIP"
@@ -543,20 +543,20 @@ resource "aws_route_table_association" "sec_subnet_sec_services_egress_ch2_regio
 #Enpoint Security Group
 
 resource "aws_security_group" "sg_internal_security_vpc" {
-	description = "wide open"
-	ingress {
-		protocol = -1
-		from_port = 0
-		to_port = 0
-		cidr_blocks = ["0.0.0.0/0"]
-	}
-	egress {
-		protocol = -1
-		from_port = 0
-		to_port = 0
-		cidr_blocks = ["0.0.0.0/0"]
-	}
-	vpc_id = aws_vpc.security-vpc.id
+  description = "wide open"
+  ingress {
+    protocol    = -1
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    protocol    = -1
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  vpc_id = aws_vpc.security-vpc.id
 }
 
 
@@ -581,7 +581,7 @@ resource "aws_vpc_endpoint" "ec2" {
   security_group_ids = [aws_security_group.sg_internal_security_vpc.id]
 
   private_dns_enabled = true
-  subnet_ids = [aws_subnet.sec_subnet_application_region-az-1.id, aws_subnet.sec_subnet_application_region-az-2.id]
+  subnet_ids          = [aws_subnet.sec_subnet_application_region-az-1.id, aws_subnet.sec_subnet_application_region-az-2.id]
 }
 
 # Create Cloudwatch VPC Endpoint
@@ -593,8 +593,8 @@ resource "aws_vpc_endpoint" "logs" {
   security_group_ids = [aws_security_group.sg_internal_security_vpc.id]
 
   private_dns_enabled = true
-  subnet_ids = [aws_subnet.sec_subnet_application_region-az-1.id, aws_subnet.sec_subnet_application_region-az-2.id]
-  
+  subnet_ids          = [aws_subnet.sec_subnet_application_region-az-1.id, aws_subnet.sec_subnet_application_region-az-2.id]
+
 }
 
 
