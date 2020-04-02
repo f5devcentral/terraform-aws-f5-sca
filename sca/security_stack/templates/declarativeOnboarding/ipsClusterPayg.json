@@ -38,7 +38,7 @@
         "myProvisioning": {
             "class": "Provision",
             "ltm": "nominal",
-            "asm": "nominal",
+            "afm": "nominal",
             "avr": "nominal"
         },
         "dmz-outside": {
@@ -120,8 +120,7 @@
             "autoSync": true,
             "saveOnAutoSync": false,
             "networkFailover": true,
-            "fullLoadOnSync": false,
-            "asmSync": true
+            "fullLoadOnSync": false
         },
         "trust": {
             "class": "DeviceTrust",
