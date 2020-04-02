@@ -16,6 +16,10 @@
 
 SCA is a location & cloud agnostic flexible and repeatable conceptual deployment pattern that can adapt for all customers challenges in the cloud.
 
+## Prerequisites
+- [Amazon Subscription](https://console.aws.amazon.com) 
+- [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html)
+
 ## Requirements Mapping
 
 | Category | Title | Description | Mapping Notes | Controls |
