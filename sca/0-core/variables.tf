@@ -17,3 +17,14 @@ variable "region-az-2" {
   description = "AWS Region availability zone to deploy 1 of the 2 SCA stacks"
   type        = string
 }
+variable "allowed_mgmt_cidr" {
+  description = "CIDR of allowed IPs for the BIG-IP management interface"
+  type        = string
+  default     = "0.0.0.0/0"
+}
+
+variable "allowed_app_cidr" {
+  description = "CIDR of allowed IPs for the BIG-IP Virtual Servers"
+  type        = string
+  default     = "0.0.0.0/0"
+}

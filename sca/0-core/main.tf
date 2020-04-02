@@ -1,10 +1,15 @@
-provider "aws" {
-  region = var.aws_region
+#
+# Create a random id
+#
+resource "random_id" "id" {
+  byte_length = 2
 }
 
+#
 # Deploy the base AWS infrastructure
-module aws_infrastructure {
-  source = "./modules/awsInfrastructure"
+#
+module core {
+  source = "../../modules/awsInfrastructure"
 
   aws_region  = var.aws_region
   project     = var.project
