@@ -5,13 +5,18 @@
 - [CHANGELOG](CHANGELOG.md)
 - [What is SCA](#what-is-sca)
 - [Prerequisites](#prerequisites)
-- [Security Mapping](#security-mapping)
+- [Requirements Mapping](#requirements-mapping)
+- [Deploying Custom Configuration to the BIG-IP VE](#deploying-custom-configuration-to-the-big-ip-ve)
+- [Post-Deployment Configuration](#post-deployment-configuration)
+- [Creating Virtual Servers on the BIG-IP VE](#creating-virtual-servers-on-the-big-ip-ve)
+- [Filing issues](#filing-issues)
+- [Contributing](#contributing)
 
 ## What is SCA
 
 SCA is a location & cloud agnostic flexible and repeatable conceptual deployment pattern that can adapt for all customers challenges in the cloud.
 
-## Security Mapping
+## Requirements Mapping
 
 | Category | Title | Description | Mapping Notes | Controls |
 |----------|-------|-------------|---------------|----------|
@@ -37,13 +42,12 @@ SCA is a location & cloud agnostic flexible and repeatable conceptual deployment
 | Security | Segregate Management Traffic | The Security Stack shall provide secure connectivity to Application management systems that is logically separate from application traffic.| AFM | SCCA 2.2.3.3 |
 | Security | Network Segregation | Components shall provide logically separate network interfaces for access from the management network infrastructure that is logically separate from production. | Core | SCCA 2.3.2.6|
 | Security | Network Segregation | Components shall provide for management traffic segmentation from user and data plane traffic. | AFM | SCCA 2.3.2.9 |
-
-## Scalability Mapping
-
-| Category | Title | Description | Mapping Notes | Controls |
-|----------|-------|-------------|---------------|----------|
 | Scale | Rapid Scale| The Security Stack shall be designed to rapidly scale virtual elements up and down in capacity to achieve negotiated (between components provider and Mission Owner) SLA objectives while minimizing metered billing costs. | Core / AWS | SCCA 2.6.2.1 |
 | Scale | Scaling Increments | The Security Stack shall support scalability in increments of 1 Gigabit/second throughput at all points within the design without costly modification. | Core / AWS| SCCA 2.6.2.2 |
+| Performance | Throughput | The Security Stack shall start with 1 Gigabit/second throughput and have ability to scale up to 10G.| Core | SCCA 2.4.1.2 |
+| Performance | Redundancy | The Security Stack shall meet backbone availability of 99.5%. | Core / AWS | SCCA 2.4.1.5 |
+| Perforamnce | Latency | The Security Stack processing latency shall be no greater than 35 milliseconds. | Core / AWS | SCCA 2.4.2.1 |
+| Perforamnce | QoS| The Security Stack shall support IP packet forwarding in accordance with tagged QOS prioritization| LTM | SCCA 2.4.2.5 |
 
 ## Deploying Custom Configuration to the BIG-IP VE
 
