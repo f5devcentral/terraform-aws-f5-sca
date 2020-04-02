@@ -23,7 +23,7 @@ SCA is a location & cloud agnostic flexible and repeatable conceptual deployment
 
 ## Requirements Mapping
 
-| Category | Title | Description | Mapping Notes | Controls |
+| Category | Title | Description | Mapping | Controls |
 |:---:|:---:|:---|:---|:---|
 | Security | Traffic Segregation | - The Security Stack shall maintain virtual separation of all management, user, and data traffic.<br>- Components shall provide logically separate network interfaces for access from the management network infrastructure that is logically separate from production.<br>- The Security Stack shall provide secure connectivity to Application management systems that is logically separate from application traffic.<br>- Components shall provide for management traffic segmentation from user and data plane traffic. | LTM / AFM / CORE | SCCA 2.1.2.1, 2.3.2.6, 2.3.2.9, 2.2.3.3 |
 | Security | Traffic Encryption | The Security Stack shall allow the use of encryption for segmentation of management traffic. | LTM / Core | SCCA 2.1.2.2 |
