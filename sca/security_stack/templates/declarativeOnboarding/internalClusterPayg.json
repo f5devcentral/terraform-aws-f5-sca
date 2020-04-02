@@ -1,0 +1,135 @@
+{
+    "$schema": "https://raw.githubusercontent.com/F5Networks/f5-declarative-onboarding/master/src/schema/latest/base.schema.json",
+    "schemaVersion": "1.11.1",
+    "class": "Device",
+    "async": true,
+    "label": "Internal Cluster PAYG",
+    "Common": {
+        "class": "Tenant",
+        "hostname": "${local_host}.example.com",
+        "dbvars": {
+            "class": "DbVariables",
+            "ui.advisory.enabled": true,
+            "ui.advisory.color": "green",
+            "ui.advisory.text": "/Common/hostname"
+        },
+        "myDns": {
+            "class": "DNS",
+            "nameServers": [
+                "169.254.169.254",
+                "${dns_server}",
+                "2001:4860:4860::8844"
+            ],
+            "search": [
+                "f5.com",
+                "ec2.internal",
+                "compute-1.internal"
+            ]
+        },
+        "myNtp": {
+            "class": "NTP",
+            "servers": [
+                "${ntp_server}",
+                "0.pool.ntp.org",
+                "1.pool.ntp.org"
+            ],
+            "timezone": "${timezone}"
+        },
+        "myProvisioning": {
+            "class": "Provision",
+            "ltm": "nominal",
+            "asm": "nominal",
+            "avr": "nominal"
+        },
+        "dmz-outside": {
+            "class": "VLAN",
+            "tag": 4094,
+            "mtu": 1500,
+            "interfaces": [
+                {
+                    "name": "1.1",
+                    "tagged": false
+                }
+            ]
+        },
+        "application-region": {
+            "class": "VLAN",
+            "tag": 4093,
+            "mtu": 1500,
+            "interfaces": [
+                {
+                    "name": "1.2",
+                    "tagged": false
+                }
+            ]
+        },
+        "peering": {
+            "class": "VLAN",
+            "tag": 4092,
+            "mtu": 1500,
+            "interfaces": [
+                {
+                    "name": "1.3",
+                    "tagged": false
+                }
+            ]
+        },
+        "dmz-outside-self": {
+            "class": "SelfIp",
+            "address": "${local_selfip}/24",
+            "vlan": "dmz-outside",
+            "allowService": "none",
+            "trafficGroup": "traffic-group-local-only"
+        },
+        "application-region-self": {
+            "class": "SelfIp",
+            "address": "${local_selfip2}/24",
+            "vlan": "application-region",
+            "allowService": "none",
+            "trafficGroup": "traffic-group-local-only"
+        },
+        "peering-self": {
+            "class": "SelfIp",
+            "address": "${local_selfip3}/24",
+            "vlan": "peering",
+            "allowService": "default",
+            "trafficGroup": "traffic-group-local-only"
+        },
+        "default": {
+            "class": "Route",
+            "gw": "${gateway}",
+            "network": "default",
+            "mtu": 1500
+        },
+        "configsync": {
+            "class": "ConfigSync",
+            "configsyncIp": "/Common/peering-self/address"
+        },
+        "failoverAddress": {
+            "class": "FailoverUnicast",
+            "address": "/Common/peering-self/address"
+        },
+        "failoverGroup": {
+            "class": "DeviceGroup",
+            "type": "sync-failover",
+            "members": [
+                "${host1}.example.com",
+                "${host2}.example.com"
+            ],
+            "owner": "/Common/failoverGroup/members/0",
+            "autoSync": true,
+            "saveOnAutoSync": false,
+            "networkFailover": true,
+            "fullLoadOnSync": false,
+            "asmSync": true
+        },
+        "trust": {
+            "class": "DeviceTrust",
+            "localUsername": "${admin_user}",
+            "localPassword": "${admin_password}",
+            "remoteHost": "${remote_selfip}",
+            "remoteUsername": "${admin_user}",
+            "remotePassword": "${admin_password}"
+        }
+    }
+}
