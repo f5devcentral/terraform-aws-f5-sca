@@ -190,6 +190,12 @@ resource "aws_route" "nat-default-routes" {
   nat_gateway_id         = aws_nat_gateway.sec-gw.id
 }
 
+resource "aws_route" "nat-application-default-routes" {
+  route_table_id         = aws_route_table.sec_application_rt.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.sec-gw.id
+}
+
 
 #App VPC Default to TGW
 resource "aws_route" "app-vpc-routes" {
