@@ -55,7 +55,7 @@ SCA is a location & cloud agnostic flexible and repeatable conceptual deployment
 
 If you find an issue, we would love to hear about it. You have a choice when it comes to filing issues:
 
-* Use the Issues link on the GitHub menu bar in this repository for items such as enhancement or feature requests and non-urgent bug fixes. Tell us as much as you can about what you found and how you found it.
+- Use the [Issues link](https://github.com/f5devcentral/terraform-aws-f5-sca/issues) on the GitHub menu bar in this repository for items such as enhancement or feature requests and non-urgent bug fixes. Tell us as much as you can about what you found and how you found it.
 
 ## Contributing
 
