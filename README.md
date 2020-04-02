@@ -17,14 +17,15 @@
 SCA is a location & cloud agnostic flexible and repeatable conceptual deployment pattern that can adapt for all customers challenges in the cloud.
 
 ## Prerequisites
-- [Amazon Subscription](https://console.aws.amazon.com) 
+
+- [Amazon Subscription](https://console.aws.amazon.com)
 - [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html)
 
 ## Requirements Mapping
 
 | Category | Title | Description | Mapping Notes | Controls |
 |----------|-------|-------------|---------------|----------|
-| Security | Traffic Segregation | <ul><li> The Security Stack shall maintain virtual separation of all management, user, and data traffic.</li>Components shall provide logically separate network interfaces for access from the management network infrastructure that is logically separate from production.<li></li><li>Components shall provide for management traffic segmentation from user and data plane traffic.</li></ul>  | LTM / CORE | SCCA 2.1.2.1, SCCA 2.3.2.6, SCCA 2.3.2.9 |
+| Security | Traffic Segregation | <ul><li> The Security Stack shall maintain virtual separation of all management, user, and data traffic.</li><li>Components shall provide logically separate network interfaces for access from the management network infrastructure that is logically separate from production.</li><li>Components shall provide for management traffic segmentation from user and data plane traffic.</li></ul>  | LTM / CORE | SCCA 2.1.2.1, SCCA 2.3.2.6, SCCA 2.3.2.9 |
 | Security | Traffic Encryption | The Security Stack shall allow the use of encryption for segmentation of management traffic. | LTM / Core | SCCA 2.1.2.2 |
 | Security | Reverse Proxy | The Security Stack shall provide a reverse proxy capability to handle access requests from client systems. | LTM / Core | SCCA 2.1.2.3 |
 | Security | Traffic Filtering | The Security Stack shall provide a capability to inspect and filter application layer conversations based on a predefined set of rules (including HTTP) to identify and block malicious content. | AFM / ASM / PS | SCCA 2.1.2.4 |
