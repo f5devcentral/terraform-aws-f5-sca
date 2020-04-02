@@ -19,19 +19,19 @@ F5 Application Services will be deployed into the security VPC but if one wished
 #
 ################################################################################################################################################################################################################################################################
 
-output "security-vpc" {
-  value       = aws_vpc.security-vpc.id
-  description = "The Security-vpc houses F5 systems, IPS systems and functions as the traffic control point for north/south traffic"
+output "security-vpc" { 
+    value = aws_vpc.security-vpc.id
+    description = "The Security-vpc houses F5 systems, IPS systems and functions as the traffic control point for north/south traffic"
 }
 
-output "application-test" {
-  value       = aws_vpc.application-test.id
-  description = "The application-test VPC is a container to demo applications, it is seperated from the K8S VPC just for clarity in discussion and demonstration, not for technical requirements"
+output "application-test" { 
+    value = aws_vpc.application-test.id 
+    description = "The application-test VPC is a container to demo applications, it is seperated from the K8S VPC just for clarity in discussion and demonstration, not for technical requirements"
 }
 
-output "container-test" {
-  value       = aws_vpc.container-test.id
-  description = "The container-test VPC is a container to demo applications, it is seperated from the application VPC just for clarity in discussion and demonstration, not for technical requirements"
+output "container-test" { 
+    value = aws_vpc.container-test.id 
+    description = "The container-test VPC is a container to demo applications, it is seperated from the application VPC just for clarity in discussion and demonstration, not for technical requirements"
 }
 
 ################################################################################################################################################################################################################################################################
@@ -40,192 +40,214 @@ output "container-test" {
 #
 ################################################################################################################################################################################################################################################################
 
-output "sec_subnet_internet_region-az-1" {
-  value       = aws_subnet.sec_subnet_internet_region-az-1.id
-  description = "This subnet is where the external interfaces of the internet facing BIG-IPs (ETH2) will be placed."
+output "sec_subnet_internet_region-az-1" { 
+    value = aws_subnet.sec_subnet_internet_region-az-1.id 
+    description = "This subnet is where the external interfaces of the internet facing BIG-IPs (ETH2) will be placed."
 }
 
 output "sec_subnet_egress_to_ch1_region-az-1" {
-  value       = aws_subnet.sec_subnet_egress_to_ch1_region-az-1.id
-  description = "If using SSLo this is the network that leaves F5 and goes to the security systems for chain 1"
+     value = aws_subnet.sec_subnet_egress_to_ch1_region-az-1.id 
+     description = "If using SSLo this is the network that leaves F5 and goes to the security systems for chain 1"
 }
 
-output "sec_subnet_ingress_frm_ch1_region-az-1" {
-  value       = aws_subnet.sec_subnet_ingress_frm_ch1_region-az-1.id
-  description = "If using SSLo this is the network that leaves the security devices and returns to F5 for chain 1"
+output "sec_subnet_ingress_frm_ch1_region-az-1" { 
+    value = aws_subnet.sec_subnet_ingress_frm_ch1_region-az-1.id 
+    description = "If using SSLo this is the network that leaves the security devices and returns to F5 for chain 1"
 }
 
-output "sec_subnet_application_region-az-1" {
-  value       = aws_subnet.sec_subnet_application_region-az-1.id
-  description = "Place the BIG-IP (ETH1) interfaces here for onboarding via NAT, "
+output "sec_subnet_application_region-az-1" { 
+    value = aws_subnet.sec_subnet_application_region-az-1.id 
+    description = "Place the BIG-IP (ETH1) interfaces here for onboarding via NAT, "
 }
 
-output "sec_subnet_egress_to_ch2_region-az-1" {
-  value       = aws_subnet.sec_subnet_egress_to_ch2_region-az-1.id
-  description = "If using SSLo this is the network that leaves the security devices and returns to F5 for chain 2"
+output "sec_subnet_internal_region-az-1" { 
+    value = aws_subnet.sec_subnet_internal_region-az-1.id 
+    description = "Place the inside BIG-IP internal interfaces here "
 }
 
-output "sec_subnet_ingress_frm_ch2_region-az-1" {
-  value       = aws_subnet.sec_subnet_ingress_frm_ch2_region-az-1.id
-  description = "If using SSLo this is the network that leaves the security devices and returns to F5 for chain 2"
+output "sec_subnet_internal_region-az-2" { 
+    value = aws_subnet.sec_subnet_internal_region-az-2.id 
+    description = "Place the inside BIG-IP internal interfaces here"
 }
 
-output "sec_subnet_dmz_outside_region-az-1" {
-  value       = aws_subnet.sec_subnet_dmz_outside_region-az-1.id
-  description = "DMZ interfaces are for inspection zones outside = the north interface of the IPS system. Inside = the south interface of the IPS"
+output "sec_subnet_egress_to_ch2_region-az-1" { 
+    value = aws_subnet.sec_subnet_egress_to_ch2_region-az-1.id 
+    description = "If using SSLo this is the network that leaves the security devices and returns to F5 for chain 2"
 }
 
-output "sec_subnet_dmz_inside_region-az-1" {
-  value       = aws_subnet.sec_subnet_dmz_inside_region-az-1.id
-  description = "DMZ interfaces are for inspection zones outside = the north interface of the IPS system. Inside = the south interface of the IPS"
+output "sec_subnet_ingress_frm_ch2_region-az-1" { 
+    value = aws_subnet.sec_subnet_ingress_frm_ch2_region-az-1.id 
+    description = "If using SSLo this is the network that leaves the security devices and returns to F5 for chain 2"
 }
 
-output "sec_subnet_mgmt_region-az-1" {
-  value       = aws_subnet.sec_subnet_mgmt_region-az-1.id
-  description = "Mgmt networks in the security VPC are for devices that have dedicated mgmt interfaces or other hosts that need internet access without traversing the security stack. By defaulty you will need an EIP but you could use a NAT Gateway"
+output "sec_subnet_dmz_outside_region-az-1" { 
+    value = aws_subnet.sec_subnet_dmz_outside_region-az-1.id 
+    description = "DMZ interfaces are for inspection zones outside = the north interface of the IPS system. Inside = the south interface of the IPS"
 }
 
-output "sec_subnet_peering_region-az-1" {
-  value       = aws_subnet.sec_subnet_peering_region-az-1.id
-  description = "Peering networks are for ENIs to reach other VPCs or external to AWS Locations"
+output "sec_subnet_dmz_inside_region-az-1" { 
+    value = aws_subnet.sec_subnet_dmz_inside_region-az-1.id 
+    description = "DMZ interfaces are for inspection zones outside = the north interface of the IPS system. Inside = the south interface of the IPS"
 }
 
-output "sec_subnet_internet_region-az-2" {
-  value       = aws_subnet.sec_subnet_internet_region-az-2.id
-  description = "This subnet is where the external interfaces of the internet facing BIG-IPs (ETH2) will be placed."
+output "sec_subnet_mgmt_region-az-1" { 
+    value = aws_subnet.sec_subnet_mgmt_region-az-1.id 
+    description = "Mgmt networks in the security VPC are for devices that have dedicated mgmt interfaces or other hosts that need internet access without traversing the security stack. By defaulty you will need an EIP but you could use a NAT Gateway"
 }
 
-output "sec_subnet_egress_to_ch1_region-az-2" { value = aws_subnet.sec_subnet_egress_to_ch1_region-az-2.id }
-
-output "sec_subnet_ingress_frm_ch1_region-az-2" { value = aws_subnet.sec_subnet_ingress_frm_ch1_region-az-2.id }
-
-output "sec_subnet_egress_to_ch2_region-az-2" { value = aws_subnet.sec_subnet_egress_to_ch2_region-az-2.id }
-
-output "sec_subnet_ingress_frm_ch2_region-az-2" { value = aws_subnet.sec_subnet_ingress_frm_ch2_region-az-2.id }
-
-output "sec_subnet_dmz_outside_region-az-2" {
-  value       = aws_subnet.sec_subnet_dmz_outside_region-az-2.id
-  description = "DMZ interfaces are for inspection zones outside = the north interface of the IPS system. Inside = the south interface of the IPS"
+output "sec_subnet_peering_region-az-1" { 
+    value = aws_subnet.sec_subnet_peering_region-az-1.id 
+    description = "Peering networks are for ENIs to reach other VPCs or external to AWS Locations"
 }
 
-output "sec_subnet_dmz_inside_region-az-2" {
-  value       = aws_subnet.sec_subnet_dmz_inside_region-az-2.id
-  description = "DMZ interfaces are for inspection zones outside = the north interface of the IPS system. Inside = the south interface of the IPS"
+output "sec_subnet_internet_region-az-2" { 
+    value = aws_subnet.sec_subnet_internet_region-az-2.id
+    description = "This subnet is where the external interfaces of the internet facing BIG-IPs (ETH2) will be placed." 
 }
 
-output "sec_subnet_application_region-az-2" {
-  value       = aws_subnet.sec_subnet_application_region-az-2.id
-  description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
+output "sec_subnet_egress_to_ch1_region-az-2" { 
+    value = aws_subnet.sec_subnet_egress_to_ch1_region-az-2.id 
+    description = "If using SSLo this is the network that leaves F5 and goes to the security systems for chain 1"
 }
 
-output "sec_subnet_mgmt_region-az-2" {
-  value       = aws_subnet.sec_subnet_mgmt_region-az-2.id
-  description = "Mgmt networks in the security VPC are for devices that have dedicated mgmt interfaces or other hosts that need internet access without traversing the security stack. By defaulty you will need an EIP but you could use a NAT Gateway"
+output "sec_subnet_ingress_frm_ch1_region-az-2" { 
+    value = aws_subnet.sec_subnet_ingress_frm_ch1_region-az-2.id
+    description = "If using SSLo this is the network that leaves the security devices and returns to F5 for chain 1"    
 }
 
-output "sec_subnet_peering_region-az-2" {
-  value       = aws_subnet.sec_subnet_peering_region-az-2.id
-  description = "Peering networks are for ENIs to reach other VPCs or external to AWS Locations"
+output "sec_subnet_egress_to_ch2_region-az-2" { 
+    value = aws_subnet.sec_subnet_egress_to_ch2_region-az-2.id 
+    description = "If using SSLo this is the network that leaves F5 and goes to the security systems for chain 2"
+}
+
+output "sec_subnet_ingress_frm_ch2_region-az-2" { 
+    value = aws_subnet.sec_subnet_ingress_frm_ch2_region-az-2.id 
+    description = "If using SSLo this is the network that leaves the security devices and returns to F5 for chain 2"
+}
+
+output "sec_subnet_dmz_outside_region-az-2" { 
+    value = aws_subnet.sec_subnet_dmz_outside_region-az-2.id 
+    description = "DMZ interfaces are for inspection zones outside = the north interface of the IPS system. Inside = the south interface of the IPS"
+}
+
+output "sec_subnet_dmz_inside_region-az-2" { 
+    value = aws_subnet.sec_subnet_dmz_inside_region-az-2.id 
+    description = "DMZ interfaces are for inspection zones outside = the north interface of the IPS system. Inside = the south interface of the IPS"
+}
+
+output "sec_subnet_application_region-az-2" { 
+    value = aws_subnet.sec_subnet_application_region-az-2.id 
+    description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
+}
+
+output "sec_subnet_mgmt_region-az-2" { 
+    value = aws_subnet.sec_subnet_mgmt_region-az-2.id 
+    description = "Mgmt networks in the security VPC are for devices that have dedicated mgmt interfaces or other hosts that need internet access without traversing the security stack. By defaulty you will need an EIP but you could use a NAT Gateway"
+}
+
+output "sec_subnet_peering_region-az-2" { 
+    value = aws_subnet.sec_subnet_peering_region-az-2.id 
+    description = "Peering networks are for ENIs to reach other VPCs or external to AWS Locations"   
 }
 
 
-output "app_subnet_internet_region-az-1" {
-  value       = aws_subnet.app_subnet_internet_region-az-1.id
-  description = "This subnet is where the external interfaces of the internet facing BIG-IPs (ETH2) will be placed."
+output "app_subnet_internet_region-az-1" { 
+    value = aws_subnet.app_subnet_internet_region-az-1.id 
+    description = "This subnet is where the external interfaces of the internet facing BIG-IPs (ETH2) will be placed."
 }
 
 output "app_subnet_dmz_1_region-az-1" {
-  value       = aws_subnet.app_subnet_dmz_1_region-az-1.id
-  description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
+     value = aws_subnet.app_subnet_dmz_1_region-az-1.id 
+    description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
 }
 
-output "app_subnet_application_region-az-1" {
-  value       = aws_subnet.app_subnet_application_region-az-1.id
-  description = "Place the BIG-IP (ETH1) interfaces here for onboarding via NAT, "
+output "app_subnet_application_region-az-1" { 
+    value = aws_subnet.app_subnet_application_region-az-1.id
+    description = "Place the BIG-IP (ETH1) interfaces here for onboarding via NAT, "
 }
 
-output "app_subnet_peering_region-az-1" {
-  value       = aws_subnet.app_subnet_peering_region-az-1.id
-  description = "Peering networks are for ENIs to reach other VPCs or external to AWS Locations"
+output "app_subnet_peering_region-az-1" { 
+    value = aws_subnet.app_subnet_peering_region-az-1.id 
+    description = "Peering networks are for ENIs to reach other VPCs or external to AWS Locations"
 }
 
-output "app_subnet_mgmt_region-az-1" {
-  value       = aws_subnet.app_subnet_mgmt_region-az-1.id
-  description = "Tenant mgmt networks allow for isolation of mgmt interfaces/instances if necessary"
+output "app_subnet_mgmt_region-az-1" { 
+    value = aws_subnet.app_subnet_mgmt_region-az-1.id 
+    description = "Tenant mgmt networks allow for isolation of mgmt interfaces/instances if necessary"
 }
 
-output "app_subnet_internet_region-az-2" {
-  value       = aws_subnet.app_subnet_internet_region-az-2.id
-  description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
+output "app_subnet_internet_region-az-2" { 
+    value = aws_subnet.app_subnet_internet_region-az-2.id 
+    description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
 }
 
-output "app_subnet_dmz_1_region-az-2" {
-  value       = aws_subnet.app_subnet_dmz_1_region-az-2.id
-  description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
+output "app_subnet_dmz_1_region-az-2" { 
+    value = aws_subnet.app_subnet_dmz_1_region-az-2.id 
+     description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
 }
 
-output "app_subnet_application_region-az-2" {
-  value       = aws_subnet.app_subnet_application_region-az-2.id
-  description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
+output "app_subnet_application_region-az-2" { 
+    value = aws_subnet.app_subnet_application_region-az-2.id 
+    description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
 }
 
-output "app_subnet_peering_region-az-2" {
-  value       = aws_subnet.app_subnet_peering_region-az-2.id
-  description = "Peering networks are for ENIs to reach other VPCs or external to AWS Locations"
+output "app_subnet_peering_region-az-2" { 
+    value = aws_subnet.app_subnet_peering_region-az-2.id 
+    description = "Peering networks are for ENIs to reach other VPCs or external to AWS Locations"
 }
 
-output "app_subnet_mgmt_region-az-2" {
-  value       = aws_subnet.app_subnet_mgmt_region-az-2.id
-  description = "Tenant mgmt networks allow for isolation of mgmt interfaces/instances if necessary"
+output "app_subnet_mgmt_region-az-2" { 
+    value = aws_subnet.app_subnet_mgmt_region-az-2.id 
+    description = "Tenant mgmt networks allow for isolation of mgmt interfaces/instances if necessary"
 }
 
-output "container_subnet_internet_region-az-1" {
-  value       = aws_subnet.container_subnet_internet_region-az-1.id
-  description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
+output "container_subnet_internet_region-az-1" { 
+    value = aws_subnet.container_subnet_internet_region-az-1.id 
+     description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
 }
 
-output "container_subnet_dmz_1_region-az-1" {
-  value       = aws_subnet.container_subnet_dmz_1_region-az-1.id
-  description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
+output "container_subnet_dmz_1_region-az-1" { 
+    value = aws_subnet.container_subnet_dmz_1_region-az-1.id 
+    description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
 }
 
-output "container_subnet_application_region-az-1" {
-  value       = aws_subnet.container_subnet_application_region-az-1.id
-  description = "Tenant Application subnets are place holders to deploy server or conatiner workloads"
+output "container_subnet_application_region-az-1" { 
+    value = aws_subnet.container_subnet_application_region-az-1.id 
+    description = "Tenant Application subnets are place holders to deploy server or conatiner workloads"
 }
 
-output "container_subnet_peering_region-az-1" {
-  value       = aws_subnet.container_subnet_peering_region-az-1.id
-  description = "Peering networks are for ENIs to reach other VPCs or external to AWS Locations"
+output "container_subnet_peering_region-az-1" { 
+    value = aws_subnet.container_subnet_peering_region-az-1.id 
+    description = "Peering networks are for ENIs to reach other VPCs or external to AWS Locations"   
 }
 
-output "container_subnet_mgmt_region-az-1" {
-  value       = aws_subnet.container_subnet_mgmt_region-az-1.id
-  description = "Tenant mgmt networks allow for isolation of mgmt interfaces/instances if necessary"
+output "container_subnet_mgmt_region-az-1" { 
+    value = aws_subnet.container_subnet_mgmt_region-az-1.id 
+    description = "Tenant mgmt networks allow for isolation of mgmt interfaces/instances if necessary"
 }
 
-output "container_subnet_internet_region-az-2" {
-  value       = aws_subnet.container_subnet_internet_region-az-2.id
-  description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
+output "container_subnet_internet_region-az-2" { 
+    value = aws_subnet.container_subnet_internet_region-az-2.id 
+    description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
 }
 
-output "container_subnet_dmz_1_region-az-2" {
-  value       = aws_subnet.container_subnet_dmz_1_region-az-2.id
-  description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
+output "container_subnet_dmz_1_region-az-2" { 
+    value = aws_subnet.container_subnet_dmz_1_region-az-2.id
+     description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
 }
 
-output "container_subnet_application_region-az-2" {
-  value       = aws_subnet.container_subnet_application_region-az-2.id
-  description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
+output "container_subnet_application_region-az-2" { 
+    value = aws_subnet.container_subnet_application_region-az-2.id 
+    description = "Tenant VPC Internet/DMZ subnets are for use cases where the Security VPC to Tenant VPC is not considered a trusted network, these allow for increased segmentation and secruity insertion with additional route tables "
 }
 
-output "container_subnet_peering_region-az-2" {
-  value       = aws_subnet.container_subnet_peering_region-az-2.id
-  description = "Peering networks are for ENIs to reach other VPCs or external to AWS Locations"
+output "container_subnet_peering_region-az-2" { 
+    value = aws_subnet.container_subnet_peering_region-az-2.id 
+    description = "Peering networks are for ENIs to reach other VPCs or external to AWS Locations"
 }
-output "container_subnet_mgmt_region-az-2" {
-  value       = aws_subnet.container_subnet_mgmt_region-az-2.id
-  description = "Tenant mgmt networks allow for isolation of mgmt interfaces/instances if necessary"
+output "container_subnet_mgmt_region-az-2" { 
+    value = aws_subnet.container_subnet_mgmt_region-az-2.id 
+    description = "Tenant mgmt networks allow for isolation of mgmt interfaces/instances if necessary"
 }
 
 ################################################################################################################################################################################################################################################################
@@ -234,45 +256,50 @@ output "container_subnet_mgmt_region-az-2" {
 #
 ################################################################################################################################################################################################################################################################
 
-output "internet_rt" {
-  value       = aws_route_table.internet_rt.id
-  description = "This is the Security VPC Internet route table, interfaces/subnets here require an EIP"
+output "internet_rt" { 
+    value = aws_route_table.internet_rt.id 
+    description = "This is the Security VPC Internet route table, interfaces/subnets here require an EIP"
 }
 
-output "sec_Internal_rt" {
-  value       = aws_route_table.sec_Internal_rt.id
-  description = "This is the internal route table of the Security VPC and has the connections to Tenants. At deployment time there is a 0.0.0.0/0 to a NAT Gateway to allow onboarding prior to the security stack being complete"
+output "sec_Internal_rt" { 
+    value = aws_route_table.sec_Internal_rt.id
+    description = "This is the internal route table of the Security VPC and has the connections to Tenants. At deployment time there is a 0.0.0.0/0 to a NAT Gateway to allow onboarding prior to the security stack being complete" 
 }
 
 
-output "to_security_insepction_1_rt" {
-  value       = aws_route_table.to_security_insepction_1_rt.id
-  description = "Isolated route table for SSlo. No internet access or tenant VPC access"
+output "to_security_insepction_1_rt" { 
+    value = aws_route_table.to_security_insepction_1_rt.id 
+    description = "Isolated route table for SSlo. No internet access or tenant VPC access"
 }
 
-output "frm_security_insepction_1_rt" {
-  value       = aws_route_table.frm_security_insepction_1_rt.id
-  description = "Isolated route table for SSlo. No internet access or tenant VPC access"
+output "frm_security_insepction_1_rt" { 
+    value = aws_route_table.frm_security_insepction_1_rt.id 
+    description = "Isolated route table for SSlo. No internet access or tenant VPC access"
 }
 
-output "to_security_insepction_2_rt" {
-  value       = aws_route_table.to_security_insepction_2_rt.id
-  description = "Isolated route table for SSlo. No internet access or tenant VPC access"
+output "to_security_insepction_2_rt" { 
+    value = aws_route_table.to_security_insepction_2_rt.id 
+    description = "Isolated route table for SSlo. No internet access or tenant VPC access"
 }
 
-output "frm_security_insepction_2_rt" {
-  value       = aws_route_table.frm_security_insepction_2_rt.id
-  description = "Isolated route table for SSlo. No internet access or tenant VPC access"
+output "frm_security_insepction_2_rt" { 
+    value = aws_route_table.frm_security_insepction_2_rt.id 
+    description = "Isolated route table for SSlo. No internet access or tenant VPC access"
 }
 
-output "app_tgw_main_rt" {
-  value       = aws_route_table.app_tgw_main_rt.id
-  description = "application VPC route table - all traffic goes to TGW and enters the security VPC in the sec_Internal_rt"
+output "app_tgw_main_rt" { 
+    value = aws_route_table.app_tgw_main_rt.id 
+    description = "application VPC route table - all traffic goes to TGW and enters the security VPC in the sec_Internal_rt"
 }
 
-output "container_tgw_main_rt" {
-  value       = aws_route_table.container_tgw_main_rt.id
-  description = "application VPC route table - all traffic goes to TGW and enters the security VPC in the sec_Internal_rt"
+output "container_tgw_main_rt" { 
+    value = aws_route_table.container_tgw_main_rt.id 
+    description = "application VPC route table - all traffic goes to TGW and enters the security VPC in the sec_Internal_rt"
+}
+
+output "sec_application_rt" { 
+    value = aws_route_table.sec_application_rt.id 
+    description = "Security VPC route table for infrastructure applications that may need egress via NAT"
 }
 
 ################################################################################################################################################################################################################################################################
@@ -282,24 +309,11 @@ output "container_tgw_main_rt" {
 ################################################################################################################################################################################################################################################################
 
 
-output "security-app-tgw" {
-  value = aws_ec2_transit_gateway.security-app-tgw.id
+output "security-app-tgw" { 
+    value = aws_ec2_transit_gateway.security-app-tgw.id    
 }
 
-output "security-app-tgw-main-rt" {
-  value       = aws_ec2_transit_gateway_route_table.security-app-tgw-main-rt.id
-  description = "All VPCs are connected to this tgw route table and it allows traffic to flow between them"
-}
-
-################################################################################################################################################################################################################################################################
-#
-#   Output Security Data
-#
-################################################################################################################################################################################################################################################################
-
-output secrets_manager_id {
-  value = aws_secretsmanager_secret.bigip.id
-}
-output secrets_manager_name {
-  value = aws_secretsmanager_secret.bigip.name
+output "security-app-tgw-main-rt" { 
+    value = aws_ec2_transit_gateway_route_table.security-app-tgw-main-rt.id 
+    description = "All VPCs are connected to this tgw route table and it allows traffic to flow between them"
 }

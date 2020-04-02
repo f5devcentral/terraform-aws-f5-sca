@@ -152,6 +152,16 @@ resource "aws_subnet" "sec_subnet_dmz_inside_region-az-1" {
   }
 }
 
+resource "aws_subnet" "sec_subnet_internal_region-az-1" {
+  cidr_block        = cidrsubnet(aws_vpc.security-vpc.cidr_block, 8, 9)
+  vpc_id            = aws_vpc.security-vpc.id
+  availability_zone = var.region-az-1
+
+  tags = {
+    Name = "${var.project}_sec_subnet_internal_region-az-1"
+  }
+}
+
 resource "aws_subnet" "sec_subnet_mgmt_region-az-1" {
   cidr_block        = cidrsubnet(aws_vpc.security-vpc.cidr_block, 8, 100)
   vpc_id            = aws_vpc.security-vpc.id
@@ -254,6 +264,16 @@ resource "aws_subnet" "sec_subnet_application_region-az-2" {
   }
 }
 
+resource "aws_subnet" "sec_subnet_internal_region-az-2" {
+  cidr_block        = cidrsubnet(aws_vpc.security-vpc.cidr_block, 8, 19)
+  vpc_id            = aws_vpc.security-vpc.id
+  availability_zone = var.region-az-1
+
+  tags = {
+    Name = "${var.project}_sec_subnet_internal_region-az-2"
+  }
+}
+
 resource "aws_subnet" "sec_subnet_mgmt_region-az-2" {
   cidr_block        = cidrsubnet(aws_vpc.security-vpc.cidr_block, 8, 200)
   vpc_id            = aws_vpc.security-vpc.id
@@ -352,15 +372,10 @@ resource "aws_route_table" "sec_Internal_rt" {
   }
 }
 
-### Assocated Subnets with Internal Route Table
+### Link Subnets with Internal Route Table
 resource "aws_route_table_association" "sec_subnet_peering_region-az-1" {
   route_table_id = aws_route_table.sec_Internal_rt.id
   subnet_id      = aws_subnet.sec_subnet_peering_region-az-1.id
-}
-
-resource "aws_route_table_association" "sec_subnet_application_region-az-1" {
-  route_table_id = aws_route_table.sec_Internal_rt.id
-  subnet_id      = aws_subnet.sec_subnet_application_region-az-1.id
 }
 
 resource "aws_route_table_association" "sec_subnet_peering_region-az-2" {
@@ -368,8 +383,35 @@ resource "aws_route_table_association" "sec_subnet_peering_region-az-2" {
   subnet_id      = aws_subnet.sec_subnet_peering_region-az-2.id
 }
 
-resource "aws_route_table_association" "sec_subnet_application_region-az-2" {
+#Create App Subnet Route table
+
+resource "aws_route_table_association" "sec_subnet_internal_region-az-2" {
   route_table_id = aws_route_table.sec_Internal_rt.id
+  subnet_id      = aws_subnet.sec_subnet_internal_region-az-2.id
+}
+
+resource "aws_route_table_association" "sec_subnet_internal_revion-az-1" {
+  route_table_id = aws_route_table.sec_Internal_rt.id
+  subnet_id      = aws_subnet.sec_subnet_internal_region-az-1.id
+}
+
+#Build Sec-Applicaiton Route table and link subnets
+
+resource "aws_route_table" "sec_application_rt" {
+  vpc_id = aws_vpc.security-vpc.id
+
+  tags = {
+    Name = "${var.project}_sec_application_rt"
+  }
+}
+
+resource "aws_route_table_association" "sec_subnet_application_region-az-1" {
+  route_table_id = aws_route_table.sec_application_rt.id
+  subnet_id      = aws_subnet.sec_subnet_application_region-az-1.id
+}
+
+resource "aws_route_table_association" "sec_subnet_application_region-az-2" {
+  route_table_id = aws_route_table.sec_application_rt.id
   subnet_id      = aws_subnet.sec_subnet_application_region-az-2.id
 }
 
@@ -511,6 +553,11 @@ resource "aws_vpc_endpoint" "s3-security-vpc" {
 resource "aws_vpc_endpoint_route_table_association" "private_s3" {
   vpc_endpoint_id = aws_vpc_endpoint.s3-security-vpc.id
   route_table_id  = aws_route_table.sec_Internal_rt.id
+}
+
+resource "aws_vpc_endpoint_route_table_association" "private_application_s3" {
+  vpc_endpoint_id = aws_vpc_endpoint.s3-security-vpc.id
+  route_table_id  = aws_route_table.sec_application_rt.id
 }
 
 
