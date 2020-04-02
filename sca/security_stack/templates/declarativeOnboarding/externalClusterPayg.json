@@ -6,7 +6,7 @@
     "label": "External Cluster PAYG",
     "Common": {
         "class": "Tenant",
-        "hostname": "${local_host}example.com",
+        "hostname": "${local_host}.example.com",
         "dbvars": {
             "class": "DbVariables",
             "ui.advisory.enabled": true,
