@@ -1,3 +1,5 @@
-# Example InSpec Profile
+# SCA Readiness InSpec Profile
 
-This example shows the implementation of an InSpec profile.
+This InSpec profile validates that the SCA deployment is valid and ready for use.
+
+TODO: What does the sentence above mean?
