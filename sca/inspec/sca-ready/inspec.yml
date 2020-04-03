@@ -1,10 +1,10 @@
 name: sca-ready
-title: InSpec Profile
-maintainer: The Authors
-copyright: The Authors
-copyright_email: you@example.com
+title: Secure Cloud Architecture InSpec Profile
+maintainer: heath.parrott@f5.com
+copyright: F5 Networks
+copyright_email: f5devcentral@f5.com
 license: Apache-2.0
-summary: An InSpec Compliance Profile
+summary: An InSpec Compliance Profile validating the Secure Cloud Architecture environment is ready for use
 version: 0.1.0
 supports:
-  platform: os
+  platform: aws
