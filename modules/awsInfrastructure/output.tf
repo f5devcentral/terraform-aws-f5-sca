@@ -317,3 +317,16 @@ output "security-app-tgw-main-rt" {
   value       = aws_ec2_transit_gateway_route_table.security-app-tgw-main-rt.id
   description = "All VPCs are connected to this tgw route table and it allows traffic to flow between them"
 }
+
+################################################################################################################################################################################################################################################################
+#
+#   Output Security Data
+#
+################################################################################################################################################################################################################################################################
+
+output secrets_manager_id {
+  value = aws_secretsmanager_secret.bigip.id
+}
+output secrets_manager_name {
+  value = aws_secretsmanager_secret.bigip.name
+}
