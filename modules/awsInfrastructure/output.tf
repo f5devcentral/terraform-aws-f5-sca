@@ -60,6 +60,16 @@ output "sec_subnet_application_region-az-1" {
   description = "Place the BIG-IP (ETH1) interfaces here for onboarding via NAT, "
 }
 
+output "sec_subnet_internal_region-az-1" {
+  value       = aws_subnet.sec_subnet_internal_region-az-1.id
+  description = "Place the inside BIG-IP internal interfaces here "
+}
+
+output "sec_subnet_internal_region-az-2" {
+  value       = aws_subnet.sec_subnet_internal_region-az-2.id
+  description = "Place the inside BIG-IP internal interfaces here"
+}
+
 output "sec_subnet_egress_to_ch2_region-az-1" {
   value       = aws_subnet.sec_subnet_egress_to_ch2_region-az-1.id
   description = "If using SSLo this is the network that leaves the security devices and returns to F5 for chain 2"
@@ -95,13 +105,25 @@ output "sec_subnet_internet_region-az-2" {
   description = "This subnet is where the external interfaces of the internet facing BIG-IPs (ETH2) will be placed."
 }
 
-output "sec_subnet_egress_to_ch1_region-az-2" { value = aws_subnet.sec_subnet_egress_to_ch1_region-az-2.id }
+output "sec_subnet_egress_to_ch1_region-az-2" {
+  value       = aws_subnet.sec_subnet_egress_to_ch1_region-az-2.id
+  description = "If using SSLo this is the network that leaves F5 and goes to the security systems for chain 1"
+}
 
-output "sec_subnet_ingress_frm_ch1_region-az-2" { value = aws_subnet.sec_subnet_ingress_frm_ch1_region-az-2.id }
+output "sec_subnet_ingress_frm_ch1_region-az-2" {
+  value       = aws_subnet.sec_subnet_ingress_frm_ch1_region-az-2.id
+  description = "If using SSLo this is the network that leaves the security devices and returns to F5 for chain 1"
+}
 
-output "sec_subnet_egress_to_ch2_region-az-2" { value = aws_subnet.sec_subnet_egress_to_ch2_region-az-2.id }
+output "sec_subnet_egress_to_ch2_region-az-2" {
+  value       = aws_subnet.sec_subnet_egress_to_ch2_region-az-2.id
+  description = "If using SSLo this is the network that leaves F5 and goes to the security systems for chain 2"
+}
 
-output "sec_subnet_ingress_frm_ch2_region-az-2" { value = aws_subnet.sec_subnet_ingress_frm_ch2_region-az-2.id }
+output "sec_subnet_ingress_frm_ch2_region-az-2" {
+  value       = aws_subnet.sec_subnet_ingress_frm_ch2_region-az-2.id
+  description = "If using SSLo this is the network that leaves the security devices and returns to F5 for chain 2"
+}
 
 output "sec_subnet_dmz_outside_region-az-2" {
   value       = aws_subnet.sec_subnet_dmz_outside_region-az-2.id
@@ -273,6 +295,11 @@ output "app_tgw_main_rt" {
 output "container_tgw_main_rt" {
   value       = aws_route_table.container_tgw_main_rt.id
   description = "application VPC route table - all traffic goes to TGW and enters the security VPC in the sec_Internal_rt"
+}
+
+output "sec_application_rt" {
+  value       = aws_route_table.sec_application_rt.id
+  description = "Security VPC route table for infrastructure applications that may need egress via NAT"
 }
 
 ################################################################################################################################################################################################################################################################
