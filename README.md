@@ -39,11 +39,11 @@ Depending on the cloud provider, fault domains, scale models, IPS systems, or ot
  - Benefits - simplier operations, conceptually easier data path.
  - Drawbacks - 
 
-insert image
+![](images/F5_SCA_V2_SECURITY_VPC_Fault_Domain_AZ.png)
 
 - Device Level Fault Domain
 
--insert image
+![](images/F5_SCA_V2_SECURITY_VPC_Fault_Domain_Device.png)
 
 ## AWS Specific Features
 
