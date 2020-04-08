@@ -14,7 +14,7 @@
 
 ## What is the Secure Cloud Architecture 
 
-The Secure Cloud Architecture (SCA) is a location & cloud agnostic flexible and repeatable conceptual deployment pattern that can adapt for all customers challenges in the cloud. The SCA pattern is based on severla core tenents around business outcomes and desing principles:
+The Secure Cloud Architecture (SCA) is a location & cloud agnostic flexible and repeatable conceptual deployment pattern that can adapt for all customers challenges in the cloud. The SCA pattern is based on several core tenents around business outcomes and desing principles:
 
 - Nearly all organizations will be multicloud (Public AWS/Azure/GCP/OCI/Alibaba/VMC/Other, Private, Hybrid) from an Operational and Technology Stack perspective
 - Enterprise wide architectual decisions need to be made to reduce operational complexity while allowing the onboarding of high value aspects of any given cloud environment
