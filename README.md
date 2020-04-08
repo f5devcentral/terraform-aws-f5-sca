@@ -17,8 +17,8 @@
 The Secure Cloud Architecture (SCA) is a location & cloud agnostic flexible and repeatable conceptual deployment pattern that can adapt for all customers challenges in the cloud. The SCA pattern is based on several core tenents around business outcomes and desing principles:
 
 - Nearly all organizations will be multicloud (Public AWS/Azure/GCP/OCI/Alibaba/VMC/Other, Private, Hybrid) from an Operational and Technology Stack perspective
-- Enterprise wide architectual decisions need to be made to reduce operational complexity while allowing the onboarding of high value aspects of any given cloud environment
-- Patterns are required to incrasee agility and they must be reusable, transferable, automated and iterative. 
+- Enterprise wide architectual decisions need to be made to reduce operational complexity while allowing the onboarding of high value aspects of any given cloud environment. 
+- Patterns are required to incrase agility and they must be reusable, transferable, automated and iterative. 
 - Operations and Security teams need to enable development and business units, while ensuring Governance and Efficency 
 - Time to Value across any environment must be reduced
 - Support cost optimizations and flexible consumption models (Capex/Opex/Elastic)
@@ -30,7 +30,7 @@ The Secure Cloud Architecture (SCA) is a location & cloud agnostic flexible and 
 
 Conceptually a Secure Cloud Architeture looks like:
 
-- insert image
+![](images/Concept_Arch.png)
 
 Depending on the cloud provider, fault domains, scale models, IPS systems, or other specific requirments there will be variation in how you can finalize the architecture of your deployment.  Examples of different fault domains and patterns
 
