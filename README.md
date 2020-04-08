@@ -14,40 +14,44 @@
 
 ## What is the Secure Cloud Architecture 
 
-The Secure Cloud Architecture (SCA) is a location & cloud agnostic flexible and repeatable conceptual deployment pattern that can adapt for all customers challenges in the cloud. The SCA pattern is based on several core tenents around business outcomes and desing principles:
+The Secure Cloud Architecture (SCA) is a location & cloud agnostic flexible and repeatable conceptual deployment pattern that can adapt for all customers challenges in the cloud. The SCA pattern is based on several core tenets around business outcomes and design principles:
 
 - Nearly all organizations will be multicloud (Public AWS/Azure/GCP/OCI/Alibaba/VMC/Other, Private, Hybrid) from an Operational and Technology Stack perspective
-- Enterprise wide architectual decisions need to be made to reduce operational complexity while allowing the onboarding of high value aspects of any given cloud environment. 
-- Patterns are required to incrase agility and they must be reusable, transferable, automated and iterative. 
-- Operations and Security teams need to enable development and business units, while ensuring Governance and Efficency 
+- Enterprise wide architectural decisions need to be made to reduce operational complexity while allowing the onboarding of high value aspects of any given cloud environment. 
+- Patterns are required to increase agility and they must be reusable, transferable, automated and iterative. 
+- Operations and Security teams need to enable development and business units, while ensuring Governance and Efficiency 
 - Time to Value across any environment must be reduced
 - Support cost optimizations and flexible consumption models (Capex/Opex/Elastic)
-- Ruduce risk by minimizing bifurcation of tools and process wherever possible by leveraging reusable tools and processes
+- Reduce risk by minimizing bifurcation of tools and process wherever possible by leveraging reusable tools and processes
 - Focus on stability
-- A repeatable data path allowing focus on compliance, operational efficency and delivery of applicaiton assets to customers, employees and partners.
+- A repeatable data path allowing focus on compliance, operational efficiency and delivery of application assets to customers, employees and partners.
 - Leverage APIs and Automation 
-- Extensible - if/when a given Cloud Service Provider introduces options to simplify the architecture they can be incorperated
+- Extensible - if/when a given Cloud Service Provider introduces options to simplify the architecture they can be incorporated
 
-Conceptually a Secure Cloud Architeture looks like:
+Conceptually a Secure Cloud Architecture looks like:
+
 
 ![](images/Concept_Arch.png)
 
-Depending on the cloud provider, fault domains, scale models, IPS systems, or other specific requirments there will be variation in how you can finalize the architecture of your deployment.  Examples of different fault domains and patterns
+Depending on the cloud provider, fault domains, scale models, IPS systems, or other specific requirements there will be variation in how you can finalize the architecture of your deployment.  Examples of different fault domains and patterns
 
-- Aavailbility Zone Fault Domain
+- Availability Zone Fault Domain
 
- - Benefits - simplier operations, conceptually easier data path.
- - Drawbacks - 
+ - Benefits - simpler operations, conceptually easier data path.
+ - Drawbacks - Failovers need to leverage a device layer to device layer monitor, Force Offline is used over Standby, and intrusive
 
 ![](images/F5_SCA_V2_SECURITY_VPC_Fault_Domain_AZ.png)
 
 - Device Level Fault Domain
 
+ - Benefits - failover is less intrusive
+ - Drawbacks - use of Alien IP ranges to move tunnel endpoints and tunnels creates complexity, two layers of data path to support and troubleshoot
+
 ![](images/F5_SCA_V2_SECURITY_VPC_Fault_Domain_Device.png)
 
 ## AWS Specific Features
 
-The SCA leverages the following in the example archtiecture
+The SCA leverages the following in the example architecture
 
 - VPC
 - Route Tables
@@ -59,16 +63,14 @@ The SCA leverages the following in the example archtiecture
 - IAM Roles
 - CloudWatch
 
-The following AWS Technoloiges or Deployment considerations are compatible (not conclusive and will change over time)
+The following AWS Technologies or Deployment considerations are compatible (not conclusive and will change over time)
 
-- VPC Peering (requries the use of SNAT)
-- VPN intereconnecting VPCs
+- VPC Peering (requires the use of SNAT)
+- VPN interconnecting VPCs
 - Ingress Routing
 - Deployment of F5 products into another account (recipient account must click subscribe, deploying account must be able to create resources in destination account)
 - Global Accelerator
 - VPCE for STS
-
-
 
 ## Prerequisites
 
@@ -116,17 +118,17 @@ The following AWS Technoloiges or Deployment considerations are compatible (not 
 
 ### Creating Virtual Servers on the BIG-IP VE
 
-Creating virtual servers is a multistep process that can be accomplished via APIs or direct user interaction.  A virtual server consistens of the following components
+Creating virtual servers is a multistep process that can be accomplished via APIs or direct user interaction.  A virtual server consists of the following components
 
 1. Virtual Server IP and configuration
-2. SDN Assinged secondary IP that = the Virtual Server IP
-3. Elastic IP (Public IP) that is mapped to to a virtual server(s)
+2. SDN Assigned secondary IP that = the Virtual Server IP
+3. Elastic IP (Public IP) that is mapped to a virtual server(s)
 
-If a user is deploying an inter-AZ HA model (this template does) a public IP will be mapped/remapped to two different virtual servers since an Avaliblity Zone is also a subnet boundary. For more information on this process please refer to F5's Cloud Failover Extension documentation found here - https://clouddocs.f5.com/products/extensions/f5-cloud-failover/latest/userguide/aws.html 
+If a user is deploying an inter-AZ HA model (this template does) a public IP will be mapped/remapped to two different virtual servers since an Availability Zone is also a subnet boundary. For more information on this process please refer to F5's Cloud Failover Extension documentation found here - https://clouddocs.f5.com/products/extensions/f5-cloud-failover/latest/userguide/aws.html 
 
-F5 recomends that customers leverage AS3 for configuration and managment of virtual servers (Step 1 Above). AS 3 will incorperate features faster than imperative API tools such as Ansible or Terraform modules and allows users to move to an as-code model.  For more information on AS 3 please see https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/.  AS3 can be imbeded into CFT calls, used with Terraform, used with Ansible or pushed via tools such as Postman or CURL. 
+F5 recommends that customers leverage AS3 for configuration and management of virtual servers (Step 1 Above). AS 3 will incorporate features faster than imperative API tools such as Ansible or Terraform modules and allows users to move to an as-code model.  For more information on AS 3 please see https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/.  AS3 can be imbedded into CFT calls, used with Terraform, used with Ansible or pushed via tools such as Postman or CURL. 
 
-For the other configuraiton steps there are many automations tools avalible and your organization should work with the ones that allow you to be the most efficient overall.  The workflow that is accomplished via Terrafrom in this repository could also be accomplished via those tools. 
+For the other configuration steps there are many automations tools available and your organization should work with the ones that allow you to be the most efficient overall.  The workflow that is accomplished via Terraform in this repository could also be accomplished via those tools. 
 
 ## Filing issues
 
