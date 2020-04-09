@@ -30,7 +30,6 @@ The Secure Cloud Architecture (SCA) is a location & cloud agnostic flexible and 
 
 Conceptually a Secure Cloud Architecture looks like:
 
-
 ![](images/Concept_Arch.png)
 
 Depending on the cloud provider, fault domains, scale models, IPS systems, or other specific requirements there will be variation in how you can finalize the architecture of your deployment.  Examples of different fault domains and patterns
@@ -88,6 +87,10 @@ To support the various needs of different compliance requirments end users will 
 
 ## Requirments Mapping - Financial Services
 
+| Requirement | Infrastructure Impact | How F5 Meets this Requirment  |
+|:---:|:---:|:---|
+| Implement safeguards to prevent data tampering and ensure its integrity (SOX, GLBA, USA Patriot Act, Basel III, HIPAA, GDPR, FIPS)|Encrypt all sensitive data and secure private keys|F5 LTM can terminate and re-encrypt any data passing through a BIGIP.  It can also integrate with an external HSM to ensure private keys are secured and meet FIPS standards.|
+
 
 
 ## Requirements Mapping - DoD / DISA
@@ -138,6 +141,17 @@ If a user is deploying an inter-AZ HA model (this template does) a public IP wil
 F5 recommends that customers leverage AS3 for configuration and management of virtual servers (Step 1 Above). AS 3 will incorporate features faster than imperative API tools such as Ansible or Terraform modules and allows users to move to an as-code model.  For more information on AS 3 please see https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/.  AS3 can be imbedded into CFT calls, used with Terraform, used with Ansible or pushed via tools such as Postman or CURL. 
 
 For the other configuration steps there are many automations tools available and your organization should work with the ones that allow you to be the most efficient overall.  The workflow that is accomplished via Terraform in this repository could also be accomplished via those tools. 
+
+## Working with MultiAccount Environments 
+
+In cloud migrations it is not uncommon for organizations to leverage multi-account enivonrments. As an example you may have developer accounts, networking accounts, security accounts, master payer etc.  In this scenario we need to think about the environment in business and technical terms. 
+
+Business
+- Payer Accounts - this is outside of F5's perview ans is an AWS related item.
+- End User License Agreements - the EULA must be accpted by the account in which the image is deployed. For example if you want to deploy instances into an account named APP_DEV an admin in the account will need to "subscribe" to the software image.
+
+Technical 
+- F5 IAM Roles require certain attributes in the environment, STS, S3, EC2.  Depending on the use case you may need all or only some of the attributes as listed 
 
 ## Filing issues
 
