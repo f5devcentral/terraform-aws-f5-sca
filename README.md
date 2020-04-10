@@ -137,9 +137,12 @@ To support the various needs of different compliance requirments end users will 
 
 ## Deploying Custom Configuration to the BIG-IP VE
 
+
+
+
 ## Post-Deployment Configuration
 
-At a minium you will need to harden the deployment to your required busienss or legal requirments. 
+The SCA provides a base topology to build to regulated environments and you will need to harden the deployment to your required busienss or legal requirments. 
 
 ### Creating Virtual Servers on the BIG-IP VE
 
@@ -157,7 +160,7 @@ For the other configuration steps there are many automations tools available and
 
 ## Working with MultiAccount Environments 
 
-In cloud migrations it is not uncommon for organizations to leverage multi-account enivonrments. As an example you may have developer accounts, networking accounts, security accounts, master payer etc.  In this scenario we need to think about the environment in business and technical terms. 
+In cloud migrations it is not uncommon for organizations to leverage multi-account enivonrments, such as AWS LandingZone/Control Tower. As an example you may have developer accounts, networking accounts, security accounts, master payer etc.  In this scenario we need to think about the environment in business and technical terms. 
 
 __Business__
 - Payer Accounts - this is outside of F5's perview ans is an AWS related item.
@@ -168,12 +171,17 @@ __Technical__
 - Service Discovery may require the use of STS Assume Role if you are corssing account boundaries and DNS is not an option. Both [AS3](https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#pool-member) and the [ServiceDiscovery iAPP](https://github.com/F5Networks/f5-cloud-iapps/tree/master/f5-service-discovery) support this functionality. For new deplyments F5 recomends the use of AS3. 
 - [Review the AWS documentation on Cross Account access](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html)
 - [F5 Telemetry Streaming](https://clouddocs.f5.com/products/extensions/f5-telemetry-streaming/latest/) does not support assume roles, so the credentials to write to your AWS service will need to be included as part of the decleration.
+- [F5 Cloud Failover](https://clouddocs.f5.com/products/extensions/f5-cloud-failover/latest/userguide/aws.html) supports the use of Assume Role, enabling shared VPCs.
+- Customized AMIs - users may need custom AMIs for reasons such as baking a hotfix into the boot image or [encyprtion](https://clouddocs.f5.com/cloud/public/v1/aws/AWS_encrypted_volumes.html). Please refer to the [F5 Image Generator](https://clouddocs.f5.com/cloud/public/v1/ve-image-gen_index.html). Please contact your F5 sales team if you need information on building an encrypted marketplace image.
+- The environment deployed by this set of templates is for demo and experimentation. They can be easily modified to meet Guardrails. You will need to remove the EIPs from the MGMT interfaces and update the SG policy for SSH.
+
+
 
 ## Sizing a Deployment
 
 Migrating from a hardware to software model is normally a descaling exercise; meaning that in a Data Center scale models were normally vertical (larger systems) and the in the Cloud scale is horizontal (more systems). Additionally we do not have specialized FPGAs for intensive processes (SSL, Compression, L4 Traffic processing) and all functions are moved to x86.  Coupled with the descale of systems we need to take into account cloud provider specific attributes such as 
 
-- Number of interfaces a VM can have (varies by instance type and size)
+- Number of interfaces a VM can have (varies by instance type and size), [F5 supports a varitey of types and sizes](https://clouddocs.f5.com/cloud/public/v1/matrix.html)
 - Number of IPs an interface can host (mapes to public IPs)
 - SSL performance
 - Outbound bandwidth (Interent, Direct Connect, VPN)
