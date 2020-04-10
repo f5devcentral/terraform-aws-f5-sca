@@ -83,7 +83,7 @@ The following AWS Technologies or Deployment considerations are compatible (not 
 
 The SCA is the base cloud topology allowing you to build to meet compliance across industry and verticals.  The [AWS Shared Responsibility Model](https://aws.amazon.com/compliance/shared-responsibility-model/) is clear. **AWS is responsible for the scurity of the cloud** and **you are responsible for your security and compliance in the cloud**. F5 technoligies enable you to focus on **in the cloud**. 
 
-To support the various needs of different compliance requirments end users will need to apply specific configuraitons to F5 and AWS resources that are deployed.  The correct process to do that is both a technology question and and orgnaizational specific operational question. 
+To support the various needs of different compliance requirments end users will need to apply specific configuraitons to F5 and AWS resources that are deployed.  The correct process to do that is both a technology question and and orgnaizational specific operational question. The F5 SCA is a base for your to build upon to meet those needs.
 
 ## Requirments Mapping - Financial Services
 
@@ -139,6 +139,8 @@ To support the various needs of different compliance requirments end users will 
 
 ## Post-Deployment Configuration
 
+At a minium you will need to harden the deployment to your required busienss or legal requirments. 
+
 ### Creating Virtual Servers on the BIG-IP VE
 
 Creating virtual servers is a multistep process that can be accomplished via APIs or direct user interaction.  A virtual server consists of the following components
@@ -157,12 +159,29 @@ For the other configuration steps there are many automations tools available and
 
 In cloud migrations it is not uncommon for organizations to leverage multi-account enivonrments. As an example you may have developer accounts, networking accounts, security accounts, master payer etc.  In this scenario we need to think about the environment in business and technical terms. 
 
-Business
+__Business__
 - Payer Accounts - this is outside of F5's perview ans is an AWS related item.
 - End User License Agreements - the EULA must be accpted by the account in which the image is deployed. For example if you want to deploy instances into an account named APP_DEV an admin in the account will need to "subscribe" to the software image.
 
-Technical 
-- F5 IAM Roles require certain attributes in the environment, STS, S3, EC2.  Depending on the use case you may need all or only some of the attributes as listed 
+__Technical__ 
+- F5 IAM Roles require certain attributes in the environment, STS, S3, EC2.  Depending on the use case you may need all or only some of the attributes as listed.
+- Service Discovery may require the use of STS Assume Role if you are corssing account boundaries and DNS is not an option. Both [AS3](https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#pool-member) and the [ServiceDiscovery iAPP](https://github.com/F5Networks/f5-cloud-iapps/tree/master/f5-service-discovery) support this functionality. For new deplyments F5 recomends the use of AS3. 
+- [Review the AWS documentation on Cross Account access](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html)
+- [F5 Telemetry Streaming](https://clouddocs.f5.com/products/extensions/f5-telemetry-streaming/latest/) does not support assume roles, so the credentials to write to your AWS service will need to be included as part of the decleration.
+
+## Sizing a Deployment
+
+Migrating from a hardware to software model is normally a descaling exercise; meaning that in a Data Center scale models were normally vertical (larger systems) and the in the Cloud scale is horizontal (more systems). Additionally we do not have specialized FPGAs for intensive processes (SSL, Compression, L4 Traffic processing) and all functions are moved to x86.  Coupled with the descale of systems we need to take into account cloud provider specific attributes such as 
+
+- Number of interfaces a VM can have (varies by instance type and size)
+- Number of IPs an interface can host (mapes to public IPs)
+- SSL performance
+- Outbound bandwidth (Interent, Direct Connect, VPN)
+- Number of Flows
+- Topology Considerations 
+- Public and Internal Applications
+
+For customers getting strated they do not need to focus on the scaling and sizing day one but it is hight recomended that one engage with F5 Field Engineering and Architecture to have a sizing exercise coupled with an architecture discussion to hone in on what the deployment and the combined F5+AWS architecture should look like. 
 
 ## Filing issues
 
