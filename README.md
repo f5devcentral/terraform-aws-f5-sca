@@ -81,7 +81,7 @@ The following AWS Technologies or Deployment considerations are compatible (not 
 
 ## Meeting Compliance Requirments
 
-The SCA is the base cloud topology allowing you to build to meet compliance across industry and verticals.  The [AWS Shared Responsibility Model](https://aws.amazon.com/compliance/shared-responsibility-model/) is clear. **AWS is responsible for the scurity of the cloud** and **you are responsible for your security and compliance in the cloud**. F5 technoligies enable you to focus on **in the cloud**. 
+The SCA is the base cloud topology allowing you to build to meet compliance across industry and verticals.  The [AWS Shared Responsibility Model](https://aws.amazon.com/compliance/shared-responsibility-model/) is clear. **AWS is responsible for the scurity of the cloud** and **you are responsible for your security and compliance in the cloud**. F5 technoligies enable you to focus on the **in the cloud** dimension. 
 
 To support the various needs of different compliance requirments end users will need to apply specific configuraitons to F5 and AWS resources that are deployed.  The correct process to do that is both a technology question and and orgnaizational specific operational question. The F5 SCA is a base for your to build upon to meet those needs.
 
@@ -190,6 +190,21 @@ Migrating from a hardware to software model is normally a descaling exercise; me
 - Public and Internal Applications
 
 For customers getting strated they do not need to focus on the scaling and sizing day one but it is __highly recommended__ that one engage with F5 Field Engineering and Architecture to have a sizing exercise coupled with an architecture discussion to hone in on what the deployment and the combined F5+AWS architecture should look like. 
+
+## Some common questions around the SCA:
+
+1. Will an organization only have 1 Security VPC? - Probably not as the scale models of cloud combined with application and traffic vsibility influence the archtiecture.
+2. Can I get end to end IP transparency with this topology on my instances? - Yes you can.
+3. Can this support both ingress (reverse proxy) and egress (forward proxy) scenarios? - Yes it can.
+4. Can I use a CI/CD pipeline? - Yes you can.
+5. What license models can I use for my F5 systems and can I share licenses between environments? - The SCA works with Marketplace, Subscription, ELA and BYOL licensing; and you can mix/match. If you have an ELA/Subscrition a license can be deprovisioned in one environment and migrated to another. 
+6. Does the SCA support both mutable and immutable use cases? - Yes it does.  This is an operationl decision more than a technical decision. 
+7. Can I aggregate my cloud logging with the rest of my logs to get an enterprise wide view? - Yes you can, F5 HSL is stil an option as well as migrating to [F5 Telemtry Streaming](https://clouddocs.f5.com/products/extensions/f5-telemetry-streaming/latest/)
+8. Will I need to make modificaitons to the architecture and templates? - Yes this is a getting started/discovery tool.  Your organizations cloud applicaitons will be unique to you. F5 teams can assist. 
+9. In this topology the teanant VPCs can talk to each other, can I prevent that? - Yes there are several methods to do so, but it seperate TGW route tables to the use of Security Groups and NACLs.
+10. My orgnaization needs to perforam deep inspection between tenant VPCs (east/west). Is this possible? Yes it is but the details matter here. Please work with F5 to find the correct solution for you.
+11. I need to build this same functionality in another Cloud.  Will it be identical? In concept and function yes, but some of the technoligies will differ in how they are used to accomplish the goal. Each Cloud has unique behaivros in their SDN that need to be accounted for. 
+
 
 ## Filing issues
 
