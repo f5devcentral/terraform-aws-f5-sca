@@ -181,7 +181,7 @@ Migrating from a hardware to software model is normally a descaling exercise; me
 - Topology Considerations 
 - Public and Internal Applications
 
-For customers getting strated they do not need to focus on the scaling and sizing day one but it is hight recomended that one engage with F5 Field Engineering and Architecture to have a sizing exercise coupled with an architecture discussion to hone in on what the deployment and the combined F5+AWS architecture should look like. 
+For customers getting strated they do not need to focus on the scaling and sizing day one but it is __highly recommended__ that one engage with F5 Field Engineering and Architecture to have a sizing exercise coupled with an architecture discussion to hone in on what the deployment and the combined F5+AWS architecture should look like. 
 
 ## Filing issues
 
