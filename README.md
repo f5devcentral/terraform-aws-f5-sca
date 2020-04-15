@@ -103,11 +103,10 @@ To support the various needs of different compliance requirments end users will 
 | Ability to restore the availability and access to data (HIPAA, GDPR) | Build the infrastructure with redundancy and high availability to automatically recover from any single failure | F5 LTM on BIGIPs built in active/standby pairs or in clusters provide high availability within a specific location.  F5 DNS on BIGIPs intelligently provides DNS based multi-site redundancy. |
 
 
-
 ## Requirements Mapping - DoD / DISA
 
 | Category | Title | Description | Mapping | Controls |
-|:---:|:---:|:---|:---|:---|
+|:---:|:---:|:---|:---|:---:|
 | Security | Traffic Segregation | - The Security Stack shall maintain virtual separation of all management, user, and data traffic.<br>- Components shall provide logically separate network interfaces for access from the management network infrastructure that is logically separate from production.<br>- The Security Stack shall provide secure connectivity to Application management systems that is logically separate from application traffic.<br>- Components shall provide for management traffic segmentation from user and data plane traffic. | LTM / AFM / CORE | SCCA 2.1.2.1, 2.3.2.6, 2.3.2.9, 2.2.3.3 |
 | Security | Traffic Encryption | The Security Stack shall allow the use of encryption for segmentation of management traffic. | LTM / Core | SCCA 2.1.2.2 |
 | Security | Reverse Proxy | The Security Stack shall provide a reverse proxy capability to handle access requests from client systems. | LTM / Core | SCCA 2.1.2.3 |
@@ -137,7 +136,7 @@ To support the various needs of different compliance requirments end users will 
 
 ## Deploying Custom Configuration to the BIG-IP VE
 
-
+| Failure Domain | Deployment Pattern | How F5 Meets this Requirment  |
 
 
 ## Post-Deployment Configuration
@@ -173,8 +172,16 @@ __Technical__
 - [F5 Telemetry Streaming](https://clouddocs.f5.com/products/extensions/f5-telemetry-streaming/latest/) does not support assume roles, so the credentials to write to your AWS service will need to be included as part of the decleration.
 - [F5 Cloud Failover](https://clouddocs.f5.com/products/extensions/f5-cloud-failover/latest/userguide/aws.html) supports the use of Assume Role, enabling shared VPCs.
 - Customized AMIs - users may need custom AMIs for reasons such as baking a hotfix into the boot image or [encyprtion](https://clouddocs.f5.com/cloud/public/v1/aws/AWS_encrypted_volumes.html). Please refer to the [F5 Image Generator](https://clouddocs.f5.com/cloud/public/v1/ve-image-gen_index.html). Please contact your F5 sales team if you need information on building an encrypted marketplace image.
-- The environment deployed by this set of templates is for demo and experimentation. They can be easily modified to meet Guardrails. You will need to remove the EIPs from the MGMT interfaces and update the SG policy for SSH.
+- The environment deployed by this set of templates is for demo and experimentation. These templates can be modified to meet more specific needs; For example you will need to remove the EIPs from the MGMT interfaces and update the SG policy for SSH.
 
+__Architectural__
+- F5 products can be deployed in shared services accounts, such as Networking, if one is creating a similar operational model to the data center.
+- F5 products can be deployed in non-shared accounts
+- Align to Applicaiton Migraiton Phase 
+    - Rehost - Active/Standby is the most common.  Unless there is a technical need for an Intra AZ pattern using an Inter AZ pattern is best as it protects against an AZ failure
+    - Replatform/Rearchitect - Active/Standy or Active/Active patterns; users are starting to leverage tools such as service discovery or integrating with conatiner based applications. 
+- Align to Application capacity needs
+- Align to Failure domain patterns
 
 
 ## Sizing a Deployment
@@ -189,7 +196,7 @@ Migrating from a hardware to software model is normally a descaling exercise; me
 - Topology Considerations 
 - Public and Internal Applications
 
-For customers getting strated they do not need to focus on the scaling and sizing day one but it is __highly recommended__ that one engage with F5 Field Engineering and Architecture to have a sizing exercise coupled with an architecture discussion to hone in on what the deployment and the combined F5+AWS architecture should look like. 
+For customers getting strated they do not need to focus on the scaling and sizing day one but it is __highly recommended__ that one engage with F5 Field Engineering in a sizing exercise coupled with an architecture discussion to hone in on what the deployment and the combined F5+AWS architecture should look like. 
 
 ## Some common questions around the SCA:
 
