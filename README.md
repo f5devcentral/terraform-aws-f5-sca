@@ -182,6 +182,7 @@ __Architectural__
     - Replatform/Rearchitect - Active/Standy or Active/Active patterns; users are starting to leverage tools such as service discovery or integrating with conatiner based applications. 
 - Align to Application capacity needs
 - Align to Failure domain patterns
+- Shared VPCs will bring several considerations - for traffic managment such as steering and IPS integraiton F5 systems whould be deployed by the VPC owner.  Shared subnets can be considered for user cases where F5 Systems are being used for Advanced Load balancing, Authenticaiton Proxy, or WAF (all shared subnets assume SNAT since the control of the VPC route tables is external to the account)
 
 
 ## Sizing a Deployment
