@@ -18,13 +18,23 @@ exec 1>$LOG_FILE 2>&1
 curl -o /config/cloud/utils.sh -s --fail --retry 60 -m 10 -L https://raw.githubusercontent.com/F5Networks/f5-cloud-libs/develop/scripts/util.sh
 . /config/cloud/utils.sh
 wait_for_bigip
-### CHECK IF DNS IS CONFIGURED YET, IF NOT, SLEEP
-echo "CHECK THAT DNS IS READY"
-nslookup github.com
-if [ $? -ne 0 ]; then
-  echo "DNS NOT READY, SLEEP 30 SECS"
-  sleep 30
-fi
+# CHECK TO SEE NETWORK IS READY
+count=0
+while true
+do
+  STATUS=$(curl -s -k -I https://github.com | grep HTTP)
+  if [[ $STATUS == *"200"* ]]; then
+    echo "internet access check passed"
+    break
+  elif [ $count -le 6 ]; then
+    echo "Status code: $STATUS  Not done yet..."
+    count=$[$count+1]
+  else
+    echo "GIVE UP..."
+    break
+  fi
+  sleep 10
+done
 ### GET SECRET VIA DEFAULT REQUESTS LIB ON BIG-IP
 echo "GET BIG-IP PASSWORD FROM AWS SECRET MANAGER"
 role_name=$(curl -s "http://169.254.169.254/latest/meta-data/iam/security-credentials/" )

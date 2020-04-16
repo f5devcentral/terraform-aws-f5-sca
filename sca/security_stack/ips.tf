@@ -100,7 +100,7 @@ data "template_file" "ips_onboard" {
     #example version:
     #as3Version            = "3.16.0"
     doVersion             = "latest"
-    as3Version            = "latest"
+    as3Version            = "3.13.2"
     tsVersion             = "latest"
     cfVersion             = "latest"
     fastVersion           = "0.2.0"
