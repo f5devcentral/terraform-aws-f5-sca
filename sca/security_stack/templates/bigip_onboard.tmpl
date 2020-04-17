@@ -14,10 +14,6 @@ else
     exit
 fi
 exec 1>$LOG_FILE 2>&1
-# WAIT FOR BIG-IP SYSTEMS & API TO BE UP
-curl -o /config/cloud/utils.sh -s --fail --retry 60 -m 10 -L https://raw.githubusercontent.com/F5Networks/f5-cloud-libs/develop/scripts/util.sh
-. /config/cloud/utils.sh
-wait_for_bigip
 # CHECK TO SEE NETWORK IS READY
 count=0
 while true
@@ -35,6 +31,10 @@ do
   fi
   sleep 10
 done
+# WAIT FOR BIG-IP SYSTEMS & API TO BE UP
+curl -o /config/cloud/utils.sh -s --fail --retry 60 -m 10 -L https://raw.githubusercontent.com/F5Networks/f5-cloud-libs/develop/scripts/util.sh
+. /config/cloud/utils.sh
+wait_for_bigip
 ### GET SECRET VIA DEFAULT REQUESTS LIB ON BIG-IP
 echo "GET BIG-IP PASSWORD FROM AWS SECRET MANAGER"
 role_name=$(curl -s "http://169.254.169.254/latest/meta-data/iam/security-credentials/" )
@@ -224,7 +224,7 @@ do
         path='tags/v'
     fi
     echo "downloading $tool, $version"
-    if [[ $tool == "f5-cloud-failover-extension" || $tool == "f5-appsvcs-templates" ]]; then
+    if [ $tool == "f5-appsvcs-templates" ]; then
         files=$(/usr/bin/curl -sk --interface mgmt https://api.github.com/repos/f5devcentral/$tool/releases/$path$version | jq -r '.assets[] | select(.name | contains (".rpm")) | .browser_download_url')
     else
         files=$(/usr/bin/curl -sk --interface mgmt https://api.github.com/repos/F5Networks/$tool/releases/$path$version | jq -r '.assets[] | select(.name | contains (".rpm")) | .browser_download_url')
