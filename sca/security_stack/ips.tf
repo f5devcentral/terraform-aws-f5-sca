@@ -90,7 +90,24 @@ locals {
     }
   }
 }
+# Setup Onboarding scripts
+data "template_file" "ips_onboard" {
+  template = "${file("${path.root}/templates/bigip_onboard.tmpl")}"
 
+  vars = {
+    #uname        	      = var.adminAccountName
+    # atc versions
+    #example version:
+    #as3Version            = "3.16.0"
+    doVersion             = "latest"
+    as3Version            = "3.13.2"
+    tsVersion             = "latest"
+    cfVersion             = "latest"
+    fastVersion           = "0.2.0"
+    onboard_log		      = "/var/log/startup-script.log"
+    secret_id   = var.secrets_manager_name.value
+  }
+}
 #
 # Create BIG-IP
 #
@@ -107,4 +124,5 @@ module ips {
   aws_secretmanager_secret_id = var.secrets_manager_name.value
   bigip_map                   = local.ips_bigip_map
   iam_instance_profile        = var.iam_instance_profile_name.value
+  custom_user_data            = data.template_file.ips_onboard.rendered
 }
