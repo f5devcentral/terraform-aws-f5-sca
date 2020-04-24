@@ -532,13 +532,13 @@ resource "aws_security_group" "sg_internal_security_vpc" {
     protocol    = -1
     from_port   = 0
     to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["${var.cidr-1}"]
   }
   egress {
     protocol    = -1
     from_port   = 0
     to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["${var.cidr-1}"]
   }
   vpc_id = aws_vpc.security-vpc.id
 }

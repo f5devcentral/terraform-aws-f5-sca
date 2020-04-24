@@ -205,13 +205,13 @@ resource "aws_security_group" "sg_internal_container_vpc" {
 		protocol = -1
 		from_port = 0
 		to_port = 0
-		cidr_blocks = ["0.0.0.0/0"]
+		cidr_blocks = ["${var.cidr-3}"]
 	}
 	egress {
 		protocol = -1
 		from_port = 0
 		to_port = 0
-		cidr_blocks = ["0.0.0.0/0"]
+		cidr_blocks = ["${var.cidr-3}"]
 	}
 	vpc_id = aws_vpc.container-test.id
 }
