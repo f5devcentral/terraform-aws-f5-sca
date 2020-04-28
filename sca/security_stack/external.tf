@@ -32,7 +32,7 @@ locals {
             var.security_groups.value.private
           ]
         }
-        "us-west-1a:private:0" = {
+        "us-west-1a:private:1" = {
           "device_index"      = "3"
           "interface_type"    = "private"
           "private_ips_count" = 0
@@ -76,7 +76,7 @@ locals {
             var.security_groups.value.private
           ]
         }
-        "us-west-1b:private:0" = {
+        "us-west-1b:private:1" = {
           "device_index"      = "3"
           "interface_type"    = "private"
           "private_ips_count" = 0
@@ -99,12 +99,12 @@ data "template_file" "external_onboard" {
     # atc versions
     #example version:
     #as3Version            = "3.16.0"
-    doVersion             = "latest"
-    as3Version            = "3.13.2"
-    tsVersion             = "latest"
-    cfVersion             = "latest"
-    fastVersion           = "0.2.0"
-    onboard_log		      = "/var/log/startup-script.log"
+    doVersion   = "latest"
+    as3Version  = "3.13.2"
+    tsVersion   = "latest"
+    cfVersion   = "latest"
+    fastVersion = "0.2.0"
+    onboard_log = "/var/log/startup-script.log"
     secret_id   = var.secrets_manager_name.value
   }
 }
