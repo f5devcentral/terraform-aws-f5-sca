@@ -267,7 +267,7 @@ resource "aws_subnet" "sec_subnet_application_region-az-2" {
 resource "aws_subnet" "sec_subnet_internal_region-az-2" {
   cidr_block        = cidrsubnet(aws_vpc.security-vpc.cidr_block, 8, 19)
   vpc_id            = aws_vpc.security-vpc.id
-  availability_zone = var.region-az-1
+  availability_zone = var.region-az-2
 
   tags = {
     Name = "${var.project}_sec_subnet_internal_region-az-2"
