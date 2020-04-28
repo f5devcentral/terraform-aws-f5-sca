@@ -17,7 +17,7 @@ locals {
           "interface_type"    = "private"
           "private_ips_count" = 0
           "public_ip"         = false
-          "subnet_id"         = var.subnets.value.az1.security.dmz_outside
+          "subnet_id"         = var.subnets.value.az1.security.dmz_inside
           "subnet_security_group_ids" = [
             var.security_groups.value.public
           ]
