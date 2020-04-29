@@ -61,3 +61,13 @@ output "public_nic_ids" {
     internal = module.internal.public_nic_ids
   }
 }
+
+# BIG-IP map
+output "bigip_map" {
+  description = "Map of the deployed BIG-IPs and their network information"
+  value = {
+    external = module.external.bigip_map
+    ips      = module.ips.bigip_map
+    internal = module.internal.bigip_map
+  }
+}
