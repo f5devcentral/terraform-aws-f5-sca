@@ -51,7 +51,7 @@ locals {
           "interface_type"    = "management"
           "private_ips_count" = 0
           "public_ip"         = true
-          "subnet_id"         = var.subnets.value.az1.security.mgmt
+          "subnet_id"         = var.subnets.value.az2.security.mgmt
           "subnet_security_group_ids" = [
             var.security_groups.value.management
           ]
@@ -61,7 +61,7 @@ locals {
           "interface_type"    = "private"
           "private_ips_count" = 0
           "public_ip"         = false
-          "subnet_id"         = var.subnets.value.az1.security.dmz_inside
+          "subnet_id"         = var.subnets.value.az2.security.dmz_inside
           "subnet_security_group_ids" = [
             var.security_groups.value.public
           ]
@@ -71,7 +71,7 @@ locals {
           "interface_type"    = "private"
           "private_ips_count" = 0
           "public_ip"         = false
-          "subnet_id"         = var.subnets.value.az1.security.application_region
+          "subnet_id"         = var.subnets.value.az2.security.application_region
           "subnet_security_group_ids" = [
             var.security_groups.value.private
           ]
@@ -81,7 +81,7 @@ locals {
           "interface_type"    = "private"
           "private_ips_count" = 0
           "public_ip"         = false
-          "subnet_id"         = var.subnets.value.az1.security.peering
+          "subnet_id"         = var.subnets.value.az2.security.peering
           "subnet_security_group_ids" = [
             var.security_groups.value.private
           ]
