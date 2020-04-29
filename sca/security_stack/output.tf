@@ -68,6 +68,6 @@ output "bigip_map" {
   value = {
     external = module.external.bigip_map
     ips      = module.ips.bigip_map
-    internal = module.bigip_map
+    internal = module.internal.bigip_map
   }
 }
