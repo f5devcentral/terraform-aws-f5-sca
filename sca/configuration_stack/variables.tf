@@ -1,3 +1,6 @@
+variable project {}
+variable random_id {}
+
 variable "aws_region" {}
 
 # DO variables for each BIG-IP tier
