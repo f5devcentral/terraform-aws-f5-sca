@@ -12,10 +12,14 @@ rescue
     JUICESHOP_AWS_NAME = []
 end
 
-JUICESHOP_AWS_NAME.each do |juiceshop_node|
-    describe aws_ec2_instance(name: juiceshop_node) do
-        it { should exist }
-        it { should be_running }
+control "Running in AWS" do
+    impact 1.0
+    title "AWS shows juice-shop nodes running"
+    JUICESHOP_AWS_NAME.each do |juiceshop_node|
+        describe aws_ec2_instance(name: juiceshop_node) do
+            it { should exist }
+            it { should be_running }
+        end
     end
 end
 
