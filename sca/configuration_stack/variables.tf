@@ -1,3 +1,4 @@
+variable bigip_mgmt_ips {}
 variable project {}
 variable random_id {}
 
