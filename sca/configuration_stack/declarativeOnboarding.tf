@@ -62,7 +62,7 @@ data "template_file" "ext_bigip_0_do_json" {
     local_selfip2   = local.external_bigips[0].subnets.2.private_ip
     local_selfip3   = local.external_bigips[0].subnets.3.private_ip
     remote_host	    = local.external_bigips[1].subnets.0.private_dns_name
-    remote_selfip   = local.external_bigips[1].subnets.0.private_ip
+    remote_selfip   = local.external_bigips[1].subnets.2.private_ip
     gateway	        = var.ext0_gateway
     dns_server	    = var.dns_server
     ntp_server	    = var.ntp_server
@@ -85,6 +85,7 @@ data "template_file" "ext_bigip_1_do_json" {
     local_selfip2   = local.external_bigips[1].subnets.2.private_ip
     local_selfip3   = local.external_bigips[1].subnets.3.private_ip
     remote_host	    = local.external_bigips[0].subnets.0.private_dns_name
+<<<<<<< HEAD:sca/configuration_stack/declarativeOnboarding.tf
     remote_selfip   = local.external_bigips[0].subnets.0.private_ip
     gateway	        = var.ext1_gateway
     dns_server	    = var.dns_server
@@ -131,6 +132,10 @@ data "template_file" "ips_bigip_1_do_json" {
     remote_host	    = local.ips_bigips[0].subnets.0.private_dns_name
     remote_selfip   = local.ips_bigips[0].subnets.0.private_ip
     gateway	        = var.ips1_gateway
+=======
+    remote_selfip   = local.external_bigips[0].subnets.2.private_ip
+    gateway	        = var.ext0_gateway
+>>>>>>> 6bd86e7137aaf3642d58ac6a9659ab1ab1656148:sca/configuration_stack/externalDeclarativeOnboarding.tf
     dns_server	    = var.dns_server
     ntp_server	    = var.ntp_server
     timezone	    = var.timezone
