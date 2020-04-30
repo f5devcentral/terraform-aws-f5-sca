@@ -7,35 +7,23 @@ variable "aws_region" {}
 # DO variables for each BIG-IP tier
 ## Ext tier
 variable "bigip_map" {}
-variable "ext0_host1" {
-    default = "10.0.0.1"
-}
-variable "ext0_host2" {
-    default = "10.0.0.1"
-}
-variable "ext0_localhost" {
-    default = "10.0.0.1"
-}
-variable "ext0_local_selfip" {
-    default = "10.0.0.1"
-}
-variable "ext0_local_selfip2" {
-    default = "10.0.0.1"
-}
-variable "ext0_local_selfip3" {
-    default = "10.0.0.1"
-}
-variable "ext0_remote_host" {
-    default = "10.0.0.1"
-}
-variable "ext0_remote_selfip" {
-    default = "10.0.0.1"
-}
 variable "ext0_gateway" {
-    default = "10.0.0.1"
+    default = "10.100.0.1"
 }
-variable "ext0_local_host" {
-    default = "10.0.0.1"
+variable "ext1_gateway" {
+    default = "10.100.10.1"
+}
+variable "ips0_gateway" {
+    default = "10.100.6.1"
+}
+variable "ips1_gateway" {
+    default = "10.100.16.1"
+}
+variable "int0_gateway" {
+    default = "10.0.7.1"
+}
+variable "int1_gateway" {
+    default = "10.0.17.1"
 }
 
 

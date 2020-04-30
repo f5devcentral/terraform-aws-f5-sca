@@ -6,7 +6,7 @@
     "label": "External Cluster PAYG",
     "Common": {
         "class": "Tenant",
-        "hostname": "${local_host}.example.com",
+        "hostname": "${local_host}",
         "dbvars": {
             "class": "DbVariables",
             "ui.advisory.enabled": true,
@@ -113,8 +113,8 @@
             "class": "DeviceGroup",
             "type": "sync-failover",
             "members": [
-                "${host1}.example.com",
-                "${host2}.example.com"
+                "${host1}",
+                "${host2}"
             ],
             "owner": "/Common/failoverGroup/members/0",
             "autoSync": true,
