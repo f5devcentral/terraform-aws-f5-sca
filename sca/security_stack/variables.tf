@@ -9,6 +9,18 @@ variable "ec2_instance_type" {
   default     = "m4.xlarge"
 }
 
+variable "atc_versions" {
+  description = "F5 Automation Toolchain Version used in this project"
+  type        = map(string)
+  default = {
+    doVersion   = "1.12.0"
+    as3Version  = "3.13.2"
+    tsVersion   = "latest"
+    cfVersion   = "latest"
+    fastVersion = "0.2.0"
+  }
+}
+
 variable aws_region {}
 variable project {}
 variable random_id {}

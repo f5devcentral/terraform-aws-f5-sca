@@ -99,11 +99,11 @@ data "template_file" "external_onboard" {
     # atc versions
     #example version:
     #as3Version            = "3.16.0"
-    doVersion   = "latest"
-    as3Version  = "3.13.2"
-    tsVersion   = "latest"
-    cfVersion   = "latest"
-    fastVersion = "0.2.0"
+    doVersion   = var.atc_versions.doVersion
+    as3Version  = var.atc_versions.as3Version
+    tsVersion   = var.atc_versions.tsVersion
+    cfVersion   = var.atc_versions.cfVersion
+    fastVersion = var.atc_versions.fastVersion
     onboard_log = "/var/log/startup-script.log"
     secret_id   = var.secrets_manager_name.value
   }

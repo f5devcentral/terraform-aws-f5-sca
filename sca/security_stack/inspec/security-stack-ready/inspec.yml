@@ -8,3 +8,15 @@ summary: An InSpec Compliance Profile validating the Secure Cloud Architecture s
 version: 0.1.0
 supports:
   platform: aws
+  platform: os
+inputs:
+  - name: bigip_mgmt_ip
+    description: BIG-IP management IP address
+    type: string
+  - name: bigip_mgmt_port
+    description: BIG-IP management TCP port
+    type: numeric
+    value: 443
+  - name: bigip_password
+    description: BIG-IP management password
+    type: string
