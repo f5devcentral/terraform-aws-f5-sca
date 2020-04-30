@@ -12,9 +12,6 @@ rescue
     JUICESHOP_AWS_NAME = []
 end
 
-#
-# TODO: what tests validate that the juiceshop stack is ready?
-#
 JUICESHOP_AWS_NAME.each do |juiceshop_node|
     describe aws_ec2_instance(name: juiceshop_node) do
         it { should exist }
