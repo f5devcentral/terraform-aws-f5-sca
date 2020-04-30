@@ -14,6 +14,7 @@ F5 Application Services will be deployed into the security VPC but if one wished
 */
 
 ###############################################################################################################################################################################################################################################################
+
 #### Deploy Fargate Containers and Service Discovery Service ###################################################################################################################################################################################################
 #  This stack is for EXAMPLE only and deploys a KNOWN VULNERABLE APPLICATION.  DO NOT USE IN ENVIRONMENTS WHERE SECURITY IS A CONCERN!!!!!!
 #  F5 can control ingress to Faregate services and leverage the DNS Name service to locate the items.  Note you will have to decrease the default time on the NODE (not pool) for DNS discovery to work efficiently.  You will need to use the DNS name 
@@ -22,10 +23,18 @@ F5 Application Services will be deployed into the security VPC but if one wished
 #
 ################################################################################################################################################################################################################################################################
 
-variable "project" {
-  description = "project name to use for tags"
-  default     = "f5-sca-v2"
-}
+### Stack Default Variables 
+
+variable aws_region {}
+variable project {}
+variable random_id {}
+variable secrets_manager_name {}
+variable iam_instance_profile_name {}
+variable security_groups {}
+variable vpcs {}
+variable subnets {}
+variable route_tables {}
+variable transit_gateways {}
 
 ### Fargate Variables
 
@@ -42,12 +51,12 @@ variable "app_port" {
 
 variable "app_count" {
   description = "Number of docker containers to run"
-  default     = "3"
+  default     = 3
 }
 
 variable "fargate_cpu" {
   description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
-  default     = "256"
+  default     = 256
 }
 
 variable "fargate_memory" {

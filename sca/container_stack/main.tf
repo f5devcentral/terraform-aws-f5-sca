@@ -21,17 +21,23 @@ F5 Application Services will be deployed into the security VPC but if one wished
 #
 ################################################################################################################################################################################################################################################################
 
+#### Deploy the Service Discovery Security Group ###############################################################################################################################################################################################################
+#
+# The Security Group permits all Traffic in the event that ingress traffic is not processed by a SNAT
+#
+################################################################################################################################################################################################################################################################
+
 
 resource "aws_security_group" "demo_tasks" {
   name        = "demo-ecs-tasks"
   description = "allow inbound access to Fargate Instances"
-  vpc_id      = "${module.core.container-test.id}"
+  vpc_id      = var.vpcs.value.container
 
   ingress {
     protocol    = "tcp"
-    from_port   = "${var.app_port}"
-    to_port     = "${var.app_port}"
-    cidr_blocks = ["${module.core.cidr-1}", "${module.core.cidr-2}", "${module.cidr-3}"]
+    from_port   = var.app_port
+    to_port     = var.app_port
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -42,17 +48,24 @@ resource "aws_security_group" "demo_tasks" {
   }
 }
 
+#### Deploy the Service Discovery Service ######################################################################################################################################################################################################################
+#
+# The Service Discvoery Service is placed in the Secuirty VPC to allow the BIG-IP systems to find the IP Endpoints
+#
+################################################################################################################################################################################################################################################################
+
+
 resource "aws_service_discovery_private_dns_namespace" "example" {
   name        = "my-project.local"
   description = "example"
-  vpc         = "${module.core.security-vpc}"
+  vpc         = var.vpcs.value.security
 }
 
 resource "aws_service_discovery_service" "example" {
   name = "juiceshop"
 
   dns_config {
-    namespace_id = "${aws_service_discovery_private_dns_namespace.example.id}"
+    namespace_id = aws_service_discovery_private_dns_namespace.example.id
 
     dns_records {
       ttl  = 10
@@ -72,45 +85,36 @@ resource "aws_ecs_cluster" "example-ecs-cluster" {
 }
 
 resource "aws_ecs_task_definition" "app" {
-  family                   = "app"
+  family                   = "example"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = "${var.fargate_cpu}"
-  memory                   = "${var.fargate_memory}"
-
-  container_definitions = <<DEFINITION
-[
-  {
-    "cpu": ${var.fargate_cpu},
-    "image": "${var.app_image}",
-    "memory": ${var.fargate_memory},
-    "name": "app",
-    "networkMode": "awsvpc",
-    "portMappings": [
-      {
-        "containerPort": ${var.app_port},
-        "hostPort": ${var.app_port}
-      }
-    ]
-  }
-]
-DEFINITION
+  cpu                      = 256
+  memory                   = 512
+  container_definitions = jsonencode([{
+    name  = "TEST"
+    image = var.app_image
+    portMappings = [{
+      protocol      = "tcp"
+      containerPort = var.app_port
+      hostPort      = var.app_port
+    }],
+  }])
 }
 
 resource "aws_ecs_service" "main" {
   name            = "example-ecs-service"
-  cluster         = "${aws_ecs_cluster.example-ecs-cluster.id}"
-  task_definition = "${aws_ecs_task_definition.app.arn}"
-  desired_count   = "${var.app_count}"
+  cluster         = aws_ecs_cluster.example-ecs-cluster.id
+  task_definition = aws_ecs_task_definition.app.arn
+  desired_count   = var.app_count
   launch_type     = "FARGATE"
 
   network_configuration {
     security_groups = ["${aws_security_group.demo_tasks.id}"]
-    subnets         = ["${module.core.app_subnet_application_region-az-1}", "${module.core.app_subnet_application_region-az-2}"] #Edits required here
+    subnets         = [var.subnets.value.az1.container.dmz_1, var.subnets.value.az2.container.dmz_1] 
   }
 
   service_registries {
-    registry_arn = "${aws_service_discovery_service.example.arn}"
+    registry_arn = aws_service_discovery_service.example.arn
   }
 }
 
