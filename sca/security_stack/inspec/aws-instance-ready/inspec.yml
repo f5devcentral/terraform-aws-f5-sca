@@ -1,0 +1,14 @@
+name: aws-instance-ready
+title: AWS Instance Ready
+maintainer: Cody Green, Mark Menger
+copyright: F5 Networks
+copyright_email: c.green@f5.com, m.menger@f5.com
+license: Apache-2.0
+summary: An InSpec Compliance Profile to test that an AWS instance is in a ready state
+version: 0.1.0
+supports:
+  platform: aws
+inputs:
+  - name: instance_id
+    description: AWS EC2 Instance ID
+    type: String

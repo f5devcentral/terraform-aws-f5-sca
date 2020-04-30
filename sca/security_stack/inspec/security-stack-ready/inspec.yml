@@ -7,16 +7,14 @@ license: Apache-2.0
 summary: An InSpec Compliance Profile validating the Secure Cloud Architecture security stack is ready for use
 version: 0.1.0
 supports:
-  platform: aws
-  platform: os
+  - platform: aws
+  - platform: os
+depends:
+  - name: aws-instance-ready
+    path: ../aws-instance-ready
+  - name: bigip-atc-ready
+    path: ../bigip-atc-ready
 inputs:
-  - name: bigip_mgmt_ip
-    description: BIG-IP management IP address
-    type: string
-  - name: bigip_mgmt_port
-    description: BIG-IP management TCP port
-    type: numeric
-    value: 443
-  - name: bigip_password
-    description: BIG-IP management password
-    type: string
+  - name: instance_id
+    description: AWS EC2 Instance ID
+    type: String
