@@ -80,6 +80,8 @@ resource "aws_service_discovery_service" "example" {
   }
 }
 
+
+
 resource "aws_ecs_cluster" "example-ecs-cluster" {
   name = "example-ecs-cluster"
 }
