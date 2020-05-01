@@ -80,3 +80,28 @@ control "Cloud Failover Extension Available" do
           its('release') { should eq '0' } # this should be replaced with a test using the json resource
     end
 end
+
+# 
+# Test that TS is available and the correct version
+#
+control "Telemetry Streaming Available" do
+  impact 1.0
+  title "BIGIP has TS"
+  # is the application services end point available?
+    describe http("https://#{bigip_host}:#{bigip_mgmt_port}/mgmt/shared/telemetry/info",
+              auth: {user: 'admin', pass: bigip_password},
+              params: {format: 'html'},
+              method: 'GET',
+              ssl_verify: false) do
+          its('status') { should cmp 200 }
+          its('headers.Content-Type') { should match 'application/json' }
+    end
+    describe json(content: http("https://#{bigip_host}:#{bigip_mgmt_port}/mgmt/shared/telemetry/info",
+              auth: {user: 'admin', pass: bigip_password},
+              params: {format: 'html'},
+              method: 'GET',
+              ssl_verify: false).body) do
+          its('version') { should eq '1.11.0' }
+          its('release') { should eq '1' } # this should be replaced with a test using the json resource
+    end
+end

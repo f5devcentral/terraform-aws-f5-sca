@@ -15,7 +15,7 @@ variable "atc_versions" {
   default = {
     doVersion   = "1.12.0"
     as3Version  = "3.13.2"
-    tsVersion   = "latest"
+    tsVersion   = "1.11.0"
     cfVersion   = "1.2.0"
     fastVersion = "0.2.0"
   }
