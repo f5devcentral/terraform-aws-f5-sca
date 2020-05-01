@@ -3,10 +3,12 @@ locals {
     for subnet_id, subnet in var.subnets : [
       for az in range(var.vpcs[subnet.vpc].num_availability_zones) : {
         name : subnet_id
+        vpc : subnet.vpc
         vpc_id : aws_vpc.sca[subnet.vpc].id
         cidr : cidrsubnet(var.vpcs[subnet.vpc].cidr_block, 8, subnet.netnum + az)
         availability_zone       = data.aws_availability_zones.available.names[az]
         map_public_ip_on_launch = subnet.map_public_ip_on_launch
+        internet_gw_route       = subnet.internet_gw_route
       }
     ]
   ])
@@ -71,7 +73,7 @@ resource "aws_internet_gateway" "sca" {
   )
 }
 
-# Create Internet Route
+# Create Internet Route and associate subnets
 resource "aws_route_table" "sca" {
   for_each = {
     for id, vpc in var.vpcs : id => vpc
@@ -87,3 +89,11 @@ resource "aws_route_table" "sca" {
   )
 }
 
+resource "aws_route_table_association" "sca" {
+  for_each = {
+    for subnet in local.subnets : format("%s:%s", subnet.name, subnet.availability_zone) => subnet
+    if(subnet.internet_gw_route == true)
+  }
+  route_table_id = aws_route_table.sca[each.value.vpc].id
+  subnet_id      = aws_subnet.sca[format("%s:%s", each.value.name, each.value.availability_zone)].id
+}

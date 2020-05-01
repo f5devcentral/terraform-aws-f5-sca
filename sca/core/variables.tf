@@ -40,27 +40,32 @@ variable "subnets" {
     vpc                     = string
     netnum                  = number
     map_public_ip_on_launch = string
+    internet_gw_route       = bool
   }))
   default = {
     "internet" : {
       vpc : "security"
       netnum : 0
       map_public_ip_on_launch : true
+      internet_gw_route : true
     }
     "mgmt" : {
       vpc : "security"
       netnum : 2
       map_public_ip_on_launch : false
+      internet_gw_route : true
     }
     "dmz_outside" : {
       vpc : "security"
       netnum : 4
       map_public_ip_on_launch : false
+      internet_gw_route : false
     }
     "application" : {
       vpc : "security"
       netnum : 6
       map_public_ip_on_launch : false
+      internet_gw_route : false
     }
   }
 }
