@@ -17,6 +17,13 @@ output vpcs {
   }
 }
 
+output subnets {
+  value = {
+    for subnet in aws_subnet.sca :
+    subnet.id => subnet
+  }
+}
+
 # output secrets_manager_name {
 #   value = module.core.secrets_manager_name
 # }

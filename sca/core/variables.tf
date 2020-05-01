@@ -11,12 +11,48 @@ variable "project" {
 variable "vpcs" {
   description = "map of VPCs to create"
   type = map(object({
-    cidr_block = string
+    cidr_block             = string
+    num_availability_zones = number
   }))
   default = {
-    "security" : { cidr_block : "10.100.0.0/16" }
-    "application" : { cidr_block : "10.200.0.0/16" }
-    "container" : { cidr_block : "10.240.0.0/16" }
+    "security" : {
+      cidr_block : "10.100.0.0/16"
+      num_availability_zones : 2
+    }
+    "application" : {
+      cidr_block : "10.200.0.0/16"
+      num_availability_zones : 2
+    }
+    "container" : {
+      cidr_block : "10.240.0.0/16"
+      num_availability_zones : 2
+    }
+  }
+}
+
+variable "subnets" {
+  description = "map of subnets to create for each VPC"
+  type = map(object({
+    vpc                     = string
+    netnum                  = number
+    map_public_ip_on_launch = string
+  }))
+  default = {
+    "internet" : {
+      vpc : "security"
+      netnum : 0
+      map_public_ip_on_launch : true
+    }
+    "mgmt" : {
+      vpc : "security"
+      netnum : 2
+      map_public_ip_on_launch : false
+    }
+    "dmz_outside" : {
+      vpc : "security"
+      netnum : 4
+      map_public_ip_on_launch : false
+    }
   }
 }
 
