@@ -36,26 +36,6 @@ resource "aws_vpc" "sca" {
   )
 }
 
-# Create the SCA AWS VPC Subnets
-# resource "aws_subnet" "sca" {
-#   for_each = {
-#     for subnet_id, subnet in var.subnets :
-#     subnet_id => subnet
-#   }
-
-#   cidr_block              = cidrsubnet(var.vpcs[each.value.vpc].cidr_block, 8, each.value.netnum)
-#   vpc_id                  = aws_vpc.sca[each.value.vpc].id
-#   availability_zone       = var.region-az-1
-#   map_public_ip_on_launch = each.value.map_public_ip_on_launch
-
-#   tags = merge(
-#     local.tags,
-#     {
-#       Name = format("%s_%s_%s", var.project, each.key, local.postfix)
-#     }
-#   )
-# }
-
 resource "aws_subnet" "sca" {
   for_each = {
     for subnet in local.subnets : format("%s:%s", subnet.name, subnet.availability_zone) => subnet
