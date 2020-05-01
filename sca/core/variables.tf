@@ -117,7 +117,27 @@ variable "routes" {
     }
     "internal" : {
       vpc : "security"
-      subnets : ["internal"]
+      subnets : ["internal", "peering"]
+    }
+    "application" : {
+      vpc : "security"
+      subnets : ["application"]
+    }
+    "to_security_insepction_1" : {
+      vpc : "security"
+      subnets : ["egress_to_ch1", "dmz_outside"]
+    }
+    "frm_security_insepction_1" : {
+      vpc : "security"
+      subnets : ["ingress_frm_ch1", "dmz_inside"]
+    }
+    "to_security_insepction_2" : {
+      vpc : "security"
+      subnets : ["egress_to_ch2"]
+    }
+    "frm_security_insepction_2" : {
+      vpc : "security"
+      subnets : ["ingress_frm_ch2"]
     }
   }
 }
