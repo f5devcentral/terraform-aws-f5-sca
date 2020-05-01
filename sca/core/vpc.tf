@@ -36,6 +36,7 @@ resource "aws_vpc" "sca" {
   )
 }
 
+# Create the VPC Subnets
 resource "aws_subnet" "sca" {
   for_each = {
     for subnet in local.subnets : format("%s:%s", subnet.name, subnet.availability_zone) => subnet
@@ -50,6 +51,22 @@ resource "aws_subnet" "sca" {
     local.tags,
     {
       Name = format("%s_%s_%s", var.project, each.key, local.postfix)
+    }
+  )
+}
+
+# Create the Internet Gateway
+resource "aws_internet_gateway" "sca" {
+  for_each = {
+    for id, vpc in var.vpcs : id => vpc
+    if(vpc.internet_gateway == true)
+  }
+  vpc_id = aws_vpc.sca[each.key].id
+
+  tags = merge(
+    local.tags,
+    {
+      Name = format("%s_%s_igw_%s", var.project, each.key, local.postfix)
     }
   )
 }

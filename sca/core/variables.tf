@@ -13,19 +13,23 @@ variable "vpcs" {
   type = map(object({
     cidr_block             = string
     num_availability_zones = number
+    internet_gateway       = bool
   }))
   default = {
     "security" : {
       cidr_block : "10.100.0.0/16"
       num_availability_zones : 2
+      internet_gateway : true
     }
     "application" : {
       cidr_block : "10.200.0.0/16"
       num_availability_zones : 2
+      internet_gateway : false
     }
     "container" : {
       cidr_block : "10.240.0.0/16"
       num_availability_zones : 2
+      internet_gateway : false
     }
   }
 }
