@@ -31,3 +31,7 @@ override.tf.json
 
 #.DS_store
 .DS_Store
+
+# REST Client files
+.env
+*.http
