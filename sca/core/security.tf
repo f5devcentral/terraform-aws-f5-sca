@@ -47,3 +47,22 @@ module "bigip_mgmt_sg" {
   egress_cidr_blocks = ["0.0.0.0/0"]
   egress_rules       = ["all-all"]
 }
+
+#
+# Create AWS Security Group for internal communication
+resource "aws_security_group" "sg_internal_security_vpc" {
+  description = "wide open"
+  ingress {
+    protocol    = -1
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = [var.vpcs["security"].cidr_block]
+  }
+  egress {
+    protocol    = -1
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = [var.vpcs["security"].cidr_block]
+  }
+  vpc_id = aws_vpc.sca["security"].id
+}
