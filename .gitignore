@@ -35,3 +35,6 @@ override.tf.json
 # InSpec files
 sca/*/inspec/*/files/*.json
 sca/*/inspec/*/inspec.lock
+# REST Client files
+.env
+*.http
