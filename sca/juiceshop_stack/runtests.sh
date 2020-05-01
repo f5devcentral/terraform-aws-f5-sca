@@ -4,8 +4,8 @@ tf_output_file='inspec/application-stack-ready/files/terraform.json'
 # Save the Terraform data into a JSON file for InSpec to read
 terraform output --json > $tf_output_file
 
-# Set the jumphost IP address
-jumphost=`cat $tf_output_file| jq '.jumphost_ip.value[0]' -r`
-
 # Run InSpec tests from the Jumphost
-inspec exec inspec/application-stack-ready -t ssh://azureuser@$jumphost -i tftest
+# assumes that the environment variable AWS_REGION is set
+# that can be overriden by specifying the region on the command
+# line e.g. inspec exec inspec/application-stack-ready -t aws://us-west-2
+inspec exec inspec/application-stack-ready -t aws://
