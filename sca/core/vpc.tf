@@ -41,6 +41,16 @@ locals {
       ]
     ]
   ])
+
+  route_endpoints = flatten([
+    for endpoint_id, endpoint in var.route_endpoints : [
+      for route in endpoint.routes : {
+        endpoint = endpoint_id
+        vpc      = endpoint.vpc
+        route    = route
+      }
+    ]
+  ])
 }
 
 # find availability zones
@@ -104,10 +114,8 @@ resource "aws_internet_gateway" "sca" {
 
 # Create Route Tables
 resource "aws_route_table" "sca" {
-  for_each = {
-    for route in local.routes : format("%s:%s:%s", route.name, route.subnet, route.availability_zone) => route
-  }
-  vpc_id = each.value.vpc_id
+  for_each = var.routes
+  vpc_id   = aws_vpc.sca[each.value.vpc].id
 
   tags = merge(
     local.tags,
@@ -122,7 +130,7 @@ resource "aws_route_table_association" "sca" {
   for_each = {
     for route in local.routes : format("%s:%s:%s", route.name, route.subnet, route.availability_zone) => route
   }
-  route_table_id = aws_route_table.sca[format("%s:%s:%s", each.value.name, each.value.subnet, each.value.availability_zone)].id
+  route_table_id = aws_route_table.sca[each.value.name].id
   subnet_id      = aws_subnet.sca[format("%s:%s", each.value.subnet, each.value.availability_zone)].id
 }
 
@@ -155,4 +163,36 @@ resource "aws_nat_gateway" "sec-gw" {
       Name = format("%s_%s_nat_gw_%s", var.project, each.key, local.postfix)
     }
   )
+}
+
+# Create Endpoints
+resource "aws_vpc_endpoint" "sca" {
+  for_each = var.route_endpoints
+
+  vpc_id       = aws_vpc.sca[each.value.vpc].id
+  service_name = format("com.amazonaws.%s.%s", var.aws_region, each.key)
+}
+
+# TODO: add the subnets
+resource "aws_vpc_endpoint" "sca_interface" {
+  for_each = var.interface_endpoints
+
+  vpc_id             = aws_vpc.sca[each.value.vpc].id
+  service_name       = format("com.amazonaws.%s.%s", var.aws_region, each.key)
+  vpc_endpoint_type  = "Interface"
+  security_group_ids = [aws_security_group.sg_internal_security_vpc.id]
+
+  private_dns_enabled = true
+  // ADD THE SUBNETS
+  subnet_ids = []
+}
+
+# Associate endpoint to route table
+resource "aws_vpc_endpoint_route_table_association" "sca" {
+  for_each = {
+    for endpoint in local.route_endpoints : format("%s:%s", endpoint.endpoint, endpoint.route) => endpoint
+  }
+
+  vpc_endpoint_id = aws_vpc_endpoint.sca[each.value.endpoint].id
+  route_table_id  = aws_route_table.sca[each.value.route].id
 }

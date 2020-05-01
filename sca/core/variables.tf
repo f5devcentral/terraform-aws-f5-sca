@@ -156,6 +156,38 @@ variable "nat_gateways" {
   }
 }
 
+variable "route_endpoints" {
+  description = "map of AWS Endpoints to create"
+  type = map(object({
+    vpc    = string
+    routes = list(string)
+  }))
+  default = {
+    s3 : {
+      vpc : "security"
+      routes : ["internal", "application"]
+    }
+  }
+}
+
+variable "interface_endpoints" {
+  description = "map of AWS Endpoints to create"
+  type = map(object({
+    vpc     = string
+    subnets = list(string)
+  }))
+  default = {
+    ec2 : {
+      vpc : "security"
+      subnets : ["application"]
+    }
+    logs : {
+      vpc : "security"
+      subnets : ["application"]
+    }
+  }
+}
+
 variable "tags" {
   description = "map of tags to include in resource creation"
   type        = map(string)
