@@ -44,37 +44,70 @@ variable "subnets" {
     vpc                     = string
     netnum                  = number
     map_public_ip_on_launch = string
-    internet_gw_route       = bool
-    nat_gateway             = bool
   }))
   default = {
     "internet" : {
       vpc : "security"
       netnum : 0
       map_public_ip_on_launch : true
-      internet_gw_route : true
-      nat_gateway : true
     }
     "mgmt" : {
       vpc : "security"
       netnum : 2
       map_public_ip_on_launch : false
-      internet_gw_route : true
-      nat_gateway : false
     }
     "dmz_outside" : {
       vpc : "security"
       netnum : 4
       map_public_ip_on_launch : false
-      internet_gw_route : false
-      nat_gateway : false
     }
-    "application" : {
+    "dmz_inside" : {
       vpc : "security"
       netnum : 6
       map_public_ip_on_launch : false
-      internet_gw_route : false
-      nat_gateway : false
+    }
+    "internal" : {
+      vpc : "security"
+      netnum : 8
+      map_public_ip_on_launch : false
+    }
+    "application" : {
+      vpc : "security"
+      netnum : 10
+      map_public_ip_on_launch : false
+    }
+
+  }
+}
+
+variable "routes" {
+  description = "map of route tables to create for each VPC"
+  type = map(object({
+    vpc     = string
+    subnets = list(string)
+  }))
+  default = {
+    "iwg" : {
+      vpc : "security"
+      subnets : ["mgmt", "internet"]
+    }
+    "internal" : {
+      vpc : "security"
+      subnets : ["internal"]
+    }
+  }
+}
+
+variable "nat_gateways" {
+  description = "map of route tables to create for each VPC"
+  type = map(object({
+    vpc     = string
+    subnets = list(string)
+  }))
+  default = {
+    "internet" : {
+      vpc : "security"
+      subnets : ["internet"]
     }
   }
 }

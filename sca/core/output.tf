@@ -24,6 +24,10 @@ output subnets {
   }
 }
 
+output test {
+  value = local.nat_gateways
+}
+
 # output secrets_manager_name {
 #   value = module.core.secrets_manager_name
 # }
