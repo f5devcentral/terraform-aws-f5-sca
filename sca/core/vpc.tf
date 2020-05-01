@@ -70,3 +70,20 @@ resource "aws_internet_gateway" "sca" {
     }
   )
 }
+
+# Create Internet Route
+resource "aws_route_table" "sca" {
+  for_each = {
+    for id, vpc in var.vpcs : id => vpc
+    if(vpc.internet_gateway == true)
+  }
+  vpc_id = aws_vpc.sca[each.key].id
+
+  tags = merge(
+    local.tags,
+    {
+      Name = format("%s_%s_igw_route_%s", var.project, each.key, local.postfix)
+    }
+  )
+}
+
