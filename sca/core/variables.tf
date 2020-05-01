@@ -53,6 +53,11 @@ variable "subnets" {
       netnum : 4
       map_public_ip_on_launch : false
     }
+    "application" : {
+      vpc : "security"
+      netnum : 6
+      map_public_ip_on_launch : false
+    }
   }
 }
 
