@@ -118,15 +118,6 @@ variable "tags" {
   default     = {}
 }
 
-variable "region-az-1" {
-  description = "AWS Region availability zone to deploy 1 of the 2 SCA stacks"
-  type        = string
-}
-
-variable "region-az-2" {
-  description = "AWS Region availability zone to deploy 1 of the 2 SCA stacks"
-  type        = string
-}
 variable "allowed_mgmt_cidr" {
   description = "CIDR of allowed IPs for the BIG-IP management interface"
   type        = string
