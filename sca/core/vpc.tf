@@ -9,6 +9,7 @@ locals {
         availability_zone       = data.aws_availability_zones.available.names[az]
         map_public_ip_on_launch = subnet.map_public_ip_on_launch
         internet_gw_route       = subnet.internet_gw_route
+        nat_gateway             = subnet.nat_gateway
       }
     ]
   ])
@@ -73,7 +74,7 @@ resource "aws_internet_gateway" "sca" {
   )
 }
 
-# Create Internet Route and associate subnets
+# Create Internet Gateway Route
 resource "aws_route_table" "sca" {
   for_each = {
     for id, vpc in var.vpcs : id => vpc
@@ -89,11 +90,45 @@ resource "aws_route_table" "sca" {
   )
 }
 
+# Associate Subnets with Internet Gateway Route
 resource "aws_route_table_association" "sca" {
   for_each = {
     for subnet in local.subnets : format("%s:%s", subnet.name, subnet.availability_zone) => subnet
     if(subnet.internet_gw_route == true)
   }
   route_table_id = aws_route_table.sca[each.value.vpc].id
-  subnet_id      = aws_subnet.sca[format("%s:%s", each.value.name, each.value.availability_zone)].id
+  subnet_id      = aws_subnet.sca[each.key].id
+}
+
+# Create NAT Gateway Elastic IP
+resource "aws_eip" "sca" {
+  for_each = {
+    for subnet in local.subnets : format("%s:%s", subnet.name, subnet.availability_zone) => subnet
+    if(subnet.nat_gateway == true)
+  }
+
+  tags = merge(
+    local.tags,
+    {
+      Name = format("%s_%s_nat_gw_eip_%s", var.project, each.key, local.postfix)
+    }
+  )
+}
+
+# Create NAT Gateway
+resource "aws_nat_gateway" "sec-gw" {
+  for_each = {
+    for subnet in local.subnets : format("%s:%s", subnet.name, subnet.availability_zone) => subnet
+    if(subnet.nat_gateway == true)
+  }
+
+  allocation_id = aws_eip.sca[each.key].id
+  subnet_id     = aws_subnet.sca[each.key].id
+
+  tags = merge(
+    local.tags,
+    {
+      Name = format("%s_%s_nat_gw_%s", var.project, each.key, local.postfix)
+    }
+  )
 }

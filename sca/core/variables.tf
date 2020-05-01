@@ -14,22 +14,26 @@ variable "vpcs" {
     cidr_block             = string
     num_availability_zones = number
     internet_gateway       = bool
+    nat_gateway            = bool
   }))
   default = {
     "security" : {
       cidr_block : "10.100.0.0/16"
       num_availability_zones : 2
       internet_gateway : true
+      nat_gateway : true
     }
     "application" : {
       cidr_block : "10.200.0.0/16"
       num_availability_zones : 2
       internet_gateway : false
+      nat_gateway : false
     }
     "container" : {
       cidr_block : "10.240.0.0/16"
       num_availability_zones : 2
       internet_gateway : false
+      nat_gateway : false
     }
   }
 }
@@ -41,6 +45,7 @@ variable "subnets" {
     netnum                  = number
     map_public_ip_on_launch = string
     internet_gw_route       = bool
+    nat_gateway             = bool
   }))
   default = {
     "internet" : {
@@ -48,24 +53,28 @@ variable "subnets" {
       netnum : 0
       map_public_ip_on_launch : true
       internet_gw_route : true
+      nat_gateway : true
     }
     "mgmt" : {
       vpc : "security"
       netnum : 2
       map_public_ip_on_launch : false
       internet_gw_route : true
+      nat_gateway : false
     }
     "dmz_outside" : {
       vpc : "security"
       netnum : 4
       map_public_ip_on_launch : false
       internet_gw_route : false
+      nat_gateway : false
     }
     "application" : {
       vpc : "security"
       netnum : 6
       map_public_ip_on_launch : false
       internet_gw_route : false
+      nat_gateway : false
     }
   }
 }
