@@ -76,7 +76,31 @@ variable "subnets" {
       netnum : 10
       map_public_ip_on_launch : false
     }
-
+    "egress_to_ch1" : {
+      vpc : "security"
+      netnum : 12
+      map_public_ip_on_launch : false
+    }
+    "ingress_frm_ch1" : {
+      vpc : "security"
+      netnum : 14
+      map_public_ip_on_launch : false
+    }
+    "egress_to_ch2" : {
+      vpc : "security"
+      netnum : 16
+      map_public_ip_on_launch : false
+    }
+    "ingress_frm_ch2" : {
+      vpc : "security"
+      netnum : 18
+      map_public_ip_on_launch : false
+    }
+    "peering" : {
+      vpc : "security"
+      netnum : 20
+      map_public_ip_on_launch : false
+    }
   }
 }
 
