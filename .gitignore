@@ -31,3 +31,6 @@ override.tf.json
 
 #.DS_store
 .DS_Store
+
+# InSpec files
+sca/*/inspec/*/inspec.lock

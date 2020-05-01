@@ -1,0 +1,50 @@
+name: aws-vpc
+title: AWS VPC Ready
+maintainer: Cody Green, Mark Menger
+copyright: F5 Networks
+copyright_email: c.green@f5.com, m.menger@f5.com
+license: Apache-2.0
+summary: An InSpec Compliance Profile For the SCA AWS core deployments
+version: 0.1.0
+inspec_version: "~> 4"
+inputs:
+  - name: vpc_ids
+    required: false
+    description: "AWS VPC Ids"
+    type: String
+    value: ""
+  - name: security_vpc_id
+    required: false
+    description: "AWS Security VPC Id"
+    type: String
+    value: ""
+  - name: security_subnet_ids
+    required: false
+    description: "Secuirty Subnet Ids"
+    type: String
+    value: ""
+  - name: application_vpc_id
+    required: false
+    description: "AWS Application VPC Id"
+    type: String
+    value: ""
+  - name: application_subnet_ids
+    required: false
+    description: "Application Subnet Ids"
+    type: String
+    value: ""
+  - name: container_vpc_id
+    required: false
+    description: "AWS Container VPC Id"
+    type: String
+    value: ""
+  - name: container_subnet_ids
+    required: false
+    description: "Container Subnet Ids"
+    type: String
+    value: ""
+dependecies:
+  - name: inspec-aws
+    git: git@github.com:inspec/inspec-aws.git
+supports:
+  - platform: aws
