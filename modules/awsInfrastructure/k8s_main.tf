@@ -200,20 +200,20 @@ resource "aws_route_table_association" "container_subnet_mgmt_region-az-2" {
 #Enpoint Security Group
 
 resource "aws_security_group" "sg_internal_container_vpc" {
-	description = "wide open"
-	ingress {
-		protocol = -1
-		from_port = 0
-		to_port = 0
-		cidr_blocks = ["${var.cidr-3}"]
-	}
-	egress {
-		protocol = -1
-		from_port = 0
-		to_port = 0
-		cidr_blocks = ["${var.cidr-3}"]
-	}
-	vpc_id = aws_vpc.container-test.id
+  description = "wide open"
+  ingress {
+    protocol    = -1
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["${var.cidr-3}"]
+  }
+  egress {
+    protocol    = -1
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["${var.cidr-3}"]
+  }
+  vpc_id = aws_vpc.container-test.id
 }
 
 
@@ -238,7 +238,7 @@ resource "aws_vpc_endpoint" "conatiner-ec2-endpoint" {
   security_group_ids = [aws_security_group.sg_internal_container_vpc.id]
 
   private_dns_enabled = true
-  subnet_ids = [aws_subnet.container_subnet_peering_region-az-1.id, aws_subnet.container_subnet_peering_region-az-2.id]
+  subnet_ids          = [aws_subnet.container_subnet_peering_region-az-1.id, aws_subnet.container_subnet_peering_region-az-2.id]
 }
 
 # Create Cloudwatch VPC Endpoint
@@ -250,8 +250,8 @@ resource "aws_vpc_endpoint" "container-vpc-logs" {
   security_group_ids = [aws_security_group.sg_internal_container_vpc.id]
 
   private_dns_enabled = true
-  subnet_ids = [aws_subnet.container_subnet_peering_region-az-1.id, aws_subnet.container_subnet_peering_region-az-2.id]
-  
+  subnet_ids          = [aws_subnet.container_subnet_peering_region-az-1.id, aws_subnet.container_subnet_peering_region-az-2.id]
+
 }
 
 

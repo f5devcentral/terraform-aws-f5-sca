@@ -201,20 +201,20 @@ resource "aws_route_table_association" "app_subnet_mgmt_region-az-2" {
 #Enpoint Security Group
 
 resource "aws_security_group" "sg_internal_application_vpc" {
-	description = "wide open"
-	ingress {
-		protocol = -1
-		from_port = 0
-		to_port = 0
-		cidr_blocks = ["${var.cidr-2}"]
-	}
-	egress {
-		protocol = -1
-		from_port = 0
-		to_port = 0
-		cidr_blocks = ["${var.cidr-2}"]
-	}
-	vpc_id = aws_vpc.application-test.id
+  description = "wide open"
+  ingress {
+    protocol    = -1
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["${var.cidr-2}"]
+  }
+  egress {
+    protocol    = -1
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["${var.cidr-2}"]
+  }
+  vpc_id = aws_vpc.application-test.id
 }
 
 
@@ -239,7 +239,7 @@ resource "aws_vpc_endpoint" "app-ec2-endpoint" {
   security_group_ids = [aws_security_group.sg_internal_application_vpc.id]
 
   private_dns_enabled = true
-  subnet_ids = [aws_subnet.app_subnet_peering_region-az-1.id, aws_subnet.app_subnet_peering_region-az-2.id]
+  subnet_ids          = [aws_subnet.app_subnet_peering_region-az-1.id, aws_subnet.app_subnet_peering_region-az-2.id]
 }
 
 # Create Cloudwatch VPC Endpoint
@@ -251,8 +251,8 @@ resource "aws_vpc_endpoint" "app-vpc-logs" {
   security_group_ids = [aws_security_group.sg_internal_application_vpc.id]
 
   private_dns_enabled = true
-  subnet_ids = [aws_subnet.app_subnet_peering_region-az-1.id, aws_subnet.app_subnet_peering_region-az-2.id]
-  
+  subnet_ids          = [aws_subnet.app_subnet_peering_region-az-1.id, aws_subnet.app_subnet_peering_region-az-2.id]
+
 }
 
 
