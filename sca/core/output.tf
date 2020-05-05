@@ -48,6 +48,7 @@ output subnets {
         dmz_outside        = module.core.sec_subnet_dmz_outside_region-az-1
         dmz_inside         = module.core.sec_subnet_dmz_inside_region-az-1
         mgmt               = module.core.sec_subnet_mgmt_region-az-1
+        internal           = module.core.sec_subnet_internal_region-az-1
         peering            = module.core.sec_subnet_peering_region-az-1
 
       }
@@ -77,6 +78,7 @@ output subnets {
         dmz_outside        = module.core.sec_subnet_dmz_outside_region-az-2
         dmz_inside         = module.core.sec_subnet_dmz_inside_region-az-2
         mgmt               = module.core.sec_subnet_mgmt_region-az-2
+        internal           = module.core.sec_subnet_internal_region-az-2
         peering            = module.core.sec_subnet_peering_region-az-2
 
       }
@@ -115,5 +117,143 @@ output transit_gateways {
   value = {
     security_to_app       = module.core.security-app-tgw
     security-app-tgw-main = module.core.security-app-tgw-main-rt
+  }
+}
+
+output cidrs {
+  value = {
+    SecurityVPC = module.core.cidr-1
+    ApplicationVPC = module.core.cidr-2
+    ContainerVPC = module.core.cidr-3
+  }
+}
+
+output subnet_cidrs {
+  value = {
+    az1 = {
+      security = {
+        internet           = module.core.sec_subnet_internet_region-az-1-subnet 
+        egress_to_ch1      = module.core.sec_subnet_egress_to_ch1_region-az-1-subnet
+        ingress_frm_ch1    = module.core.sec_subnet_ingress_frm_ch1_region-az-1-subnet
+        application_region = module.core.sec_subnet_application_region-az-1-subnet
+        egress_to_ch2      = module.core.sec_subnet_egress_to_ch2_region-az-1-subnet
+        ingress_frm_ch2    = module.core.sec_subnet_ingress_frm_ch2_region-az-1-subnet
+        dmz_outside        = module.core.sec_subnet_dmz_outside_region-az-1-subnet
+        dmz_inside         = module.core.sec_subnet_dmz_inside_region-az-1-subnet
+        mgmt               = module.core.sec_subnet_mgmt_region-az-1-subnet
+        internal           = module.core.sec_subnet_internal_region-az-1-subnet
+        peering            = module.core.sec_subnet_peering_region-az-1-subnet
+
+      }
+      application = {
+        internet           = module.core.app_subnet_internet_region-az-1-subnet
+        dmz_1              = module.core.app_subnet_dmz_1_region-az-1-subnet
+        application_region = module.core.app_subnet_application_region-az-1-subnet
+        peering            = module.core.app_subnet_peering_region-az-1-subnet
+        mgmt               = module.core.app_subnet_mgmt_region-az-1-subnet
+      }
+      container = {
+        internet           = module.core.container_subnet_internet_region-az-1-subnet
+        dmz_1              = module.core.container_subnet_dmz_1_region-az-1-subnet
+        application_region = module.core.container_subnet_application_region-az-1-subnet
+        peering            = module.core.container_subnet_peering_region-az-1-subnet
+        mgmt               = module.core.container_subnet_mgmt_region-az-1-subnet
+      }
+    }
+    az2 = {
+      security = {
+        internet           = module.core.sec_subnet_internet_region-az-2-subnet
+        egress_to_ch1      = module.core.sec_subnet_egress_to_ch1_region-az-2-subnet
+        ingress_frm_ch1    = module.core.sec_subnet_ingress_frm_ch1_region-az-2-subnet
+        application_region = module.core.sec_subnet_application_region-az-2-subnet
+        egress_to_ch2      = module.core.sec_subnet_egress_to_ch2_region-az-2-subnet
+        ingress_frm_ch2    = module.core.sec_subnet_ingress_frm_ch2_region-az-2-subnet
+        dmz_outside        = module.core.sec_subnet_dmz_outside_region-az-2-subnet
+        dmz_inside         = module.core.sec_subnet_dmz_inside_region-az-2-subnet
+        mgmt               = module.core.sec_subnet_mgmt_region-az-2-subnet
+        internal           = module.core.sec_subnet_internal_region-az-2-subnet
+        peering            = module.core.sec_subnet_peering_region-az-2-subnet
+
+      }
+      application = {
+        internet           = module.core.app_subnet_internet_region-az-2-subnet
+        dmz_1              = module.core.app_subnet_dmz_1_region-az-2-subnet
+        application_region = module.core.app_subnet_application_region-az-2-subnet
+        peering            = module.core.app_subnet_peering_region-az-2-subnet
+        mgmt               = module.core.app_subnet_mgmt_region-az-2-subnet
+      }
+      container = {
+        internet           = module.core.container_subnet_internet_region-az-2-subnet
+        dmz_1              = module.core.container_subnet_dmz_1_region-az-2-subnet
+        application_region = module.core.container_subnet_application_region-az-2-subnet
+        peering            = module.core.container_subnet_peering_region-az-2-subnet
+        mgmt               = module.core.container_subnet_mgmt_region-az-2-subnet
+      }
+    }
+  }
+}
+
+output aws_cidr_ips {
+  value = {
+    az1 = {
+      security = {
+        internet           = module.core.sec_subnet_internet_region-az-1-aws-ip
+        egress_to_ch1      = module.core.sec_subnet_egress_to_ch1_region-az-1-aws-ip
+        ingress_frm_ch1    = module.core.sec_subnet_ingress_frm_ch1_region-az-1-aws-ip
+        application_region = module.core.sec_subnet_application_region-az-1-aws-ip
+        egress_to_ch2      = module.core.sec_subnet_egress_to_ch2_region-az-1-aws-ip
+        ingress_frm_ch2    = module.core.sec_subnet_ingress_frm_ch2_region-az-1-aws-ip
+        dmz_outside        = module.core.sec_subnet_dmz_outside_region-az-1-aws-ip
+        dmz_inside         = module.core.sec_subnet_dmz_inside_region-az-1-aws-ip
+        mgmt               = module.core.sec_subnet_mgmt_region-az-1-aws-ip
+        internal           = module.core.sec_subnet_internal_region-az-1-aws-ip
+        peering            = module.core.sec_subnet_peering_region-az-1-aws-ip
+
+      }
+      application = {
+        internet           = module.core.app_subnet_internet_region-az-1-aws-ip
+        dmz_1              = module.core.app_subnet_dmz_1_region-az-1-aws-ip
+        application_region = module.core.app_subnet_application_region-az-1-aws-ip
+        peering            = module.core.app_subnet_peering_region-az-1-aws-ip
+        mgmt               = module.core.app_subnet_mgmt_region-az-1-aws-ip
+      }
+      container = {
+        internet           = module.core.container_subnet_internet_region-az-1-aws-ip
+        dmz_1              = module.core.container_subnet_dmz_1_region-az-1-aws-ip
+        application_region = module.core.container_subnet_application_region-az-1-aws-ip
+        peering            = module.core.container_subnet_peering_region-az-1-aws-ip
+        mgmt               = module.core.container_subnet_mgmt_region-az-1-aws-ip
+      }
+    }
+    az2 = {
+      security = {
+        internet           = module.core.sec_subnet_internet_region-az-2-aws-ip
+        egress_to_ch1      = module.core.sec_subnet_egress_to_ch1_region-az-2-aws-ip
+        ingress_frm_ch1    = module.core.sec_subnet_ingress_frm_ch1_region-az-2-aws-ip
+        application_region = module.core.sec_subnet_application_region-az-2-aws-ip
+        egress_to_ch2      = module.core.sec_subnet_egress_to_ch2_region-az-2-aws-ip
+        ingress_frm_ch2    = module.core.sec_subnet_ingress_frm_ch2_region-az-2-aws-ip
+        dmz_outside        = module.core.sec_subnet_dmz_outside_region-az-2-aws-ip
+        dmz_inside         = module.core.sec_subnet_dmz_inside_region-az-2-aws-ip
+        mgmt               = module.core.sec_subnet_mgmt_region-az-2-aws-ip
+        internal           = module.core.sec_subnet_internal_region-az-2-aws-ip
+        peering            = module.core.sec_subnet_peering_region-az-2-aws-ip
+
+      }
+      application = {
+        internet           = module.core.app_subnet_internet_region-az-2-aws-ip
+        dmz_1              = module.core.app_subnet_dmz_1_region-az-2-aws-ip
+        application_region = module.core.app_subnet_application_region-az-2-aws-ip
+        peering            = module.core.app_subnet_peering_region-az-2-aws-ip
+        mgmt               = module.core.app_subnet_mgmt_region-az-2-aws-ip
+      }
+      container = {
+        internet           = module.core.container_subnet_internet_region-az-2-aws-ip
+        dmz_1              = module.core.container_subnet_dmz_1_region-az-2-aws-ip
+        application_region = module.core.container_subnet_application_region-az-2-aws-ip
+        peering            = module.core.container_subnet_peering_region-az-2-aws-ip
+        mgmt               = module.core.container_subnet_mgmt_region-az-2-aws-ip
+      }
+    }
   }
 }

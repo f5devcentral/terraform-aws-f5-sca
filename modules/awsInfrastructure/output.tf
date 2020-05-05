@@ -337,14 +337,112 @@ output secrets_manager_name {
 #
 ################################################################################################################################################################################################################################################################
 
-output cidr-1 {
+output "cidr-1" {
   value = var.cidr-1
 }
 
-output cidr-2 {
+output "cidr-2" {
   value = var.cidr-2
 }
 
-output cidr-3 {
+output "cidr-3" {
   value = var.cidr-3
 }
+
+################################################################################################################################################################################################################################################################
+#
+#   Output Subnets and AWS IP for Routes
+#
+################################################################################################################################################################################################################################################################
+
+output "sec_subnet_internet_region-az-1-subnet" { value = aws_subnet.sec_subnet_internet_region-az-1.cidr_block }
+output "sec_subnet_egress_to_ch1_region-az-1-subnet" { value = aws_subnet.sec_subnet_egress_to_ch1_region-az-1.cidr_block }
+output "sec_subnet_ingress_frm_ch1_region-az-1-subnet" { value = aws_subnet.sec_subnet_ingress_frm_ch1_region-az-1.cidr_block }
+output "sec_subnet_application_region-az-1-subnet" { value = aws_subnet.sec_subnet_application_region-az-1.cidr_block }
+output "sec_subnet_egress_to_ch2_region-az-1-subnet" { value = aws_subnet.sec_subnet_egress_to_ch2_region-az-1.cidr_block }
+output "sec_subnet_ingress_frm_ch2_region-az-1-subnet" { value = aws_subnet.sec_subnet_ingress_frm_ch2_region-az-1.cidr_block }
+output "sec_subnet_dmz_outside_region-az-1-subnet" { value = aws_subnet.sec_subnet_dmz_outside_region-az-1.cidr_block }
+output "sec_subnet_dmz_inside_region-az-1-subnet" { value = aws_subnet.sec_subnet_dmz_inside_region-az-1.cidr_block }
+output "sec_subnet_internal_region-az-1-subnet" { value = aws_subnet.sec_subnet_internal_region-az-1.cidr_block }
+output "sec_subnet_mgmt_region-az-1-subnet" { value = aws_subnet.sec_subnet_mgmt_region-az-1.cidr_block }
+output "sec_subnet_peering_region-az-1-subnet" { value = aws_subnet.sec_subnet_peering_region-az-1.cidr_block }
+output "sec_subnet_internet_region-az-2-subnet" { value = aws_subnet.sec_subnet_internet_region-az-2.cidr_block }
+output "sec_subnet_egress_to_ch1_region-az-2-subnet" { value = aws_subnet.sec_subnet_egress_to_ch1_region-az-2.cidr_block }
+output "sec_subnet_ingress_frm_ch1_region-az-2-subnet" { value = aws_subnet.sec_subnet_ingress_frm_ch1_region-az-2.cidr_block }
+output "sec_subnet_egress_to_ch2_region-az-2-subnet" { value = aws_subnet.sec_subnet_egress_to_ch2_region-az-2.cidr_block }
+output "sec_subnet_ingress_frm_ch2_region-az-2-subnet" { value = aws_subnet.sec_subnet_ingress_frm_ch2_region-az-2.cidr_block }
+output "sec_subnet_dmz_outside_region-az-2-subnet" { value = aws_subnet.sec_subnet_dmz_outside_region-az-2.cidr_block }
+output "sec_subnet_dmz_inside_region-az-2-subnet" { value = aws_subnet.sec_subnet_dmz_inside_region-az-2.cidr_block }
+output "sec_subnet_application_region-az-2-subnet" { value = aws_subnet.sec_subnet_application_region-az-2.cidr_block }
+output "sec_subnet_internal_region-az-2-subnet" { value = aws_subnet.sec_subnet_internal_region-az-2.cidr_block }
+output "sec_subnet_mgmt_region-az-2-subnet" { value = aws_subnet.sec_subnet_mgmt_region-az-2.cidr_block }
+output "sec_subnet_peering_region-az-2-subnet" { value = aws_subnet.sec_subnet_peering_region-az-2.cidr_block }
+
+output "app_subnet_internet_region-az-1-subnet" { value = aws_subnet.app_subnet_internet_region-az-1.cidr_block }
+output "app_subnet_dmz_1_region-az-1-subnet" { value = aws_subnet.app_subnet_dmz_1_region-az-1.cidr_block }
+output "app_subnet_application_region-az-1-subnet" { value = aws_subnet.app_subnet_application_region-az-1.cidr_block }
+output "app_subnet_peering_region-az-1-subnet" { value = aws_subnet.app_subnet_peering_region-az-1.cidr_block }
+output "app_subnet_mgmt_region-az-1-subnet" { value = aws_subnet.app_subnet_mgmt_region-az-1.cidr_block }
+output "app_subnet_internet_region-az-2-subnet" { value = aws_subnet.app_subnet_internet_region-az-2.cidr_block }
+output "app_subnet_dmz_1_region-az-2-subnet" { value = aws_subnet.app_subnet_dmz_1_region-az-2.cidr_block }
+output "app_subnet_application_region-az-2-subnet" { value = aws_subnet.app_subnet_application_region-az-2.cidr_block }
+output "app_subnet_peering_region-az-2-subnet" { value = aws_subnet.app_subnet_peering_region-az-2.cidr_block }
+output "app_subnet_mgmt_region-az-2-subnet" { value = aws_subnet.app_subnet_mgmt_region-az-2.cidr_block }
+
+output "container_subnet_internet_region-az-1-subnet" { value = aws_subnet.container_subnet_internet_region-az-1.cidr_block }
+output "container_subnet_dmz_1_region-az-1-subnet" { value = aws_subnet.container_subnet_dmz_1_region-az-1.cidr_block }
+output "container_subnet_application_region-az-1-subnet" { value = aws_subnet.container_subnet_application_region-az-1.cidr_block }
+output "container_subnet_peering_region-az-1-subnet" { value = aws_subnet.container_subnet_peering_region-az-1.cidr_block }
+output "container_subnet_mgmt_region-az-1-subnet" { value = aws_subnet.container_subnet_mgmt_region-az-1.cidr_block }
+output "container_subnet_internet_region-az-2-subnet" { value = aws_subnet.container_subnet_internet_region-az-2.cidr_block }
+output "container_subnet_dmz_1_region-az-2-subnet" { value = aws_subnet.container_subnet_dmz_1_region-az-2.cidr_block }
+output "container_subnet_application_region-az-2-subnet" { value = aws_subnet.container_subnet_application_region-az-2.cidr_block }
+output "container_subnet_peering_region-az-2-subnet" { value = aws_subnet.container_subnet_peering_region-az-2.cidr_block }
+output "container_subnet_mgmt_region-az-2-subnet" { value = aws_subnet.container_subnet_mgmt_region-az-2.cidr_block }
+
+output "container_subnet_internet_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.container_subnet_internet_region-az-1.cidr_block, 1)}" }
+output "container_subnet_dmz_1_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.container_subnet_dmz_1_region-az-1.cidr_block, 1)}" }
+output "container_subnet_application_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.container_subnet_application_region-az-1.cidr_block, 1)}" }
+output "container_subnet_peering_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.container_subnet_peering_region-az-1.cidr_block, 1)}" }
+output "container_subnet_mgmt_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.container_subnet_mgmt_region-az-1.cidr_block, 1)}" }
+output "container_subnet_internet_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.container_subnet_internet_region-az-2.cidr_block, 1)}" }
+output "container_subnet_dmz_1_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.container_subnet_dmz_1_region-az-2.cidr_block, 1)}" }
+output "container_subnet_application_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.container_subnet_application_region-az-2.cidr_block, 1)}" }
+output "container_subnet_peering_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.container_subnet_peering_region-az-2.cidr_block, 1)}" }
+output "container_subnet_mgmt_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.container_subnet_mgmt_region-az-2.cidr_block, 1)}" }
+
+output "app_subnet_internet_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.app_subnet_internet_region-az-1.cidr_block, 1)}" }
+output "app_subnet_dmz_1_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.app_subnet_dmz_1_region-az-1.cidr_block, 1)}" }
+output "app_subnet_application_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.app_subnet_application_region-az-1.cidr_block, 1)}" }
+output "app_subnet_peering_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.app_subnet_peering_region-az-1.cidr_block, 1)}" }
+output "app_subnet_mgmt_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.app_subnet_mgmt_region-az-1.cidr_block, 1)}" }
+output "app_subnet_internet_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.app_subnet_internet_region-az-2.cidr_block, 1)}" }
+output "app_subnet_dmz_1_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.app_subnet_dmz_1_region-az-2.cidr_block, 1)}" }
+output "app_subnet_application_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.app_subnet_application_region-az-2.cidr_block, 1)}" }
+output "app_subnet_peering_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.app_subnet_peering_region-az-2.cidr_block, 1)}" }
+output "app_subnet_mgmt_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.app_subnet_mgmt_region-az-2.cidr_block, 1)}" }
+
+output "sec_subnet_internet_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_internet_region-az-1.cidr_block, 1)}" }
+output "sec_subnet_egress_to_ch1_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_egress_to_ch1_region-az-1.cidr_block, 1)}" }
+output "sec_subnet_ingress_frm_ch1_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_ingress_frm_ch1_region-az-1.cidr_block, 1)}" }
+output "sec_subnet_application_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_application_region-az-1.cidr_block, 1)}" }
+output "sec_subnet_egress_to_ch2_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_egress_to_ch2_region-az-1.cidr_block, 1)}" }
+output "sec_subnet_ingress_frm_ch2_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_ingress_frm_ch2_region-az-1.cidr_block, 1)}" }
+output "sec_subnet_dmz_outside_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_dmz_outside_region-az-1.cidr_block, 1)}" }
+output "sec_subnet_dmz_inside_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_dmz_inside_region-az-1.cidr_block, 1)}" }
+output "sec_subnet_internal_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_internal_region-az-1.cidr_block, 1)}" }
+output "sec_subnet_mgmt_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_mgmt_region-az-1.cidr_block, 1)}" }
+output "sec_subnet_peering_region-az-1-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_peering_region-az-1.cidr_block, 1)}" }
+output "sec_subnet_internet_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_internet_region-az-2.cidr_block, 1)}" }
+output "sec_subnet_egress_to_ch1_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_egress_to_ch1_region-az-2.cidr_block, 1)}" }
+output "sec_subnet_ingress_frm_ch1_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_ingress_frm_ch1_region-az-2.cidr_block, 1)}" }
+output "sec_subnet_egress_to_ch2_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_egress_to_ch2_region-az-2.cidr_block, 1)}" }
+output "sec_subnet_ingress_frm_ch2_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_ingress_frm_ch2_region-az-2.cidr_block, 1)}" }
+output "sec_subnet_dmz_outside_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_dmz_outside_region-az-2.cidr_block, 1)}" }
+output "sec_subnet_dmz_inside_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_dmz_inside_region-az-2.cidr_block, 1)}" }
+output "sec_subnet_application_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_application_region-az-2.cidr_block, 1)}" }
+output "sec_subnet_internal_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_internal_region-az-2.cidr_block, 1)}" }
+output "sec_subnet_mgmt_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_mgmt_region-az-2.cidr_block, 1)}" }
+output "sec_subnet_peering_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_peering_region-az-2.cidr_block, 1)}" }
+
+
