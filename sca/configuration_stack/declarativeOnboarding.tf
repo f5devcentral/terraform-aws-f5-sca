@@ -224,8 +224,21 @@ resource "local_file" "internal_bigip_1_do_json" {
   filename    = "${path.module}/internal_bigip_1_do_json.json"
 }
 
-/*
-output external_bigips {
-  value = local.external_bigip
+provider "bigip" {
+  alias = "external_bigip_az1"
+  address = "https://${var.bigip_mgmt_ips.external_az1[0]}"
+  username = "admin"
+  password = data.aws_secretsmanager_secret_version.secret.secret_string
 }
-*/
+
+resource "bigip_do"  "external_bigip_az1" {
+     provider = bigip.external_bigip_az1
+     do_json =  data.template_file.internal_bigip_0_do_json.rendered
+     tenant_name = "external_bigip_az1"
+ }
+
+
+output external_bigips {
+  value = var.bigip_mgmt_ips
+}
+
