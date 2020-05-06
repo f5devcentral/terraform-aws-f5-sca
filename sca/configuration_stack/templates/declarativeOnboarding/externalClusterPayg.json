@@ -41,73 +41,13 @@
             "afm": "nominal",
             "avr": "nominal"
         },
-        "internet": {
-            "class": "VLAN",
-            "tag": 4094,
-            "mtu": 1500,
-            "interfaces": [
-                {
-                    "name": "1.1",
-                    "tagged": false
-                }
-            ]
-        },
-        "application-region": {
-            "class": "VLAN",
-            "tag": 4093,
-            "mtu": 1500,
-            "interfaces": [
-                {
-                    "name": "1.2",
-                    "tagged": false
-                }
-            ]
-        },
-        "dmz-outside": {
-            "class": "VLAN",
-            "tag": 4092,
-            "mtu": 1500,
-            "interfaces": [
-                {
-                    "name": "1.3",
-                    "tagged": false
-                }
-            ]
-        },
-        "internet-self": {
-            "class": "SelfIp",
-            "address": "${local_selfip}/24",
-            "vlan": "internet",
-            "allowService": "none",
-            "trafficGroup": "traffic-group-local-only"
-        },
-        "application-region-self": {
-            "class": "SelfIp",
-            "address": "${local_selfip2}/24",
-            "vlan": "application-region",
-            "allowService": "default",
-            "trafficGroup": "traffic-group-local-only"
-        },
-        "dmz-outside-self": {
-            "class": "SelfIp",
-            "address": "${local_selfip3}/24",
-            "vlan": "dmz-outside",
-            "allowService": "none",
-            "trafficGroup": "traffic-group-local-only"
-        },
-        "default": {
-            "class": "Route",
-            "gw": "${gateway}",
-            "network": "default",
-            "mtu": 1500
-        },
         "configsync": {
             "class": "ConfigSync",
-            "configsyncIp": "/Common/application-region-self/address"
+            "configsyncIp": "/Common/application-self/address"
         },
         "failoverAddress": {
             "class": "FailoverUnicast",
-            "address": "/Common/application-region-self/address"
+            "address": "/Common/application-self/address"
         },
         "failoverGroup": {
             "class": "DeviceGroup",
