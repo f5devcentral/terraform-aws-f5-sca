@@ -14,7 +14,7 @@ F5 Application Services will be deployed into the security VPC but if one wished
 */
 ###############################################################################################################################################################################################################################################################
 
-resource "aws_security_group" "allow_jump_hosts" {
+resource "aws_security_group" "allow_incoming_jump_host" {
   name        = "allow_incoming_jump_host"
   description = "Allow Jumphost inbound traffic"
   vpc_id      = var.vpcs.value.security
@@ -23,19 +23,19 @@ resource "aws_security_group" "allow_jump_hosts" {
     # TLS (change to whatever ports you need)
     from_port   = 22
     to_port     = 22
-    protocol    = "-1"
+    protocol    = "tcp"
     # Please restrict your ingress to only necessary IPs and ports.
     # Opening to 0.0.0.0/0 can lead to security vulnerabilities.
-    cidr_blocks = var.my_public_ip
+    cidr_blocks = ["${var.my_public_ip}"]
   }
   ingress {
     # RDP (change to whatever ports you need)
     from_port   = 3389
     to_port     = 3389
-    protocol    = "-1"
+    protocol    = "tcp"
     # Please restrict your ingress to only necessary IPs and ports.
     # Opening to 0.0.0.0/0 can lead to security vulnerabilities.
-    cidr_blocks = var.my_public_ip
+    cidr_blocks = ["${var.my_public_ip}"]
   }
 
   egress {
@@ -66,11 +66,12 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "Jumphost_AZ1" {
-  ami           = "${data.aws_ami.ubuntu.id}"
+  ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
   key_name = var.jump_ssh_key
   associate_public_ip_address = true
   subnet_id = var.subnets.value.az1.security.mgmt
+  vpc_security_group_ids = ["${aws_security_group.allow_incoming_jump_host.id}"]
   user_data = <<-EOF
               #!/bin/bash
               apt update
@@ -83,16 +84,17 @@ resource "aws_instance" "Jumphost_AZ1" {
 
 
   tags = {
-    Name = "var.project.Jumphost"
+    Name = "${var.project.value}_Jumphost"
   }
 }
 
 resource "aws_instance" "Jumphost_AZ2" {
-  ami           = "${data.aws_ami.ubuntu.id}"
+  ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
   key_name = var.jump_ssh_key
   associate_public_ip_address = true
   subnet_id = var.subnets.value.az2.security.mgmt
+  vpc_security_group_ids = ["${aws_security_group.allow_incoming_jump_host.id}"]
   user_data = <<-EOF
               #!/bin/bash
               apt update
@@ -105,6 +107,6 @@ resource "aws_instance" "Jumphost_AZ2" {
 
 
   tags = {
-    Name = "var.project.Jumphost"
+    Name = "${var.project.value}_Jumphost"
   }
 }

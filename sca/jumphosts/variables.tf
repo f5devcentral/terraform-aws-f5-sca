@@ -25,17 +25,29 @@ F5 Application Services will be deployed into the security VPC but if one wished
 
 ### Stack Default Variables 
 
+variable aws_region {}
+variable project {}
+variable random_id {}
+variable secrets_manager_name {}
+variable iam_instance_profile_name {}
+variable security_groups {}
+variable vpcs {}
+variable subnets {}
+variable route_tables {}
+variable transit_gateways {}
+variable cidrs {}
+variable subnet_cidrs {}
+variable aws_cidr_ips {}
 
 
 ### JumpHost Variables
 
 variable jump_ssh_key {
   description = "SSH key used to access the sytem and create a user/password combination for RDP Access"
-  default = "my_key"
 }
 
 variable my_public_ip {
   description = "The Subnet or Source IP that you will connect from since RDP and SSH are open to external access. Use CIDR notation"
-  default = "1.2.3.4/32"
+  type = string
 }
 

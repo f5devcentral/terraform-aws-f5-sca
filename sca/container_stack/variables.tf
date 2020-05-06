@@ -35,6 +35,9 @@ variable vpcs {}
 variable subnets {}
 variable route_tables {}
 variable transit_gateways {}
+variable cidrs {}
+variable subnet_cidrs {}
+variable aws_cidr_ips {}
 
 ### Fargate Variables
 
