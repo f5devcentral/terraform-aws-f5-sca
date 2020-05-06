@@ -130,6 +130,8 @@ data "template_file" "external_onboard_az1" {
     externalNetwork    =  var.subnet_cidrs.value.az1.security.internet
     mgmtNetwork        =  var.subnet_cidrs.value.az1.security.mgmt
     peeringNetwork     =  var.subnet_cidrs.value.az1.security.peering
+    # sync must be other az
+    syncNetwork        = var.subnet_cidrs.value.az2.security.application_region
   }
 }
 data "template_file" "external_onboard_az2" {
@@ -168,6 +170,8 @@ data "template_file" "external_onboard_az2" {
     externalNetwork    =  var.subnet_cidrs.value.az2.security.internet
     mgmtNetwork        =  var.subnet_cidrs.value.az2.security.mgmt
     peeringNetwork     =  var.subnet_cidrs.value.az2.security.peering
+    # sync must be other az
+    syncNetwork        = var.subnet_cidrs.value.az1.security.application_region
   }
 }
 #
@@ -186,7 +190,7 @@ module external_az1 {
   aws_secretmanager_secret_id = var.secrets_manager_name.value
   bigip_map                   = local.external_bigip_map_az1
   iam_instance_profile        = var.iam_instance_profile_name.value
-  custom_user_data            = data.template_file.external_onboard_az2.rendered
+  custom_user_data            = data.template_file.external_onboard_az1.rendered
 }
 module external_az2 {
   source = "github.com/f5devcentral/terraform-aws-bigip?ref=develop"
