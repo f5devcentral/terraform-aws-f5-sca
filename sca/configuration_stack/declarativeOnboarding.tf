@@ -93,8 +93,8 @@ data "template_file" "ext_bigip_1_do_json" {
   vars = {
     #Uncomment the following line for BYOL
     #local_sku	    = "${var.license1}"
-    host1	        = local.external_bigip_az2[0].subnets.0.private_ip
-    host2	        = local.external_bigip_az1[0].subnets.0.private_ip
+    host1	        = local.external_bigip_az1[0].subnets.0.private_ip
+    host2	        = local.external_bigip_az2[0].subnets.0.private_ip
     local_host      = local.external_bigip_az2[0].subnets.0.private_dns_name
     local_selfip    = local.external_bigip_az2[0].subnets.1.private_ip
     local_selfip2   = local.external_bigip_az2[0].subnets.2.private_ip
@@ -183,8 +183,8 @@ data "template_file" "internal_bigip_1_do_json" {
   vars = {
     #Uncomment the following line for BYOL
     #local_sku	    = "${var.license1}"
-    host1	        = local.internal_bigips[1].subnets.0.private_ip
-    host2	        = local.internal_bigips[0].subnets.0.private_ip
+    host1	        = local.internal_bigips[0].subnets.0.private_ip
+    host2	        = local.internal_bigips[1].subnets.0.private_ip
     local_host      = local.internal_bigips[1].subnets.0.private_dns_name
     local_selfip    = local.internal_bigips[1].subnets.1.private_ip
     local_selfip2   = local.internal_bigips[1].subnets.2.private_ip
