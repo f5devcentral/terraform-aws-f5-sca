@@ -17,8 +17,7 @@
             "class": "DNS",
             "nameServers": [
                 "169.254.169.254",
-                "${dns_server}",
-                "2001:4860:4860::8844"
+                "${dns_server}"
             ],
             "search": [
                 "f5.com",
@@ -38,16 +37,15 @@
         "myProvisioning": {
             "class": "Provision",
             "ltm": "nominal",
-            "afm": "nominal",
-            "avr": "nominal"
+            "afm": "nominal"
         },
         "configsync": {
             "class": "ConfigSync",
-            "configsyncIp": "/Common/application-self/address"
+            "configsyncIp": "${local_selfip2}"
         },
         "failoverAddress": {
             "class": "FailoverUnicast",
-            "address": "/Common/application-self/address"
+            "address": "${local_selfip2}"
         },
         "failoverGroup": {
             "class": "DeviceGroup",
@@ -69,6 +67,6 @@
             "remoteHost": "${remote_selfip}",
             "remoteUsername": "${admin_user}",
             "remotePassword": "${admin_password}"
-        }
+        }    
     }
 }

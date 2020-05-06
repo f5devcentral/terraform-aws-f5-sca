@@ -64,7 +64,7 @@ data "aws_secretsmanager_secret_version" "secret" {
   secret_id = var.secrets_manager_name.value
 }
 
-data "template_file" "ext_bigip_0_do_json" {
+data "template_file" "ext_bigip_az1_do_json" {
   template = file("${path.module}/templates/declarativeOnboarding/externalClusterPayg.json")
 
   vars = {
@@ -87,7 +87,7 @@ data "template_file" "ext_bigip_0_do_json" {
   }
 }
 
-data "template_file" "ext_bigip_1_do_json" {
+data "template_file" "ext_bigip_az2_do_json" {
   template = file("${path.module}/templates/declarativeOnboarding/externalClusterPayg.json")
 
   vars = {
@@ -109,7 +109,7 @@ data "template_file" "ext_bigip_1_do_json" {
     admin_password  = data.aws_secretsmanager_secret_version.secret.secret_string
   }
 }
-data "template_file" "ips_bigip_0_do_json" {
+data "template_file" "ips_bigip_az1_do_json" {
   template = file("${path.module}/templates/declarativeOnboarding/externalClusterPayg.json")
 
   vars = {
@@ -132,7 +132,7 @@ data "template_file" "ips_bigip_0_do_json" {
   }
 }
 
-data "template_file" "ips_bigip_1_do_json" {
+data "template_file" "ips_bigip_az2_do_json" {
   template = file("${path.module}/templates/declarativeOnboarding/externalClusterPayg.json")
 
   vars = {
@@ -154,7 +154,7 @@ data "template_file" "ips_bigip_1_do_json" {
     admin_password  = data.aws_secretsmanager_secret_version.secret.secret_string
   }
 }
-data "template_file" "internal_bigip_0_do_json" {
+data "template_file" "internal_bigip_az1_do_json" {
   template = file("${path.module}/templates/declarativeOnboarding/externalClusterPayg.json")
 
   vars = {
@@ -177,7 +177,7 @@ data "template_file" "internal_bigip_0_do_json" {
   }
 }
 
-data "template_file" "internal_bigip_1_do_json" {
+data "template_file" "internal_bigip_az2_do_json" {
   template = file("${path.module}/templates/declarativeOnboarding/externalClusterPayg.json")
 
   vars = {
@@ -199,44 +199,58 @@ data "template_file" "internal_bigip_1_do_json" {
     admin_password  = data.aws_secretsmanager_secret_version.secret.secret_string
   }
 }
-resource "local_file" "ext_bigip_0_do_json" {
-  content     = data.template_file.ext_bigip_0_do_json.rendered
-  filename    = "${path.module}/ext_bigip_0_do_json.json"
+resource "local_file" "ext_bigip_az1_do_json" {
+  content     = data.template_file.ext_bigip_az1_do_json.rendered
+  filename    = "${path.module}/ext_bigip_az1_do_json.json"
 }
-resource "local_file" "ext_bigip_1_do_json" {
-  content     = data.template_file.ext_bigip_1_do_json.rendered
-  filename    = "${path.module}/ext_bigip_1_do_json.json"
+resource "local_file" "ext_bigip_az2_do_json" {
+  content     = data.template_file.ext_bigip_az2_do_json.rendered
+  filename    = "${path.module}/ext_bigip_az2_do_json.json"
 }
-resource "local_file" "ips_bigip_0_do_json" {
-  content     = data.template_file.ips_bigip_0_do_json.rendered
-  filename    = "${path.module}/ips_bigip_0_do_json.json"
+resource "local_file" "ips_bigip_az1_do_json" {
+  content     = data.template_file.ips_bigip_az1_do_json.rendered
+  filename    = "${path.module}/ips_bigip_az1_do_json.json"
 }
-resource "local_file" "ips_bigip_1_do_json" {
-  content     = data.template_file.ips_bigip_1_do_json.rendered
-  filename    = "${path.module}/ips_bigip_1_do_json.json"
+resource "local_file" "ips_bigip_az2_do_json" {
+  content     = data.template_file.ips_bigip_az2_do_json.rendered
+  filename    = "${path.module}/ips_bigip_az2_do_json.json"
 }
-resource "local_file" "internal_bigip_0_do_json" {
-  content     = data.template_file.internal_bigip_0_do_json.rendered
-  filename    = "${path.module}/internal_bigip_0_do_json.json"
+resource "local_file" "internal_bigip_az1_do_json" {
+  content     = data.template_file.internal_bigip_az1_do_json.rendered
+  filename    = "${path.module}/internal_bigip_az1_do_json.json"
 }
-resource "local_file" "internal_bigip_1_do_json" {
-  content     = data.template_file.internal_bigip_1_do_json.rendered
-  filename    = "${path.module}/internal_bigip_1_do_json.json"
+resource "local_file" "internal_bigip_az2_do_json" {
+  content     = data.template_file.internal_bigip_az2_do_json.rendered
+  filename    = "${path.module}/internal_bigip_az2_do_json.json"
 }
 
 provider "bigip" {
   alias = "external_bigip_az1"
-  address = "https://${var.bigip_mgmt_ips.external_az1[0]}"
+  address = "https://${var.bigip_mgmt_ips.value.external_az1[0]}"
   username = "admin"
   password = data.aws_secretsmanager_secret_version.secret.secret_string
 }
 
+provider "bigip" {
+  alias = "external_bigip_az2"
+  address = "https://${var.bigip_mgmt_ips.value.external_az2[0]}"
+  username = "admin"
+  password = data.aws_secretsmanager_secret_version.secret.secret_string
+}
+
+
 resource "bigip_do"  "external_bigip_az1" {
      provider = bigip.external_bigip_az1
-     do_json =  data.template_file.internal_bigip_0_do_json.rendered
+     do_json =  data.template_file.ext_bigip_az1_do_json.rendered
      tenant_name = "external_bigip_az1"
  }
 
+
+resource "bigip_do"  "external_bigip_az2" {
+     provider = bigip.external_bigip_az2
+     do_json =  data.template_file.ext_bigip_az2_do_json.rendered
+     tenant_name = "external_bigip_az2"
+ }
 
 output external_bigips {
   value = var.bigip_mgmt_ips
