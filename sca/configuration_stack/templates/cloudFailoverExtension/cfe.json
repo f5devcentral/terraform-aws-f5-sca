@@ -25,7 +25,11 @@
            }
        ],
       "defaultNextHopAddresses":{
-        "discoveryType":"static"
+        "discoveryType":"static",
+            "items": [
+                "${local_selfip}",
+                "${remote_selfip}"
+            ]
        }
      }
 }

@@ -25,5 +25,5 @@ terraform validate && terraform apply
 ### Known Issues
 - https://github.com/F5Networks/terraform-provider-bigip/issues/61
 - https://github.com/F5Networks/f5-declarative-onboarding/issues/129
-
+- CFE requires ability to tag routes/eni and add local-exec
 
