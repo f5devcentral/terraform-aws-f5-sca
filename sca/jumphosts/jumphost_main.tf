@@ -65,14 +65,16 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
-resource "aws_instance" "Jumphost_AZ1" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
-  key_name = var.jump_ssh_key
+resource "aws_instance" "Jumphost" {
+  count                       = 2
+  ami                         = data.aws_ami.ubuntu.id
+  instance_type               = "t2.micro"
+  key_name                    = var.jump_ssh_key
   associate_public_ip_address = true
-  subnet_id = var.subnets.value.az1.security.mgmt
-  vpc_security_group_ids = ["${aws_security_group.allow_incoming_jump_host.id}"]
-  user_data = <<-EOF
+  # subnets should be consolidated into a single variable
+  subnet_id                   = element([var.subnets.value.az1.security.mgmt,var.subnets.value.az2.security.mgmt],count.index)
+  vpc_security_group_ids      = [aws_security_group.allow_incoming_jump_host.id]
+  user_data                   = <<-EOF
               #!/bin/bash
               apt update
               apt —yes —force-yes install xfce4 xfce4-goodies xorg dbus-x11 x11-xserver-utils
@@ -87,6 +89,6 @@ resource "aws_instance" "Jumphost_AZ1" {
 
 
   tags = {
-    Name = "${var.project.value}_Jumphost"
+    Name = "${var.project.value}_Jumphost_${count.index}"
   }
 }
