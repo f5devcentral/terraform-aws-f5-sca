@@ -90,29 +90,3 @@ resource "aws_instance" "Jumphost_AZ1" {
     Name = "${var.project.value}_Jumphost"
   }
 }
-
-resource "aws_instance" "Jumphost_AZ2" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
-  key_name = var.jump_ssh_key
-  associate_public_ip_address = true
-  subnet_id = var.subnets.value.az2.security.mgmt
-  vpc_security_group_ids = ["${aws_security_group.allow_incoming_jump_host.id}"]
-  user_data = <<-EOF
-              #!/bin/bash
-              apt update
-              apt —yes —force-yes install xfce4 xfce4-goodies xorg dbus-x11 x11-xserver-utils
-              apt —yes —force-yes install xrdp
-              apt —yes —force-yes install awscli
-              apt —yes install python
-              snap install postman
-              wget https://packages.chef.io/files/stable/inspec/4.18.111/ubuntu/18.04/inspec_4.18.111-1_amd64.deb
-              sudo dpkg -i ./inspec_4.18.111-1_amd64.deb
-              rm inspec_4.18.111-1_amd64.deb
-              EOF
-
-
-  tags = {
-    Name = "${var.project.value}_Jumphost"
-  }
-}
