@@ -71,6 +71,7 @@ resource "aws_instance" "Jumphost" {
   instance_type               = "t2.micro"
   key_name                    = var.jump_ssh_key
   associate_public_ip_address = true
+  # subnets should be consolidated into a single variable
   subnet_id                   = element([var.subnets.value.az1.security.mgmt,var.subnets.value.az2.security.mgmt],count.index)
   vpc_security_group_ids      = [aws_security_group.allow_incoming_jump_host.id]
   user_data                   = <<-EOF
