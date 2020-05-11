@@ -16,6 +16,7 @@ F5 Application Services will be deployed into the security VPC but if one wished
 ###############################################################################################################################################################################################################################################################
 
 #### Deploy Fargate Containers and Service Discovery Service ###################################################################################################################################################################################################
+#  
 #  This stack is for EXAMPLE only and deploys a KNOWN VULNERABLE APPLICATION.  DO NOT USE IN ENVIRONMENTS WHERE SECURITY IS A CONCERN!!!!!!
 #  F5 can control ingress to Faregate services and leverage the DNS Name service to locate the items.  Note you will have to decrease the default time on the NODE (not pool) for DNS discovery to work efficiently.  You will need to use the DNS name 
 #  juiceshop.my-project.local for your node.
@@ -43,7 +44,7 @@ variable aws_cidr_ips {}
 ### JumpHost Variables
 
 variable jump_ssh_key {
-  description = "SSH key used to access the sytem and create a user/password combination for RDP Access"
+  description = "Predefined AWS SSH key used to access the sytem and create a user/password combination for RDP Access. The key must be in the same region that you are deploying to"
 }
 
 variable my_public_ip {

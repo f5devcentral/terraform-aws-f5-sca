@@ -80,6 +80,9 @@ resource "aws_instance" "Jumphost_AZ1" {
               apt —yes —force-yes install awscli
               apt —yes install python
               snap install postman
+              wget https://packages.chef.io/files/stable/inspec/4.18.111/ubuntu/18.04/inspec_4.18.111-1_amd64.deb
+              sudo dpkg -i ./inspec_4.18.111-1_amd64.deb
+              rm inspec_4.18.111-1_amd64.deb
               EOF
 
 
@@ -103,6 +106,9 @@ resource "aws_instance" "Jumphost_AZ2" {
               apt —yes —force-yes install awscli
               apt —yes install python
               snap install postman
+              wget https://packages.chef.io/files/stable/inspec/4.18.111/ubuntu/18.04/inspec_4.18.111-1_amd64.deb
+              sudo dpkg -i ./inspec_4.18.111-1_amd64.deb
+              rm inspec_4.18.111-1_amd64.deb
               EOF
 
 
