@@ -43,18 +43,15 @@ variable "project" {
 ############################################################################################################################################################################################################################################################
 
 variable "cidr-1" {
-  description = "CIDR block for VPC"
-  default     = "10.100.0.0/16"
+  description = "CIDR block for the Security VPC"
 }
 
 variable "cidr-2" {
-  description = "CIDR block for VPC"
-  default     = "10.200.0.0/16"
+  description = "CIDR block for the Applicaiton VPC"
 }
 
 variable "cidr-3" {
-  description = "CIDR block for VPC"
-  default     = "10.240.0.0/16"
+  description = "CIDR block for the Container VPC"
 }
 
 variable "cidr-customer-source" {
@@ -70,11 +67,11 @@ variable "cidr-customer-source" {
 
 variable "region-az-1" {
   description = "This becomes AZ_1"
-  default     = "us-west-2a"
 }
 
 variable "region-az-2" {
   description = "This becomes AZ_2"
-  default     = "us-west-2c"
 }
+
+
 

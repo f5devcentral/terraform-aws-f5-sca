@@ -16,6 +16,7 @@ F5 Application Services will be deployed into the security VPC but if one wished
 ###############################################################################################################################################################################################################################################################
 
 #### Deploy Fargate Containers and Service Discovery Service ###################################################################################################################################################################################################
+#  
 #  This stack is for EXAMPLE only and deploys a KNOWN VULNERABLE APPLICATION.  DO NOT USE IN ENVIRONMENTS WHERE SECURITY IS A CONCERN!!!!!!
 #  F5 can control ingress to Faregate services and leverage the DNS Name service to locate the items.  Note you will have to decrease the default time on the NODE (not pool) for DNS discovery to work efficiently.  You will need to use the DNS name 
 #  juiceshop.my-project.local for your node.
@@ -39,30 +40,15 @@ variable cidrs {}
 variable subnet_cidrs {}
 variable aws_cidr_ips {}
 
-### Fargate Variables
 
-variable "app_image" {
-  description = "Docker image to run in the ECS cluster"
+### JumpHost Variables
 
-  default = "bkimminich/juice-shop"
+variable jump_ssh_key {
+  description = "Predefined AWS SSH key used to access the sytem and create a user/password combination for RDP Access. The key must be in the same region that you are deploying to"
 }
 
-variable "app_port" {
-  description = "Port exposed by the docker image to redirect traffic to"
-  default     = 3000
+variable my_public_ip {
+  description = "The Subnet or Source IP that you will connect from since RDP and SSH are open to external access. Use CIDR notation"
+  type = string
 }
 
-variable "app_count" {
-  description = "Number of docker containers to run"
-  default     = 3
-}
-
-variable "fargate_cpu" {
-  description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
-  default     = 256
-}
-
-variable "fargate_memory" {
-  description = "Fargate instance memory to provision (in MiB)"
-  default     = "512"
-}
