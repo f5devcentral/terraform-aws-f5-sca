@@ -110,6 +110,8 @@ output route_tables {
     frm_security_inspection_2 = module.core.frm_security_insepction_2_rt
     app_tgw                   = module.core.app_tgw_main_rt
     container_tgw             = module.core.container_tgw_main_rt
+    sec_app_az1               = module.core.sec_application_az1_rt
+    sec_app_az2               = module.core.sec_application_az2_rt
   }
 }
 
