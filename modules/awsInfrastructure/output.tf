@@ -297,8 +297,13 @@ output "container_tgw_main_rt" {
   description = "application VPC route table - all traffic goes to TGW and enters the security VPC in the sec_Internal_rt"
 }
 
-output "sec_application_rt" {
-  value       = aws_route_table.sec_application_rt.id
+output "sec_application_az1_rt" {
+  value       = aws_route_table.sec_application_az1_rt.id
+  description = "Security VPC route table for infrastructure applications that may need egress via NAT"
+}
+
+output "sec_application_az2_rt" {
+  value       = aws_route_table.sec_application_az2_rt.id
   description = "Security VPC route table for infrastructure applications that may need egress via NAT"
 }
 
