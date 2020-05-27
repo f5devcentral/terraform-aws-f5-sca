@@ -3,6 +3,7 @@
 mkdir -p /config/cloud
 cat << 'EOF' > /config/cloud/startup-script.sh
 #!/bin/bash
+# BIG-IPS ONBOARD SCRIPT
 LOG_FILE=${onboard_log}
 if [ ! -e $LOG_FILE ]
 then
@@ -13,6 +14,7 @@ else
     exit
 fi
 exec 1>$LOG_FILE 2>&1
+# CHECK TO SEE NETWORK IS READY
 count=0
 while true
 do
@@ -29,9 +31,11 @@ do
   fi
   sleep 10
 done
+# WAIT FOR BIG-IP SYSTEMS & API TO BE UP
 curl -o /config/cloud/utils.sh -s --fail --retry 60 -m 10 -L https://raw.githubusercontent.com/F5Networks/f5-cloud-libs/develop/scripts/util.sh
 . /config/cloud/utils.sh
 wait_for_bigip
+### GET SECRET VIA DEFAULT REQUESTS LIB ON BIG-IP
 echo "GET BIG-IP PASSWORD FROM AWS SECRET MANAGER"
 role_name=$(curl -s "http://169.254.169.254/latest/meta-data/iam/security-credentials/" )
 payload=$(curl -s http://169.254.169.254/latest/meta-data/iam/security-credentials/$role_name)
@@ -40,9 +44,19 @@ export AWS_SECRET_ACCESS_KEY=$(printf "$payload" | jq -r ".SecretAccessKey")
 export AWS_TOKEN=$(printf "$payload" | jq -r ".Token")
 export AWS_REGION=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone| sed s/.$//`
 export SECRET_ID=${secret_id}
+### WRITE PYTHON FILE TO DISK
 cat > secrets_manager.py << END_TEXT
 # Copyright 2010-2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 #
+# This file is licensed under the Apache License, Version 2.0 (the "License").
+# You may not use this file except in compliance with the License. A copy of the
+# License is located at
+#
+# http://aws.amazon.com/apache2.0/
+#
+# This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+# OF ANY KIND, either express or implied. See the License for the specific
+# language governing permissions and limitations under the License.
 
 import sys, os, base64, datetime, hashlib, hmac 
 import requests 
@@ -68,7 +82,7 @@ if region is None:
 if secret_id is None:
     print('No secret_id was provided.')
     sys.exit()
-
+# ************* REQUEST VALUES *************
 method = 'POST'
 service = 'secretsmanager'
 host = 'secretsmanager.'+ region + '.amazonaws.com'
@@ -76,7 +90,7 @@ endpoint = 'https://secretsmanager.'+ region +'.amazonaws.com/'
 content_type = 'application/x-amz-json-1.1'
 amz_target = 'secretsmanager.GetSecretValue'
 
-
+# Request parameters for GetSecretValue--passed in a JSON block.
 request_parameters =  '{'
 request_parameters +=  '"SecretId": "'+ secret_id +'"'
 request_parameters +=  '}'
@@ -91,6 +105,7 @@ def getSignatureKey(key, date_stamp, regionName, serviceName):
     kSigning = sign(kService, 'aws4_request')
     return kSigning
 
+# Create a date for headers and the credential string
 t = datetime.datetime.utcnow()
 amz_date = t.strftime('%Y%m%dT%H%M%SZ')
 date_stamp = t.strftime('%Y%m%d') # Date w/o time, used in credential scope
@@ -104,6 +119,7 @@ algorithm = 'AWS4-HMAC-SHA256'
 credential_scope = date_stamp + '/' + region + '/' + service + '/' + 'aws4_request'
 string_to_sign = algorithm + '\n' +  amz_date + '\n' +  credential_scope + '\n' +  hashlib.sha256(canonical_request.encode('utf-8')).hexdigest()
 signing_key = getSignatureKey(secret_key, date_stamp, region, service)
+# Sign the string_to_sign using the signing_key
 signature = hmac.new(signing_key, (string_to_sign).encode('utf-8'), hashlib.sha256).hexdigest()
 authorization_header = algorithm + ' ' + 'Credential=' + access_key + '/' + credential_scope + ', ' +  'SignedHeaders=' + signed_headers + ', ' + 'Signature=' + signature
 headers = {'Content-Type':content_type,
@@ -111,10 +127,13 @@ headers = {'Content-Type':content_type,
            'X-Amz-Target':amz_target,
            'Authorization':authorization_header,
            'X-Amz-Security-Token': token}
+# ************* SEND THE REQUEST *************
+
 r = requests.post(endpoint, request_parameters, headers=headers)
 
 print(r.text)
 END_TEXT
+
 ### SET BIG-IP PASSWORD
 echo "SET THE BIG-IP PASSWORD"
 pwd=$(python secrets_manager.py | jq -r ".SecretString")
@@ -124,7 +143,10 @@ then
 else
   tmsh modify auth user admin password $pwd
 fi
+
 ### install atc tools
+## iapps dir fix
+
 # start modify appdata directory size
 echo "setting app directory size"
 tmsh show sys disk directory /appdata
@@ -134,23 +156,33 @@ tmsh show sys disk directory /appdata
 echo "done setting app directory size"
 tmsh save sys config
 # end modify appdata directory size
+
+## set vars
 # constants
 rpmInstallUrl="/mgmt/shared/iapp/package-management-tasks"
 rpmFilePath="/var/config/rest/downloads"
 local_host="http://localhost:8100"
+# do
 doUrl="/mgmt/shared/declarative-onboarding"
 doCheckUrl="/mgmt/shared/declarative-onboarding/info"
 doTaskUrl="/mgmt/shared/declarative-onboarding/task"
+# as3
 as3Url="/mgmt/shared/appsvcs/declare"
 as3CheckUrl="/mgmt/shared/appsvcs/info"
 as3TaskUrl="/mgmt/shared/appsvcs/task"
+# ts
 tsUrl="/mgmt/shared/telemetry/declare"
 tsCheckUrl="/mgmt/shared/telemetry/info" 
+# cloud failover ext
 cfUrl="/mgmt/shared/cloud-failover/declare"
 cfCheckUrl="/mgmt/shared/cloud-failover/info"
+# fast
 fastCheckUrl="/mgmt/shared/fast/info"
+# vars
 mgmt_port=`tmsh list sys httpd ssl-port | grep ssl-port | sed 's/ssl-port //;s/ //g'`
+# admin_username='$uname'
 admin_password='$pwd'
+# CREDS="$admin_username:$admin_password"
 CREDS="admin:$admin_password"
 toolsList=$(cat -<<END_TOOLS
 {
@@ -201,6 +233,7 @@ do
     do
     echo "download: $file"
     name=$(basename $file )
+    # make download dir
     mkdir -p /var/config/rest/downloads
     result=$(/usr/bin/curl -Lsk  $file -o /var/config/rest/downloads/$name)
     done
@@ -210,6 +243,7 @@ done
 getAtc
 #
 ### INSTALL ATC PKGS
+# install atc tools
 rpms=$(find $rpmFilePath -name "*.rpm" -type f)
 for rpm in $rpms
 do
@@ -245,21 +279,26 @@ do
     status=$(restcurl -u $CREDS $rpmInstallUrl/$install | jq -r .status)
     case $status in 
         FINISHED)
+            # finished
             echo " rpm: $filename task: $install status: $status"
             break
             ;;
         STARTED)
+            # started
             echo " rpm: $filename task: $install status: $status"
             ;;
         RUNNING)
+            # running
             echo " rpm: $filename task: $install status: $status"
             ;;
         FAILED)
+            # failed
             error=$(restcurl -u $CREDS $rpmInstallUrl/$install | jq .errorMessage)
             echo "failed $filename task: $install error: $error"
             break
             ;;
         *)
+            # other
             debug=$(restcurl -u $CREDS $rpmInstallUrl/$install | jq . )
             echo "failed $filename task: $install error: $debug"
             ;;
@@ -269,6 +308,7 @@ do
 done
 ### validate ATC PKGS
 function checkDO() {
+    # Check DO Ready
     count=0
     while [ $count -le 4 ]
     do
@@ -305,6 +345,7 @@ function checkDO() {
     done
 }
 function checkAS3() {
+    # Check AS3 Ready
     count=0
     while [ $count -le 4 ]
     do
@@ -335,6 +376,7 @@ function checkAS3() {
     done
 }
 function checkTS() {
+    # Check TS Ready
     count=0
     while [ $count -le 4 ]
     do
@@ -351,6 +393,7 @@ function checkTS() {
     done
 }
 function checkCF() {
+    # Check CF Ready
     count=0
     while [ $count -le 4 ]
     do
@@ -367,6 +410,7 @@ function checkCF() {
     done
 }
 function checkFAST() {
+    # Check FAST Ready
     count=0
     while [ $count -le 4 ]
     do
@@ -382,6 +426,7 @@ function checkFAST() {
     sleep 10
     done
 }
+### check for apis online 
 function checkATC() {
     doStatus=$(checkDO)
     as3Status=$(checkAS3)
@@ -396,59 +441,7 @@ function checkATC() {
     fi   
 }
 checkATC
-# TMSH Networking
-mgmtAddr=$(ip route get 1 | awk '{print $NF;exit}')
-mgmtGateway=$(ip route get 1 | awk '{print $3;exit}')
-externalGateway="${externalGateway}"
-externalNetwork="${externalNetwork}"
-externalMask="$(echo $externalNetwork | cut -d "/" -f2)"
-applicationGateway="${applicationGateway}"
-applicationNetwork="${applicationNetwork}"
-applicationMask="$(echo $applicationNetwork | cut -d "/" -f2)"
-internalGateway="${dmzOutsideGateway}"
-internalNetwork="${dmzOutsideNetwork}"
-syncNetwork="${syncNetwork}"
-internalMask="$(echo $internalNetwork | cut -d "/" -f2)"
-networkMacs=$(curl -s http://169.254.169.254/latest/meta-data/network/interfaces/macs/)
-for macAddr in $networkMacs
-do
-    mac=$(echo $macAddr | cut -d "/" -f1)
-    net=$(curl -s http://169.254.169.254/latest/meta-data/network/interfaces/macs/$mac/subnet-ipv4-cidr-block/)
-    if [ "$net" == "$externalNetwork" ]; then
-    externalIp=$(curl -s --retry 20 http://169.254.169.254/latest/meta-data/network/interfaces/macs/$mac/local-ipv4s)
-    echo "external: $mac $net $externalIp"
-    fi
-    if [ "$net" == "$applicationNetwork" ]; then
-    applicationIp=$(curl -s --retry 20 http://169.254.169.254/latest/meta-data/network/interfaces/macs/$mac/local-ipv4s)
-    echo "application: $mac $net $applicationIp"
-    fi
-    if [ "$net" == "$internalNetwork" ]; then
-    internalIp=$(curl -s --retry 20 http://169.254.169.254/latest/meta-data/network/interfaces/macs/$mac/local-ipv4s)
-    echo "internal: $mac $net $internalIp"
-    fi
-done
-echo -e "create cli transaction;
-modify sys db config.allow.rfc3927 value enable;
-create /auth partition LOCAL_ONLY;
-modify /sys folder /LOCAL_ONLY device-group none traffic-group /Common/traffic-group-local-only;
-create /sys management-route /LOCAL_ONLY/metadata-route network 169.254.169.254/32 gateway $mgmtGateway;
-submit cli transaction" | tmsh -q
-echo  -e "create cli transaction;
-create net vlan external interfaces add { 1.1 };
-create net vlan application interfaces add { 1.2 };
-create net vlan internal interfaces add { 1.3 };
-submit cli transaction" | tmsh -q
-echo  -e "create cli transaction;
-create net self external-self address $externalIp/$externalMask vlan external;
-create net self application-self address $applicationIp/$applicationMask vlan application allow-service default;
-create net self internal-self address $internalIp/$internalMask vlan internal;
-submit cli transaction" | tmsh -q
-echo -e "create cli transaction;
-create net route /LOCAL_ONLY/default network 0.0.0.0/0 gw $externalGateway
-create net route /LOCAL_ONLY/application network $syncNetwork gw $applicationGateway
-create net route /LOCAL_ONLY/internal network 10.0.0.0/16 gw $internalGateway
-submit cli transaction" | tmsh -q 
-# END TMSH NETWORKING
+
 ### Clean up
 rm /config/cloud/startup-script.sh 
 date

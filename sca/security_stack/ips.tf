@@ -92,7 +92,7 @@ locals {
 }
 # Setup Onboarding scripts
 data "template_file" "ips_onboard" {
-  template = "${file("${path.root}/templates/bigip_onboard.tmpl")}"
+  template = "${file("${path.root}/templates/bigip_onboard_base.tmpl")}"
 
   vars = {
     #uname        	      = var.adminAccountName
