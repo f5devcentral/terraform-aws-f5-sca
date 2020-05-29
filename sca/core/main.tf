@@ -15,7 +15,7 @@ module core {
   project     = var.project
   region-az-1 = var.region-az-1
   region-az-2 = var.region-az-2
-  cidr-1 = var.cidr-1
-  cidr-2 = var.cidr-2
-  cidr-3 = var.cidr-3
+  cidr-1      = var.cidr-1
+  cidr-2      = var.cidr-2
+  cidr-3      = var.cidr-3
 }

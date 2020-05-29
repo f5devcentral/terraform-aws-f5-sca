@@ -450,4 +450,6 @@ output "sec_subnet_internal_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet
 output "sec_subnet_mgmt_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_mgmt_region-az-2.cidr_block, 1)}" }
 output "sec_subnet_peering_region-az-2-aws-ip" { value = "${cidrhost(aws_subnet.sec_subnet_peering_region-az-2.cidr_block, 1)}" }
 
+output "CFE_external_route_table_tag" { value = "${aws_route_table.internet_rt.tags["f5_cloud_failover_label"]}"}
+output "CFE_internal_route_table_tag" { value = "${aws_route_table.sec_Internal_rt.tags["f5_cloud_failover_label"]}"}
 
