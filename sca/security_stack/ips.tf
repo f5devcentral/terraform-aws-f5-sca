@@ -115,7 +115,7 @@ module ips {
   source = "github.com/f5devcentral/terraform-aws-bigip?ref=develop"
 
   prefix = format(
-    "%s-bigip_with_new_vpc-%s",
+    "%s-bigip_with_new_vpc_ips-%s",
     var.project.value,
     var.random_id.value
   )
