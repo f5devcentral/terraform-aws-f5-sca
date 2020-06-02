@@ -29,7 +29,7 @@ locals {
   ])
 }
 locals {
-  ips_bigips = flatten([
+  ips_bigip_az1 = flatten([
     for environment, bigips in var.bigip_map.value : [
       for key, bigip in bigips : {
         id : key
@@ -40,11 +40,11 @@ locals {
           }
         }
       }
-    ] if(environment == "ips")
+    ] if(environment == "ips_az1")
   ])
 }
 locals {
-  internal_bigips = flatten([
+  ips_bigip_az2 = flatten([
     for environment, bigips in var.bigip_map.value : [
       for key, bigip in bigips : {
         id : key
@@ -55,7 +55,37 @@ locals {
           }
         }
       }
-    ] if(environment == "internal")
+    ] if(environment == "ips_az2")
+  ])
+}
+locals {
+  internal_bigip_az1 = flatten([
+    for environment, bigips in var.bigip_map.value : [
+      for key, bigip in bigips : {
+        id : key
+        subnets : {
+          for subnet, data in bigip : data.attachment[0].device_index => {
+            private_ip : data.private_ip,
+            private_dns_name : data.private_dns_name
+          }
+        }
+      }
+    ] if(environment == "internal_az1")
+  ])
+}
+locals {
+  internal_bigip_az2 = flatten([
+    for environment, bigips in var.bigip_map.value : [
+      for key, bigip in bigips : {
+        id : key
+        subnets : {
+          for subnet, data in bigip : data.attachment[0].device_index => {
+            private_ip : data.private_ip,
+            private_dns_name : data.private_dns_name
+          }
+        }
+      }
+    ] if(environment == "internal_az2")
   ])
 }
 
@@ -115,14 +145,14 @@ data "template_file" "ips_bigip_az1_do_json" {
   vars = {
     #Uncomment the following line for BYOL
     #local_sku	    = "${var.license1}"
-    host1	        = local.ips_bigips[0].subnets.0.private_ip
-    host2	        = local.ips_bigips[1].subnets.0.private_ip
-    local_host      = local.ips_bigips[0].subnets.0.private_dns_name
-    local_selfip    = local.ips_bigips[0].subnets.1.private_ip
-    local_selfip2   = local.ips_bigips[0].subnets.2.private_ip
-    local_selfip3   = local.ips_bigips[0].subnets.3.private_ip
-    remote_host	    = local.ips_bigips[1].subnets.0.private_dns_name
-    remote_selfip   = local.ips_bigips[1].subnets.2.private_ip
+    host1	        = local.ips_bigip_az1[0].subnets.0.private_ip
+    host2	        = local.ips_bigip_az2[0].subnets.0.private_ip
+    local_host      = local.ips_bigip_az1[0].subnets.0.private_dns_name
+    local_selfip    = local.ips_bigip_az1[0].subnets.1.private_ip
+    local_selfip2   = local.ips_bigip_az1[0].subnets.2.private_ip
+    local_selfip3   = local.ips_bigip_az1[0].subnets.3.private_ip
+    remote_host	    = local.ips_bigip_az2[0].subnets.0.private_dns_name
+    remote_selfip   = local.ips_bigip_az2[0].subnets.2.private_ip
     gateway	        = var.ips0_gateway
     dns_server	    = var.dns_server
     ntp_server	    = var.ntp_server
@@ -138,14 +168,14 @@ data "template_file" "ips_bigip_az2_do_json" {
   vars = {
     #Uncomment the following line for BYOL
     #local_sku	    = "${var.license1}"
-    host1	        = local.ips_bigips[0].subnets.0.private_ip
-    host2	        = local.ips_bigips[1].subnets.0.private_ip
-    local_host      = local.ips_bigips[1].subnets.0.private_dns_name
-    local_selfip    = local.ips_bigips[1].subnets.1.private_ip
-    local_selfip2   = local.ips_bigips[1].subnets.2.private_ip
-    local_selfip3   = local.ips_bigips[1].subnets.3.private_ip
-    remote_host	    = local.ips_bigips[0].subnets.0.private_dns_name
-    remote_selfip   = local.ips_bigips[0].subnets.2.private_ip
+    host1	        = local.ips_bigip_az1[0].subnets.0.private_ip
+    host2	        = local.ips_bigip_az2[0].subnets.0.private_ip
+    local_host      = local.ips_bigip_az2[0].subnets.0.private_dns_name
+    local_selfip    = local.ips_bigip_az2[0].subnets.1.private_ip
+    local_selfip2   = local.ips_bigip_az2[0].subnets.2.private_ip
+    local_selfip3   = local.ips_bigip_az2[0].subnets.3.private_ip
+    remote_host	    = local.ips_bigip_az1[0].subnets.0.private_dns_name
+    remote_selfip   = local.ips_bigip_az1[0].subnets.2.private_ip
     gateway	        = var.ips1_gateway
     dns_server	    = var.dns_server
     ntp_server	    = var.ntp_server
@@ -160,14 +190,14 @@ data "template_file" "internal_bigip_az1_do_json" {
   vars = {
     #Uncomment the following line for BYOL
     #local_sku	    = "${var.license1}"
-    host1	        = local.internal_bigips[0].subnets.0.private_ip
-    host2	        = local.internal_bigips[1].subnets.0.private_ip
-    local_host      = local.internal_bigips[0].subnets.0.private_dns_name
-    local_selfip    = local.internal_bigips[0].subnets.1.private_ip
-    local_selfip2   = local.internal_bigips[0].subnets.2.private_ip
-    local_selfip3   = local.internal_bigips[0].subnets.3.private_ip
-    remote_host	    = local.internal_bigips[1].subnets.0.private_dns_name
-    remote_selfip   = local.internal_bigips[1].subnets.2.private_ip
+    host1	        = local.internal_bigip_az1[0].subnets.0.private_ip
+    host2	        = local.internal_bigip_az2[0].subnets.0.private_ip
+    local_host      = local.internal_bigip_az1[0].subnets.0.private_dns_name
+    local_selfip    = local.internal_bigip_az1[0].subnets.1.private_ip
+    local_selfip2   = local.internal_bigip_az1[0].subnets.2.private_ip
+    local_selfip3   = local.internal_bigip_az1[0].subnets.3.private_ip
+    remote_host	    = local.internal_bigip_az2[0].subnets.0.private_dns_name
+    remote_selfip   = local.internal_bigip_az2[0].subnets.2.private_ip
     gateway	        = var.int0_gateway
     dns_server	    = var.dns_server
     ntp_server	    = var.ntp_server
@@ -183,14 +213,14 @@ data "template_file" "internal_bigip_az2_do_json" {
   vars = {
     #Uncomment the following line for BYOL
     #local_sku	    = "${var.license1}"
-    host1	        = local.internal_bigips[0].subnets.0.private_ip
-    host2	        = local.internal_bigips[1].subnets.0.private_ip
-    local_host      = local.internal_bigips[1].subnets.0.private_dns_name
-    local_selfip    = local.internal_bigips[1].subnets.1.private_ip
-    local_selfip2   = local.internal_bigips[1].subnets.2.private_ip
-    local_selfip3   = local.internal_bigips[1].subnets.3.private_ip
-    remote_host	    = local.internal_bigips[0].subnets.0.private_dns_name
-    remote_selfip   = local.internal_bigips[0].subnets.2.private_ip
+    host1	        = local.internal_bigip_az1[0].subnets.0.private_ip
+    host2	        = local.internal_bigip_az2[0].subnets.0.private_ip
+    local_host      = local.internal_bigip_az2[0].subnets.0.private_dns_name
+    local_selfip    = local.internal_bigip_az2[0].subnets.1.private_ip
+    local_selfip2   = local.internal_bigip_az2[0].subnets.2.private_ip
+    local_selfip3   = local.internal_bigip_az2[0].subnets.3.private_ip
+    remote_host	    = local.internal_bigip_az1[0].subnets.0.private_dns_name
+    remote_selfip   = local.internal_bigip_az1[0].subnets.2.private_ip
     gateway	        = var.int1_gateway
     dns_server	    = var.dns_server
     ntp_server	    = var.ntp_server
@@ -240,28 +270,28 @@ provider "bigip" {
 
 provider "bigip" {
   alias = "ips_bigip_az1"
-  address = "https://${var.bigip_mgmt_ips.value.ips[0]}"
+  address = "https://${var.bigip_mgmt_ips.value.ips_az1[0]}"
   username = "admin"
   password = data.aws_secretsmanager_secret_version.secret.secret_string
 }
 
 provider "bigip" {
   alias = "ips_bigip_az2"
-  address = "https://${var.bigip_mgmt_ips.value.ips[1]}"
+  address = "https://${var.bigip_mgmt_ips.value.ips_az2[0]}"
   username = "admin"
   password = data.aws_secretsmanager_secret_version.secret.secret_string
 }
 
 provider "bigip" {
   alias = "internal_bigip_az1"
-  address = "https://${var.bigip_mgmt_ips.value.internal[0]}"
+  address = "https://${var.bigip_mgmt_ips.value.internal_az1[0]}"
   username = "admin"
   password = data.aws_secretsmanager_secret_version.secret.secret_string
 }
 
 provider "bigip" {
   alias = "internal_bigip_az2"
-  address = "https://${var.bigip_mgmt_ips.value.internal[1]}"
+  address = "https://${var.bigip_mgmt_ips.value.internal_az2[0]}"
   username = "admin"
   password = data.aws_secretsmanager_secret_version.secret.secret_string
 }
