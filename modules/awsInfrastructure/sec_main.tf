@@ -320,7 +320,8 @@ resource "aws_route_table" "internet_rt" {
   vpc_id = aws_vpc.security-vpc.id
 
   tags = {
-    Name = "${var.project}_security_internet_rt"
+    Name = "${var.project}_security_internet_rt",
+    f5_cloud_failover_label = "external"
   }
 }
 
@@ -411,7 +412,8 @@ resource "aws_route_table" "sec_Internal_rt" {
   vpc_id = aws_vpc.security-vpc.id
 
   tags = {
-    Name = "${var.project}_sec_Internal_rt"
+    Name = "${var.project}_sec_Internal_rt",
+    f5_cloud_failover_label = "internal"
   }
 }
 
