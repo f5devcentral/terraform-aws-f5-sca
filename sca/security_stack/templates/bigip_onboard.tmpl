@@ -13,22 +13,25 @@ else
     exit
 fi
 exec 1>$LOG_FILE 2>&1
+function checkInternet () {
+host=$1
 count=0
 while true
 do
-  STATUS=$(curl -s -k -I https://github.com | grep HTTP)
-  if [[ $STATUS == *"200"* ]]; then
-    echo "internet access check passed"
+  STATUS=$(curl -s -k -I $host | grep HTTP)
+  if [[ $STATUS == *"HTTP"* ]]; then
+    echo "passed $host"
     break
   elif [ $count -le 6 ]; then
-    echo "Status code: $STATUS  Not done yet..."
     count=$[$count+1]
   else
-    echo "GIVE UP..."
+    echo "failed $host"
     break
   fi
   sleep 10
 done
+}
+checkInternet https://github.com
 curl -o /config/cloud/utils.sh -s --fail --retry 60 -m 10 -L https://raw.githubusercontent.com/F5Networks/f5-cloud-libs/develop/scripts/util.sh
 . /config/cloud/utils.sh
 wait_for_bigip
@@ -117,6 +120,7 @@ print(r.text)
 END_TEXT
 ### SET BIG-IP PASSWORD
 echo "SET THE BIG-IP PASSWORD"
+checkInternet https://secretsmanager.$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone| sed s/.$//).amazonaws.com
 pwd=$(python secrets_manager.py | jq -r ".SecretString")
 if [ -z "$pwd" ]
 then
