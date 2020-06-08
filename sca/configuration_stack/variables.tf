@@ -42,3 +42,7 @@ variable uname {
     default = "admin"
 }
 variable secrets_manager_name {}
+
+variable cfe_bucket_external {}
+variable cfe_bucket_internal {}
+variable CFE_route_tables {}

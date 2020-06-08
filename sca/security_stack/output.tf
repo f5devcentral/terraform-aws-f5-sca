@@ -95,3 +95,13 @@ output "bigip_map" {
     internal_az2 = module.internal_az2.bigip_map
   }
 }
+
+# CFE bucket details
+output "cfe_bucket_external" {
+  description = "Details of CFE bucket for external tier"
+  value = aws_s3_bucket.cfe_external_bucket
+}
+output "cfe_bucket_internal" {
+  description = "Details of CFE bucket for internal tier"
+  value = aws_s3_bucket.cfe_internal_bucket
+}
