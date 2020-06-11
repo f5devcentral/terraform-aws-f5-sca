@@ -320,7 +320,8 @@ resource "aws_route_table" "internet_rt" {
   vpc_id = aws_vpc.security-vpc.id
 
   tags = {
-    Name = "${var.project}_security_internet_rt"
+    Name = "${var.project}_security_internet_rt",
+    f5_cloud_failover_label = "external"
   }
 }
 
@@ -352,27 +353,70 @@ END SUBNET ASSOCIATION WITH INTERNET RT
 #Create EIP for NAT  Gateway to allow instances in App VPC To get out
 # Edit this route table if you do not want to SNAT traffic from BIG-IPs in the security VPC or if you decide to deploy SSLo
 */
-resource "aws_eip" "sec_nat" {
+
+resource "aws_eip" "sec_nat_az1" {
 }
 
-resource "aws_nat_gateway" "sec-gw" {
-  allocation_id = aws_eip.sec_nat.id
+resource "aws_eip" "sec_nat_az2" {
+}
+
+resource "aws_nat_gateway" "sec-gw-az1" {
+  allocation_id = aws_eip.sec_nat_az1.id
+  subnet_id     = aws_subnet.sec_subnet_internet_region-az-1.id
+
+  tags = {
+    Name = "${var.project}_gw_az1__NAT_EIP"
+  }
+}
+
+resource "aws_nat_gateway" "sec-gw-az2" {
+  allocation_id = aws_eip.sec_nat_az2.id
   subnet_id     = aws_subnet.sec_subnet_internet_region-az-2.id
 
   tags = {
-    Name = "${var.project}_gw_SEC_VPC_NAT_EIP"
+    Name = "${var.project}_gw_az2__NAT_EIP"
   }
 }
+
+#Build App Subnets Route Tables and Link Subnets
+
+resource "aws_route_table" "sec_application_az1_rt" {
+  vpc_id = aws_vpc.security-vpc.id
+
+  tags = {
+    Name = "${var.project}_sec_application_az1_rt"
+  }
+}
+
+resource "aws_route_table_association" "sec_subnet_application_region-az1" {
+  route_table_id = aws_route_table.sec_application_az1_rt.id
+  subnet_id      = aws_subnet.sec_subnet_application_region-az-1.id
+}
+
+resource "aws_route_table" "sec_application_az2_rt" {
+  vpc_id = aws_vpc.security-vpc.id
+
+  tags = {
+    Name = "${var.project}_sec_application_az2_rt"
+  }
+}
+
+resource "aws_route_table_association" "sec_subnet_application_region-az2" {
+  route_table_id = aws_route_table.sec_application_az2_rt.id
+  subnet_id      = aws_subnet.sec_subnet_application_region-az-2.id
+}
+
+### Link Subnets with Internal Route Table
 
 resource "aws_route_table" "sec_Internal_rt" {
   vpc_id = aws_vpc.security-vpc.id
 
   tags = {
-    Name = "${var.project}_sec_Internal_rt"
+    Name = "${var.project}_sec_Internal_rt",
+    f5_cloud_failover_label = "internal"
   }
 }
 
-### Link Subnets with Internal Route Table
 resource "aws_route_table_association" "sec_subnet_peering_region-az-1" {
   route_table_id = aws_route_table.sec_Internal_rt.id
   subnet_id      = aws_subnet.sec_subnet_peering_region-az-1.id
@@ -382,8 +426,6 @@ resource "aws_route_table_association" "sec_subnet_peering_region-az-2" {
   route_table_id = aws_route_table.sec_Internal_rt.id
   subnet_id      = aws_subnet.sec_subnet_peering_region-az-2.id
 }
-
-#Create App Subnet Route table
 
 resource "aws_route_table_association" "sec_subnet_internal_region-az-2" {
   route_table_id = aws_route_table.sec_Internal_rt.id
@@ -397,23 +439,7 @@ resource "aws_route_table_association" "sec_subnet_internal_revion-az-1" {
 
 #Build Sec-Applicaiton Route table and link subnets
 
-resource "aws_route_table" "sec_application_rt" {
-  vpc_id = aws_vpc.security-vpc.id
 
-  tags = {
-    Name = "${var.project}_sec_application_rt"
-  }
-}
-
-resource "aws_route_table_association" "sec_subnet_application_region-az-1" {
-  route_table_id = aws_route_table.sec_application_rt.id
-  subnet_id      = aws_subnet.sec_subnet_application_region-az-1.id
-}
-
-resource "aws_route_table_association" "sec_subnet_application_region-az-2" {
-  route_table_id = aws_route_table.sec_application_rt.id
-  subnet_id      = aws_subnet.sec_subnet_application_region-az-2.id
-}
 
 /*
 Create the First Inspection Route table Egress from BIG-IP to services
@@ -555,9 +581,14 @@ resource "aws_vpc_endpoint_route_table_association" "private_s3" {
   route_table_id  = aws_route_table.sec_Internal_rt.id
 }
 
-resource "aws_vpc_endpoint_route_table_association" "private_application_s3" {
+resource "aws_vpc_endpoint_route_table_association" "private_application_s3_az1" {
   vpc_endpoint_id = aws_vpc_endpoint.s3-security-vpc.id
-  route_table_id  = aws_route_table.sec_application_rt.id
+  route_table_id  = aws_route_table.sec_application_az1_rt.id
+}
+
+resource "aws_vpc_endpoint_route_table_association" "private_application_s3_az2" {
+  vpc_endpoint_id = aws_vpc_endpoint.s3-security-vpc.id
+  route_table_id  = aws_route_table.sec_application_az2_rt.id
 }
 
 

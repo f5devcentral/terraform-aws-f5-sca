@@ -110,6 +110,15 @@ output route_tables {
     frm_security_inspection_2 = module.core.frm_security_insepction_2_rt
     app_tgw                   = module.core.app_tgw_main_rt
     container_tgw             = module.core.container_tgw_main_rt
+    sec_app_az1               = module.core.sec_application_az1_rt
+    sec_app_az2               = module.core.sec_application_az2_rt
+  }
+}
+
+output CFE_route_tables {
+  value = {
+    internet = module.core.CFE_external_route_table_tag
+    internal = module.core.CFE_internal_route_table_tag
   }
 }
 
@@ -122,9 +131,9 @@ output transit_gateways {
 
 output cidrs {
   value = {
-    SecurityVPC = module.core.cidr-1
+    SecurityVPC    = module.core.cidr-1
     ApplicationVPC = module.core.cidr-2
-    ContainerVPC = module.core.cidr-3
+    ContainerVPC   = module.core.cidr-3
   }
 }
 
@@ -132,7 +141,7 @@ output subnet_cidrs {
   value = {
     az1 = {
       security = {
-        internet           = module.core.sec_subnet_internet_region-az-1-subnet 
+        internet           = module.core.sec_subnet_internet_region-az-1-subnet
         egress_to_ch1      = module.core.sec_subnet_egress_to_ch1_region-az-1-subnet
         ingress_frm_ch1    = module.core.sec_subnet_ingress_frm_ch1_region-az-1-subnet
         application_region = module.core.sec_subnet_application_region-az-1-subnet
