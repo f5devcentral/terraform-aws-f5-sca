@@ -117,7 +117,7 @@ data "template_file" "ips_onboard_az1" {
     #egressCh1Gateway   =  var.aws_cidr_ips.value.az1.security.egress_to_ch1
     #egressCh2Gateway   =  var.aws_cidr_ips.value.az1.security.egress_to_ch2
     #internalGateway    =  var.aws_cidr_ips.value.az1.security.internal
-    externalGateway    =  var.aws_cidr_ips.value.az1.security.dmz_outside
+    externalGateway    =  var.aws_cidr_ips.value.az1.security.application_region
     #mgmtGateway        =  var.aws_cidr_ips.value.az1.security.mgmt
     #peeringGateway     =  var.aws_cidr_ips.value.az1.security.peering
     # networks
@@ -156,7 +156,7 @@ data "template_file" "ips_onboard_az2" {
     #egressCh1Gateway   =  var.aws_cidr_ips.value.az2.security.egress_to_ch1
     #egressCh2Gateway   =  var.aws_cidr_ips.value.az2.security.egress_to_ch2
     #internalGateway    =  var.aws_cidr_ips.value.az2.security.internal
-    externalGateway    =  var.aws_cidr_ips.value.az2.security.dmz_outside
+    externalGateway    =  var.aws_cidr_ips.value.az2.security.application_region
     #mgmtGateway        =  var.aws_cidr_ips.value.az2.security.mgmt
     #peeringGateway     =  var.aws_cidr_ips.value.az2.security.peering
     # networks
