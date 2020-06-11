@@ -450,7 +450,7 @@ submit cli transaction" | tmsh -q
 echo -e "create cli transaction;
 create net route /LOCAL_ONLY/default network 0.0.0.0/0 gw $externalGateway
 create net route /LOCAL_ONLY/application network $syncNetwork gw $applicationGateway
-create net route /LOCAL_ONLY/internal network 10.0.0.0/16 gw $internalGateway
+create net route /LOCAL_ONLY/internal network 10.0.0.0/8 gw $internalGateway
 submit cli transaction" | tmsh -q 
 # END TMSH NETWORKING
 ### Clean up
