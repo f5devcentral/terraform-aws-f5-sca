@@ -2,9 +2,8 @@
 resource "aws_instance" "jumphost" { 
   ami                     = data.aws_ami.ubuntu.id
   instance_type           = "t2.micro"
-  key_name                = "f5uberdemo"
+  key_name                = var.ec2_key_name
   subnet_id               = var.subnets.value.az1.application.application_region
-  user_data               = file("${path.module}/cloudinit.yml")
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
   tags                    = {
     Name = "jumphost"
@@ -33,6 +32,39 @@ resource "aws_security_group" "allow_ssh" {
 
   tags = {
     Name = "allow_ssh"
+  }
+}
+
+resource "aws_security_group" "allow_http_https" {
+  name        = "allow_http_https"
+  description = "Allow HTTP and HTTPS inbound traffic"
+  vpc_id      = var.vpcs.value.application
+
+  ingress {
+    description = "HTTP"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "HTTPS"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "allow_http_https"
   }
 }
 

@@ -24,6 +24,11 @@ resource "aws_instance" "appnode" {
   ami                     = data.aws_ami.ubuntu.id
   instance_type           = "t2.micro"
   subnet_id               = each.value.application.application_region
+  vpc_security_group_ids  = [
+                              aws_security_group.allow_http_https.id,
+                              aws_security_group.allow_ssh.id
+                            ]
+  key_name                = var.ec2_key_name
   user_data               = file("${path.module}/cloudinit.yml")
   tags = {
     Name = "appnode-${each.key}"
