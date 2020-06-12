@@ -229,107 +229,35 @@ data "template_file" "internal_bigip_az2_do_json" {
     admin_password  = data.aws_secretsmanager_secret_version.secret.secret_string
   }
 }
-resource "local_file" "ext_bigip_az1_do_json" {
-  content     = data.template_file.ext_bigip_az1_do_json.rendered
-  filename    = "${path.module}/ext_bigip_az1_do_json.json"
-}
-resource "local_file" "ext_bigip_az2_do_json" {
-  content     = data.template_file.ext_bigip_az2_do_json.rendered
-  filename    = "${path.module}/ext_bigip_az2_do_json.json"
-}
-resource "local_file" "ips_bigip_az1_do_json" {
-  content     = data.template_file.ips_bigip_az1_do_json.rendered
-  filename    = "${path.module}/ips_bigip_az1_do_json.json"
-}
-resource "local_file" "ips_bigip_az2_do_json" {
-  content     = data.template_file.ips_bigip_az2_do_json.rendered
-  filename    = "${path.module}/ips_bigip_az2_do_json.json"
-}
-resource "local_file" "internal_bigip_az1_do_json" {
-  content     = data.template_file.internal_bigip_az1_do_json.rendered
-  filename    = "${path.module}/internal_bigip_az1_do_json.json"
-}
-resource "local_file" "internal_bigip_az2_do_json" {
-  content     = data.template_file.internal_bigip_az2_do_json.rendered
-  filename    = "${path.module}/internal_bigip_az2_do_json.json"
-}
-
-provider "bigip" {
-  alias = "external_bigip_az1"
-  address = "https://${var.bigip_mgmt_ips.value.external_az1[0]}"
-  username = "admin"
-  password = data.aws_secretsmanager_secret_version.secret.secret_string
-}
-
-provider "bigip" {
-  alias = "external_bigip_az2"
-  address = "https://${var.bigip_mgmt_ips.value.external_az2[0]}"
-  username = "admin"
-  password = data.aws_secretsmanager_secret_version.secret.secret_string
-}
-
-provider "bigip" {
-  alias = "ips_bigip_az1"
-  address = "https://${var.bigip_mgmt_ips.value.ips_az1[0]}"
-  username = "admin"
-  password = data.aws_secretsmanager_secret_version.secret.secret_string
-}
-
-provider "bigip" {
-  alias = "ips_bigip_az2"
-  address = "https://${var.bigip_mgmt_ips.value.ips_az2[0]}"
-  username = "admin"
-  password = data.aws_secretsmanager_secret_version.secret.secret_string
-}
-
-provider "bigip" {
-  alias = "internal_bigip_az1"
-  address = "https://${var.bigip_mgmt_ips.value.internal_az1[0]}"
-  username = "admin"
-  password = data.aws_secretsmanager_secret_version.secret.secret_string
-}
-
-provider "bigip" {
-  alias = "internal_bigip_az2"
-  address = "https://${var.bigip_mgmt_ips.value.internal_az2[0]}"
-  username = "admin"
-  password = data.aws_secretsmanager_secret_version.secret.secret_string
-}
 
 resource "bigip_do"  "external_bigip_az1" {
      provider = bigip.external_bigip_az1
      do_json =  data.template_file.ext_bigip_az1_do_json.rendered
-     tenant_name = "external_bigip_az1"
  }
 
 resource "bigip_do"  "external_bigip_az2" {
      provider = bigip.external_bigip_az2
      do_json =  data.template_file.ext_bigip_az2_do_json.rendered
-     tenant_name = "external_bigip_az2"
  }
 
 resource "bigip_do"  "ips_bigip_az1" {
      provider = bigip.ips_bigip_az1
      do_json =  data.template_file.ips_bigip_az1_do_json.rendered
-     tenant_name = "ips_bigip_az1"
  }
 
 resource "bigip_do"  "ips_bigip_az2" {
      provider = bigip.ips_bigip_az2
      do_json =  data.template_file.ips_bigip_az2_do_json.rendered
-     tenant_name = "ips_bigip_az2"
  }
 
 resource "bigip_do"  "internal_bigip_az1" {
      provider = bigip.internal_bigip_az1
      do_json =  data.template_file.internal_bigip_az1_do_json.rendered
-     tenant_name = "internal_bigip_az1"
  }
 
 resource "bigip_do"  "internal_bigip_az2" {
      provider = bigip.internal_bigip_az2
      do_json =  data.template_file.internal_bigip_az2_do_json.rendered
-     tenant_name = "internal_bigip_az2"
  }
  
 

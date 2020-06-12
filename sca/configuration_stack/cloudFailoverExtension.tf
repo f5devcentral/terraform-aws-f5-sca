@@ -84,8 +84,8 @@ resource "local_file" "int_cfe_json" {
 
 resource "null_resource" "cfe-external-az1" {
   depends_on = [
-    "bigip_do.external_bigip_az1",
-    "bigip_do.external_bigip_az2"
+    bigip_do.external_bigip_az1,
+    bigip_do.external_bigip_az2
     ]
   # Running CFE REST API
   provisioner "local-exec" {
@@ -101,8 +101,8 @@ resource "null_resource" "cfe-external-az1" {
 
 resource "null_resource" "cfe-external-az2" {
   depends_on = [
-    "bigip_do.external_bigip_az1",
-    "bigip_do.external_bigip_az2"
+    bigip_do.external_bigip_az1,
+    bigip_do.external_bigip_az2
     ]
   # Running CFE REST API
   provisioner "local-exec" {
@@ -118,8 +118,8 @@ resource "null_resource" "cfe-external-az2" {
 
 resource "null_resource" "cfe-internal-az1" {
   depends_on = [
-    "bigip_do.internal_bigip_az1",
-    "bigip_do.internal_bigip_az2"
+    bigip_do.internal_bigip_az1,
+    bigip_do.internal_bigip_az2
     ]
   # Running CFE REST API
   provisioner "local-exec" {
@@ -129,14 +129,15 @@ resource "null_resource" "cfe-internal-az1" {
       curl -k -X GET https://${var.bigip_mgmt_ips.value.internal_az1[0]}/mgmt/shared/cloud-failover/info -u admin:${data.aws_secretsmanager_secret_version.secret.secret_string}
       sleep 10
       curl -k -X POST https://${var.bigip_mgmt_ips.value.internal_az1[0]}/mgmt/shared/cloud-failover/declare -u admin:${data.aws_secretsmanager_secret_version.secret.secret_string} -d @${path.module}/int_cfe_json.json
+      sleep 25
     EOF
   }
 }
 
 resource "null_resource" "cfe-internal-az2" {
   depends_on = [
-    "bigip_do.internal_bigip_az1",
-    "bigip_do.internal_bigip_az2"
+    bigip_do.internal_bigip_az1,
+    bigip_do.internal_bigip_az2
     ]
   # Running CFE REST API
   provisioner "local-exec" {
@@ -146,6 +147,7 @@ resource "null_resource" "cfe-internal-az2" {
       curl -k -X GET https://${var.bigip_mgmt_ips.value.internal_az2[0]}/mgmt/shared/cloud-failover/info -u admin:${data.aws_secretsmanager_secret_version.secret.secret_string}
       sleep 10
       curl -k -X POST https://${var.bigip_mgmt_ips.value.internal_az2[0]}/mgmt/shared/cloud-failover/declare -u admin:${data.aws_secretsmanager_secret_version.secret.secret_string} -d @${path.module}/int_cfe_json.json
+      sleep 25
     EOF
   }
 }
