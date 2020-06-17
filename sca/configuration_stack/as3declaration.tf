@@ -7,11 +7,7 @@ data "template_file" "as3_declaration_baseline" {
   }
 }
 
-resource "local_file" "as3_declaration_baseline" {
-  content     = data.template_file.as3_declaration_baseline.rendered
-  filename    = "${path.module}/as3_declaration_baseline.json"
-}
-
+/*
 resource "null_resource" "as3-external" {
   depends_on = [
     null_resource.cfe-external-az1,
@@ -45,26 +41,27 @@ resource "null_resource" "as3-internal" {
     EOF
   }
 }
-/*
+ */
 resource "bigip_as3"  "external_bigip_az1" {
      depends_on = [
-        local_file.as3_declaration_baseline,
         null_resource.cfe-internal-az1,
         null_resource.cfe-internal-az2
      ]
      provider = bigip.external_bigip_az1
-     as3_json =  file("./as3_declaration_baseline.json")
-     tenant_filter = "baseline"
+     as3_json =  templatefile("${path.module}/templates/as3/as3.tmpl", {
+      virtualAddress = "0.0.0.0/0",
+      allowedVlan = "internal"
+    })
  }
 
  resource "bigip_as3"  "internal_bigip_az1" {
      depends_on = [
-        local_file.as3_declaration_baseline,
         null_resource.cfe-internal-az1,
         null_resource.cfe-internal-az2
      ]
      provider = bigip.internal_bigip_az1
-     as3_json =  file("./as3_declaration_baseline.json")
-     tenant_filter = "baseline"
+     as3_json =  templatefile("${path.module}/templates/as3/as3.tmpl", {
+      virtualAddress = "0.0.0.0/0",
+      allowedVlan = "internal"
+    })
  }
- */
