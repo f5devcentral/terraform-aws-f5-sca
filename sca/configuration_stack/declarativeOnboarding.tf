@@ -233,31 +233,37 @@ data "template_file" "internal_bigip_az2_do_json" {
 resource "bigip_do"  "external_bigip_az1" {
      provider = bigip.external_bigip_az1
      do_json =  data.template_file.ext_bigip_az1_do_json.rendered
+     tenant_name = "baseline"
  }
 
 resource "bigip_do"  "external_bigip_az2" {
      provider = bigip.external_bigip_az2
      do_json =  data.template_file.ext_bigip_az2_do_json.rendered
+     tenant_name = "baseline"
  }
 
 resource "bigip_do"  "ips_bigip_az1" {
      provider = bigip.ips_bigip_az1
      do_json =  data.template_file.ips_bigip_az1_do_json.rendered
+     tenant_name = "baseline"
  }
 
 resource "bigip_do"  "ips_bigip_az2" {
      provider = bigip.ips_bigip_az2
      do_json =  data.template_file.ips_bigip_az2_do_json.rendered
+     tenant_name = "baseline"
  }
 
 resource "bigip_do"  "internal_bigip_az1" {
      provider = bigip.internal_bigip_az1
      do_json =  data.template_file.internal_bigip_az1_do_json.rendered
+     tenant_name = "baseline"
  }
 
 resource "bigip_do"  "internal_bigip_az2" {
      provider = bigip.internal_bigip_az2
      do_json =  data.template_file.internal_bigip_az2_do_json.rendered
+     tenant_name = "baseline"
  }
  
 

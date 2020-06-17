@@ -52,6 +52,7 @@ resource "bigip_as3"  "external_bigip_az1" {
       virtualAddress = "0.0.0.0/0",
       allowedVlan = "internal"
     })
+    tenant_name = "baseline"
  }
 
  resource "bigip_as3"  "internal_bigip_az1" {
@@ -64,4 +65,5 @@ resource "bigip_as3"  "external_bigip_az1" {
       virtualAddress = "0.0.0.0/0",
       allowedVlan = "internal"
     })
+    tenant_name = "baseline"
  }
