@@ -105,3 +105,8 @@ output "cfe_bucket_internal" {
   description = "Details of CFE bucket for internal tier"
   value = aws_s3_bucket.cfe_internal_bucket
 }
+
+
+output "z_all_nics_extended" {
+  value = module.internal_az1.all_nic_ids_extended
+}
