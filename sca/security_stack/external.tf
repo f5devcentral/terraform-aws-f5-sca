@@ -5,6 +5,7 @@ locals {
         "us-west-1a:management:0" = {
           "device_index"      = "0"
           "interface_type"    = "management"
+          "cloudfailover_tag" = ""
           "private_ips_count" = 0
           "public_ip"         = true
           "subnet_id"         = var.subnets.value.az1.security.mgmt
@@ -15,6 +16,7 @@ locals {
         "us-west-1a:public:0" = {
           "device_index"      = "1"
           "interface_type"    = "public"
+          "cloudfailover_tag" = format( "%s-internal-%s", var.project.value, var.random_id.value )
           "private_ips_count" = 0
           "public_ip"         = true
           "subnet_id"         = var.subnets.value.az1.security.internet
@@ -25,6 +27,7 @@ locals {
         "us-west-1a:private:0" = {
           "device_index"      = "2"
           "interface_type"    = "private"
+          "cloudfailover_tag" = ""
           "private_ips_count" = 0
           "public_ip"         = false
           "subnet_id"         = var.subnets.value.az1.security.application_region
@@ -35,6 +38,7 @@ locals {
         "us-west-1a:private:1" = {
           "device_index"      = "3"
           "interface_type"    = "private"
+          "cloudfailover_tag" = ""
           "private_ips_count" = 0
           "public_ip"         = false
           "subnet_id"         = var.subnets.value.az1.security.dmz_outside
@@ -53,6 +57,7 @@ locals {
         "us-west-1b:management:0" = {
           "device_index"      = "0"
           "interface_type"    = "management"
+          "cloudfailover_tag" = ""
           "private_ips_count" = 0
           "public_ip"         = true
           "subnet_id"         = var.subnets.value.az2.security.mgmt
@@ -63,6 +68,7 @@ locals {
         "us-west-1b:public:0" = {
           "device_index"      = "1"
           "interface_type"    = "public"
+          "cloudfailover_tag" = format( "%s-internal-%s", var.project.value, var.random_id.value )
           "private_ips_count" = 0
           "public_ip"         = true
           "subnet_id"         = var.subnets.value.az2.security.internet
@@ -73,6 +79,7 @@ locals {
         "us-west-1b:private:0" = {
           "device_index"      = "2"
           "interface_type"    = "private"
+          "cloudfailover_tag" = ""
           "private_ips_count" = 0
           "public_ip"         = false
           "subnet_id"         = var.subnets.value.az2.security.application_region
@@ -83,6 +90,7 @@ locals {
         "us-west-1b:private:1" = {
           "device_index"      = "3"
           "interface_type"    = "private"
+          "cloudfailover_tag" = ""
           "private_ips_count" = 0
           "public_ip"         = false
           "subnet_id"         = var.subnets.value.az2.security.dmz_outside
@@ -178,7 +186,7 @@ data "template_file" "external_onboard_az2" {
 # Create BIG-IP
 #
 module external_az1 {
-  source = "github.com/f5devcentral/terraform-aws-bigip?ref=develop"
+  source = "github.com/f5devcentral/terraform-aws-bigip?ref=cfe-compatibility"
 
   prefix = format(
     "%s-bigip_with_new_vpc_external-%s",
@@ -193,7 +201,7 @@ module external_az1 {
   custom_user_data            = data.template_file.external_onboard_az1.rendered
 }
 module external_az2 {
-  source = "github.com/f5devcentral/terraform-aws-bigip?ref=develop"
+  source = "github.com/f5devcentral/terraform-aws-bigip?ref=cfe-compatibility"
 
   prefix = format(
     "%s-bigip_with_new_vpc_external-%s",
