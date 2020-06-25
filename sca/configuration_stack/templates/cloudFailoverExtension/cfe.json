@@ -16,12 +16,13 @@
       }
     },
     "failoverRoutes":{
+      "enabled": true,
       "scopingTags":{
-      "f5_cloud_failover_label":"${label}"
+      "f5_cloud_failover_label":"${labelRouteTable}"
       },
       "scopingAddressRanges":[
            {
-             "range":"192.168.100.0/24"
+             "range":"${range}"
            }
        ],
       "defaultNextHopAddresses":{
