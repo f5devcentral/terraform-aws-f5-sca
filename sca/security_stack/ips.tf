@@ -139,24 +139,12 @@ data "template_file" "ips_onboard_az2" {
     secret_id   = var.secrets_manager_name.value
     # gateways
     applicationGateway =  var.aws_cidr_ips.value.az2.security.application_region
-    #dmzInsideGateway   =  var.aws_cidr_ips.value.az2.security.dmz_inside
     dmzOutsideGateway  =  var.aws_cidr_ips.value.az2.security.dmz_inside
-    #egressCh1Gateway   =  var.aws_cidr_ips.value.az2.security.egress_to_ch1
-    #egressCh2Gateway   =  var.aws_cidr_ips.value.az2.security.egress_to_ch2
-    #internalGateway    =  var.aws_cidr_ips.value.az2.security.internal
     externalGateway    =  var.aws_cidr_ips.value.az2.security.application_region
-    #mgmtGateway        =  var.aws_cidr_ips.value.az2.security.mgmt
-    #peeringGateway     =  var.aws_cidr_ips.value.az2.security.peering
     # networks
     applicationNetwork =  var.subnet_cidrs.value.az2.security.application_region
-    #dmzInsideNetwork   =  var.subnet_cidrs.value.az2.security.dmz_inside
     dmzOutsideNetwork  =  var.subnet_cidrs.value.az2.security.dmz_inside
-    #egressCh1Network   =  var.subnet_cidrs.value.az2.security.egress_to_ch1
-    #egressCh2Network   =  var.subnet_cidrs.value.az2.security.egress_to_ch2
-    #internalNetwork    =  var.subnet_cidrs.value.az2.security.internal
     externalNetwork    =  var.subnet_cidrs.value.az2.security.dmz_outside
-    #mgmtNetwork        =  var.subnet_cidrs.value.az2.security.mgmt
-    #peeringNetwork     =  var.subnet_cidrs.value.az2.security.peering
     # sync must be other az
     syncNetwork        = var.subnet_cidrs.value.az1.security.application_region
   }
