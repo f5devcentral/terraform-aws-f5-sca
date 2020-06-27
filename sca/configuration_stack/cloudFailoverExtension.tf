@@ -23,6 +23,30 @@ locals {
       }
     ] if(environment == "external_az2")
   ])
+  ips_self_ip_extNic_az1 = flatten([
+    for environment, bigips in var.bigip_map.value : [
+      for key, bigip in bigips : {
+        id : key
+        subnets : {
+          for subnet, data in bigip : data.attachment[0].device_index => {
+            private_ip : data.private_ip
+          }
+        }
+      }
+    ] if(environment == "ips_az1")
+  ])
+  ips_self_ip_extNic_az2 = flatten([
+    for environment, bigips in var.bigip_map.value : [
+      for key, bigip in bigips : {
+        id : key
+        subnets : {
+          for subnet, data in bigip : data.attachment[0].device_index => {
+            private_ip : data.private_ip
+          }
+        }
+      }
+    ] if(environment == "ips_az2")
+  ])
   int_self_ip_intNic_az1 = flatten([
     for environment, bigips in var.bigip_map.value : [
       for key, bigip in bigips : {

@@ -1,0 +1,43 @@
+{
+    "$schema": "https://raw.githubusercontent.com/F5Networks/f5-declarative-onboarding/master/src/schema/latest/base.schema.json",
+    "schemaVersion": "1.11.1",
+    "class": "Device",
+    "async": true,
+    "label": "Ips Cluster PAYG",
+    "Common": {
+        "class": "Tenant",
+        "hostname": "${local_host}.example.com",
+        "dbvars": {
+            "class": "DbVariables",
+            "ui.advisory.enabled": true,
+            "ui.advisory.color": "green",
+            "ui.advisory.text": "/Common/hostname"
+        },
+        "myDns": {
+            "class": "DNS",
+            "nameServers": [
+                "169.254.169.254",
+                "${dns_server}",
+                "2001:4860:4860::8844"
+            ],
+            "search": [
+                "f5.com",
+                "ec2.internal",
+                "compute-1.internal"
+            ]
+        },
+        "myNtp": {
+            "class": "NTP",
+            "servers": [
+                "${ntp_server}",
+                "0.pool.ntp.org",
+                "1.pool.ntp.org"
+            ],
+            "timezone": "${timezone}"
+        },
+        "myProvisioning": {
+            "class": "Provision",
+            "ltm": "nominal"
+        }
+    }
+}

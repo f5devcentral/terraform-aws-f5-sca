@@ -1,11 +1,12 @@
 ## routes to point at ENI ids.
 
-#alien range route
-resource "aws_route" "internet_alien_range" {
- route_table_id  = var.route_tables.value.internet
+#alien range routes
+resource "aws_route" "alien_range_internal_dmz" {
+ route_table_id  = var.route_tables.value.sec_internal
  destination_cidr_block = "192.168.100.0/24"
- network_interface_id = module.external_az1.public_nic_ids[0]
+ network_interface_id = module.internal_az1.nics_by_device_index[0][1].eni
 }
+
 
 #outbound routes
 resource "aws_route" "dmz_outside_outbound" {

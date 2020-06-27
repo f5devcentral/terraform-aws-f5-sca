@@ -185,7 +185,7 @@ data "template_file" "internal_onboard_az2" {
 # Create BIG-IP
 #
 module internal_az1 {
-  source = "github.com/f5devcentral/terraform-aws-bigip?ref=cfe-compatibility"
+  source = "github.com/f5devcentral/terraform-aws-bigip?ref=develop"
 
   prefix = format(
     "%s-bigip_with_new_vpc_internal-%s",
@@ -201,7 +201,7 @@ module internal_az1 {
 }
 
 module internal_az2 {
-  source = "github.com/f5devcentral/terraform-aws-bigip?ref=cfe-compatibility"
+  source = "github.com/f5devcentral/terraform-aws-bigip?ref=develop"
 
   prefix = format(
     "%s-bigip_with_new_vpc_internal-%s",
