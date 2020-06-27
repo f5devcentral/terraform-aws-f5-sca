@@ -107,10 +107,6 @@ data "template_file" "external_onboard_az1" {
   template = "${file("${path.root}/templates/bigip_onboard.tmpl")}"
 
   vars = {
-    #uname        	      = var.adminAccountName
-    # atc versions
-    #example version:
-    #as3Version            = "3.16.0"
     doVersion   = var.atc_versions.doVersion
     as3Version  = var.atc_versions.as3Version
     tsVersion   = var.atc_versions.tsVersion
@@ -120,37 +116,20 @@ data "template_file" "external_onboard_az1" {
     secret_id   = var.secrets_manager_name.value
     # gateways
     applicationGateway =  var.aws_cidr_ips.value.az1.security.application_region
-    dmzInsideGateway   =  var.aws_cidr_ips.value.az1.security.dmz_inside
     dmzOutsideGateway  =  var.aws_cidr_ips.value.az1.security.dmz_outside
-    egressCh1Gateway   =  var.aws_cidr_ips.value.az1.security.egress_to_ch1
-    egressCh2Gateway   =  var.aws_cidr_ips.value.az1.security.egress_to_ch2
-    internalGateway    =  var.aws_cidr_ips.value.az1.security.internal
     externalGateway    =  var.aws_cidr_ips.value.az1.security.internet
-    mgmtGateway        =  var.aws_cidr_ips.value.az1.security.mgmt
-    peeringGateway     =  var.aws_cidr_ips.value.az1.security.peering
     # networks
     applicationNetwork =  var.subnet_cidrs.value.az1.security.application_region
-    dmzInsideNetwork   =  var.subnet_cidrs.value.az1.security.dmz_inside
     dmzOutsideNetwork  =  var.subnet_cidrs.value.az1.security.dmz_outside
-    egressCh1Network   =  var.subnet_cidrs.value.az1.security.egress_to_ch1
-    egressCh2Network   =  var.subnet_cidrs.value.az1.security.egress_to_ch2
-    internalNetwork    =  var.subnet_cidrs.value.az1.security.internal
     externalNetwork    =  var.subnet_cidrs.value.az1.security.internet
-    mgmtNetwork        =  var.subnet_cidrs.value.az1.security.mgmt
-    peeringNetwork     =  var.subnet_cidrs.value.az1.security.peering
     # sync must be other az
     syncNetwork        = var.subnet_cidrs.value.az2.security.application_region
   }
 }
 data "template_file" "external_onboard_az2" {
-  # Error: expected length of user_data to be in the range (0 - 16384), got #!/bin/bash
   template = "${file("${path.root}/templates/bigip_onboard.tmpl")}"
 
   vars = {
-    #uname        	      = var.adminAccountName
-    # atc versions
-    #example version:
-    #as3Version            = "3.16.0"
     doVersion   = var.atc_versions.doVersion
     as3Version  = var.atc_versions.as3Version
     tsVersion   = var.atc_versions.tsVersion
@@ -160,24 +139,12 @@ data "template_file" "external_onboard_az2" {
     secret_id   = var.secrets_manager_name.value
     # gateways
     applicationGateway =  var.aws_cidr_ips.value.az2.security.application_region
-    dmzInsideGateway   =  var.aws_cidr_ips.value.az2.security.dmz_inside
     dmzOutsideGateway  =  var.aws_cidr_ips.value.az2.security.dmz_outside
-    egressCh1Gateway   =  var.aws_cidr_ips.value.az2.security.egress_to_ch1
-    egressCh2Gateway   =  var.aws_cidr_ips.value.az2.security.egress_to_ch2
-    internalGateway    =  var.aws_cidr_ips.value.az2.security.internal
     externalGateway    =  var.aws_cidr_ips.value.az2.security.internet
-    mgmtGateway        =  var.aws_cidr_ips.value.az2.security.mgmt
-    peeringGateway     =  var.aws_cidr_ips.value.az2.security.peering
     # networks
     applicationNetwork =  var.subnet_cidrs.value.az2.security.application_region
-    dmzInsideNetwork   =  var.subnet_cidrs.value.az2.security.dmz_inside
     dmzOutsideNetwork  =  var.subnet_cidrs.value.az2.security.dmz_outside
-    egressCh1Network   =  var.subnet_cidrs.value.az2.security.egress_to_ch1
-    egressCh2Network   =  var.subnet_cidrs.value.az2.security.egress_to_ch2
-    internalNetwork    =  var.subnet_cidrs.value.az2.security.internal
     externalNetwork    =  var.subnet_cidrs.value.az2.security.internet
-    mgmtNetwork        =  var.subnet_cidrs.value.az2.security.mgmt
-    peeringNetwork     =  var.subnet_cidrs.value.az2.security.peering
     # sync must be other az
     syncNetwork        = var.subnet_cidrs.value.az1.security.application_region
   }

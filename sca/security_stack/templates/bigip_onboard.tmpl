@@ -441,16 +441,16 @@ echo  -e "create cli transaction;
 create net vlan external interfaces add { 1.1 };
 create net vlan application interfaces add { 1.2 };
 create net vlan internal interfaces add { 1.3 };
-submit cli transaction" | tmsh -q
-echo  -e "create cli transaction;
+
 create net self external-self address $externalIp/$externalMask vlan external;
 create net self application-self address $applicationIp/$applicationMask vlan application allow-service default;
 create net self internal-self address $internalIp/$internalMask vlan internal;
-submit cli transaction" | tmsh -q
-echo -e "create cli transaction;
+
 create net route /LOCAL_ONLY/default network 0.0.0.0/0 gw $externalGateway
 create net route /LOCAL_ONLY/application network $syncNetwork gw $applicationGateway
 create net route /LOCAL_ONLY/internal network 10.0.0.0/8 gw $internalGateway
+create net route /LOCAL_ONLY/internal2 network 172.16.0.0/12 gw $internalGateway
+create net route /LOCAL_ONLY/internal3 network 192.168.0.0/16 gw $internalGateway
 submit cli transaction" | tmsh -q 
 # END TMSH NETWORKING
 ### Clean up
