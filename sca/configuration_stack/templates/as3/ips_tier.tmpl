@@ -1,0 +1,66 @@
+{
+    "class": "AS3",
+    "action": "deploy",
+    "persist": true,
+    "logLevel": "info",
+    "declaration": {
+        "class": "ADC",
+        "schemaVersion": "3.5.0",
+        "id": "urn:uuid:b92236ad-a677-4574-8bce-7d1487aeb62f",
+        "label": "baseline",
+        "remark": "baseline VIPs",
+        "baseline": {
+            "class": "Tenant",
+	        "forward_outbound": {
+                "class": "Application",
+                "template": "generic",
+                "forward_outbound": {
+                    "class": "Service_L4",
+                    "layer4": "any",
+                    "translateServerAddress": false,
+                    "translateServerPort": false,
+                    "virtualAddresses": [
+                        "${virtualAddress}"
+                    ],
+                    "pool": "forward_outbound_pool",
+                    "virtualPort": 0,
+                    "snat": "auto",
+                    "allowVlans": 
+                    [
+                        "${allowedVlan}"
+                    ]
+                },
+                "forward_outbound_pool": {
+                    "class": "Pool",
+                    "monitors": [],
+                    "members": [{
+                        "servicePort": 0,
+                        "serverAddresses": [
+                            "${poolMember1}",
+                            "${poolMember2}"
+                        ]
+                    }]
+                }
+            },
+            "forward_inbound": {
+                "class": "Application",
+                "template": "generic",
+                "forward_inbound": {
+                    "class": "Service_L4",
+                    "layer4": "any",
+                    "translateServerAddress": false,
+                    "translateServerPort": false,
+                    "virtualAddresses": [
+                        "${virtualAddress2}"
+                    ],
+                    "virtualPort": 0,
+                    "snat": "auto",
+                    "allowVlans": 
+                    [
+                        "${allowedVlan2}"
+                    ]
+                }
+            }
+	}
+    }
+}
