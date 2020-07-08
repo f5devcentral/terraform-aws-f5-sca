@@ -5,6 +5,12 @@ resource "aws_s3_bucket" "cfe_external_bucket" {
     var.project.value,
     var.random_id.value
   )
+
+  lifecycle {
+      prevent_destroy = false
+  }
+  force_destroy = true
+
   tags = {
    f5_cloud_failover_label = format( "%s-external-%s", var.project.value, var.random_id.value )
   }
@@ -17,6 +23,12 @@ resource "aws_s3_bucket" "cfe_internal_bucket" {
     var.project.value,
     var.random_id.value
   )
+
+  lifecycle {
+      prevent_destroy = false
+  }
+  force_destroy = true
+
   tags = {
    f5_cloud_failover_label = format( "%s-internal-%s", var.project.value, var.random_id.value )
   }
