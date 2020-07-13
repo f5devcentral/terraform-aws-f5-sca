@@ -79,15 +79,15 @@ The following AWS Technologies or Deployment considerations are compatible (not 
 - Understanding of F5 products in AWS - https://clouddocs.f5.com/cloud/public/v1/aws_index.html and our GitHub repository - https://github.com/F5Networks/f5-aws-cloudformation
 - Understanding of F5 BIG-IP modules, virtual servers
 
-## Meeting Compliance Requirments
+## Meeting Compliance Requirements
 
-The SCA is the base cloud topology allowing you to build to meet compliance across industry and verticals.  The [AWS Shared Responsibility Model](https://aws.amazon.com/compliance/shared-responsibility-model/) is clear. **AWS is responsible for the scurity of the cloud** and **you are responsible for your security and compliance in the cloud**. F5 technoligies enable you to focus on the **in the cloud** dimension. 
+The SCA is the base cloud topology allowing you to build to meet compliance across industry and verticals.  The [AWS Shared Responsibility Model](https://aws.amazon.com/compliance/shared-responsibility-model/) is clear. **AWS is responsible for the security of the cloud** and **you are responsible for your security and compliance in the cloud**. F5 technologies enable you to focus on the **in the cloud** dimension. 
 
-To support the various needs of different compliance requirments end users will need to apply specific configuraitons to F5 and AWS resources that are deployed.  The correct process to do that is both a technology question and and orgnaizational specific operational question. The F5 SCA is a base for your to build upon to meet those needs.
+To support the various needs of different compliance requirements, end users will need to apply specific configurations to F5 and AWS resources that are deployed.  The correct process to do that is both a technology question and and organizational specific operational question. The F5 SCA is a base for you to build upon to meet those needs.
 
-## Requirments Mapping - Financial Services
+## Requirements Mapping - Financial Services
 
-| Requirement | Infrastructure Impact | How F5 Meets this Requirment  |
+| Requirement | Infrastructure Impact | How F5 Meets this Requirement  |
 |:---:|:---:|:---:|
 | Implement safeguards to prevent data tampering and ensure its integrity (SOX, GLBA, USA Patriot Act, Basel III, HIPAA, GDPR, FIPS)|Encrypt all sensitive data and secure private keys|F5 LTM can terminate and re-encrypt any data passing through a BIGIP.  It can also integrate with an external HSM to ensure private keys are secured and meet FIPS standards.|
 |Monitor and record access to sensitive data (SOX, OCC, PCI, HIPAA, PIPEDA) | Log access activity on all systems and send it to a central system for monitoring |Being in the application flow, F5 BIGIP generates extensive analytics data.  Telemetry Streaming in F5's Automation Toolchain can declaratively create a logging policy and configure streaming destinations for the analytics data. |
@@ -125,7 +125,7 @@ To support the various needs of different compliance requirments end users will 
 | Security | Full Packet Capture | The Security Stack shall provide full packet capture or cloud service equivalent capability for recording and interpreting traversing communications. | Core | SCCA 2.1.2.16 |
 | Security | Provide Flow Metrics | The Security Stack shall provide network packet flow metrics and statistics for all traversing communications. | Core / AVR | SCCA 2.1.2.17|
 | Security | North-South Traffic Inspection | The Security Stack shall provide for the inspection of traffic entering and exiting each Application virtual private network. | AFM | SCCA 2.1.2.18 |
-| Security | Management Access | The Security Stack hall allow Priviledged User access to Application management interfaces. | APM / PUA | SCCA 2.2.3.2|
+| Security | Management Access | The Security Stack shall allow Privileged User access to Application management interfaces. | APM / PUA | SCCA 2.2.3.2|
 | Scale | Rapid Scale| The Security Stack shall be designed to rapidly scale virtual elements up and down in capacity to achieve negotiated (between components provider and Mission Owner) SLA objectives while minimizing metered billing costs. | Core / AWS | SCCA 2.6.2.1 |
 | Scale | Scaling Increments | The Security Stack shall support scalability in increments of 1 Gigabit/second throughput at all points within the design without costly modification. | Core / AWS| SCCA 2.6.2.2 |
 | Performance | Throughput | The Security Stack shall start with 1 Gigabit/second throughput and have ability to scale up to 10G.| Core | SCCA 2.4.1.2 |
@@ -136,16 +136,16 @@ To support the various needs of different compliance requirments end users will 
 
 ## Deploying Custom Configuration to the BIG-IP VE
 
-| Failure Domain | Deployment Pattern | How F5 Meets this Requirment  |
+| Failure Domain | Deployment Pattern | How F5 Meets this Requirement  |
 
 
 ## Post-Deployment Configuration
 
-The SCA provides a base topology to build to regulated environments and you will need to harden the deployment to your required busienss or legal requirments. 
+The SCA provides a base topology to build to regulated environments, and you will need to harden the deployment to your required business or legal requirements. 
 
 ### Creating Virtual Servers on the BIG-IP VE
 
-Creating virtual servers is a multistep process that can be accomplished via APIs or direct user interaction.  A virtual server consists of the following components
+Creating virtual servers is a multistep process that can be accomplished via APIs or direct user interaction.  A virtual server consists of the following components:
 
 1. Virtual Server IP and configuration
 2. SDN Assigned secondary IP that = the Virtual Server IP
@@ -155,21 +155,21 @@ If a user is deploying an inter-AZ HA model (this template does) a public IP wil
 
 F5 recommends that customers leverage AS3 for configuration and management of virtual servers (Step 1 Above). AS 3 will incorporate features faster than imperative API tools such as Ansible or Terraform modules and allows users to move to an as-code model.  For more information on AS 3 please see https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/.  AS3 can be imbedded into CFT calls, used with Terraform, used with Ansible or pushed via tools such as Postman or CURL. 
 
-For the other configuration steps there are many automations tools available and your organization should work with the ones that allow you to be the most efficient overall.  The workflow that is accomplished via Terraform in this repository could also be accomplished via those tools. 
+For the other configuration steps there are many automation tools available, and your organization should work with those that allow you to be the most efficient overall.  The workflow that is accomplished via Terraform in this repository could also be accomplished via those tools. 
 
 ## Working with MultiAccount Environments 
 
-In cloud migrations it is not uncommon for organizations to leverage multi-account enivonrments, such as AWS LandingZone/Control Tower. As an example you may have developer accounts, networking accounts, security accounts, master payer etc.  In this scenario we need to think about the environment in business and technical terms. 
+In cloud migrations it is not uncommon for organizations to leverage multi-account environments, such as AWS LandingZone/Control Tower. As an example you may have developer accounts, networking accounts, security accounts, master payer etc.  In this scenario we need to think about the environment in business and technical terms. 
 
 __Business__
-- Payer Accounts - this is outside of F5's perview ans is an AWS related item.
-- End User License Agreements - the EULA must be accpted by the account in which the image is deployed. For example if you want to deploy instances into an account named APP_DEV an admin in the account will need to "subscribe" to the software image.
+- Payer Accounts - this is outside of F5's purview and is an AWS related item.
+- End User License Agreements - the EULA must be accepted by the account in which the image is deployed. For example, if you want to deploy instances into an account named APP_DEV an admin in the account will need to "subscribe" to the software image.
 
 __Technical__ 
 - F5 IAM Roles require certain attributes in the environment, STS, S3, EC2.  Depending on the use case you may need all or only some of the attributes as listed.
-- Service Discovery may require the use of STS Assume Role if you are corssing account boundaries and DNS is not an option. Both [AS3](https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#pool-member) and the [ServiceDiscovery iAPP](https://github.com/F5Networks/f5-cloud-iapps/tree/master/f5-service-discovery) support this functionality. For new deplyments F5 recomends the use of AS3. 
+- Service Discovery may require the use of STS Assume Role if you are crossing account boundaries and DNS is not an option. Both [AS3](https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#pool-member) and the [ServiceDiscovery iAPP](https://github.com/F5Networks/f5-cloud-iapps/tree/master/f5-service-discovery) support this functionality. For new deployments F5 recommends the use of AS3. 
 - [Review the AWS documentation on Cross Account access](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html)
-- [F5 Telemetry Streaming](https://clouddocs.f5.com/products/extensions/f5-telemetry-streaming/latest/) does not support assume roles, so the credentials to write to your AWS service will need to be included as part of the decleration.
+- [F5 Telemetry Streaming](https://clouddocs.f5.com/products/extensions/f5-telemetry-streaming/latest/) does not support assume roles, so the credentials to write to your AWS service will need to be included as part of the declaration.
 - [F5 Cloud Failover](https://clouddocs.f5.com/products/extensions/f5-cloud-failover/latest/userguide/aws.html) supports the use of Assume Role, enabling shared VPCs.
 - Customized AMIs - users may need custom AMIs for reasons such as baking a hotfix into the boot image or [encyprtion](https://clouddocs.f5.com/cloud/public/v1/aws/AWS_encrypted_volumes.html). Please refer to the [F5 Image Generator](https://clouddocs.f5.com/cloud/public/v1/ve-image-gen_index.html). Please contact your F5 sales team if you need information on building an encrypted marketplace image.
 - The environment deployed by this set of templates is for demo and experimentation. These templates can be modified to meet more specific needs; For example you will need to remove the EIPs from the MGMT interfaces and update the SG policy for SSH.
@@ -177,41 +177,41 @@ __Technical__
 __Architectural__
 - F5 products can be deployed in shared services accounts, such as Networking, if one is creating a similar operational model to the data center.
 - F5 products can be deployed in non-shared accounts
-- Align to Applicaiton Migraiton Phase 
+- Align to Application Migration Phase 
     - Rehost - Active/Standby is the most common.  Unless there is a technical need for an Intra AZ pattern using an Inter AZ pattern is best as it protects against an AZ failure
-    - Replatform/Rearchitect - Active/Standy or Active/Active patterns; users are starting to leverage tools such as service discovery or integrating with conatiner based applications. 
+    - Replatform/Rearchitect - Active/Standby or Active/Active patterns; users are starting to leverage tools such as service discovery or integrating with container-based applications. 
 - Align to Application capacity needs
 - Align to Failure domain patterns
-- Shared VPCs will bring several considerations - for traffic managment such as steering and IPS integraiton F5 systems whould be deployed by the VPC owner.  Shared subnets can be considered for user cases where F5 Systems are being used for Advanced Load balancing, Authenticaiton Proxy, or WAF (all shared subnets assume SNAT since the control of the VPC route tables is external to the account)
+- Shared VPCs will bring several considerations - for traffic management such as steering and IPS integration F5 systems should be deployed by the VPC owner.  Shared subnets can be considered for use cases where F5 Systems are being used for Advanced Load Balancing, Authentication Proxy, or WAF (all shared subnets assume SNAT since the control of the VPC route tables is external to the account)
 
 
 ## Sizing a Deployment
 
-Migrating from a hardware to software model is normally a descaling exercise; meaning that in a Data Center scale models were normally vertical (larger systems) and the in the Cloud scale is horizontal (more systems). Additionally we do not have specialized FPGAs for intensive processes (SSL, Compression, L4 Traffic processing) and all functions are moved to x86.  Coupled with the descale of systems we need to take into account cloud provider specific attributes such as 
+Migrating from a hardware to software model is normally a descaling exercise; meaning that in a Data Center scale models were normally vertical (larger systems) and in the Cloud scale is horizontal (more systems). Additionally we do not have specialized FPGAs for intensive processes (SSL, Compression, L4 Traffic processing) and all functions are moved to x86.  Coupled with the descale of systems we need to take into account cloud provider specific attributes such as:
 
-- Number of interfaces a VM can have (varies by instance type and size), [F5 supports a varitey of types and sizes](https://clouddocs.f5.com/cloud/public/v1/matrix.html)
-- Number of IPs an interface can host (mapes to public IPs)
+- Number of interfaces a VM can have (varies by instance type and size), [F5 supports a variety of types and sizes](https://clouddocs.f5.com/cloud/public/v1/matrix.html)
+- Number of IPs an interface can host (maps to public IPs)
 - SSL performance
-- Outbound bandwidth (Interent, Direct Connect, VPN)
+- Outbound bandwidth (Internet, Direct Connect, VPN)
 - Number of Flows
 - Topology Considerations 
 - Public and Internal Applications
 
-For customers getting strated they do not need to focus on the scaling and sizing day one but it is __highly recommended__ that one engage with F5 Field Engineering in a sizing exercise coupled with an architecture discussion to hone in on what the deployment and the combined F5+AWS architecture should look like. 
+For customers getting started they do not need to focus on the scaling and sizing day one but it is __highly recommended__ that one engage with F5 Field Engineering in a sizing exercise coupled with an architecture discussion to hone in on what the deployment and the combined F5+AWS architecture should look like. 
 
 ## Some common questions around the SCA:
 
-1. Will an organization only have 1 Security VPC? - Probably not as the scale models of cloud combined with application and traffic vsibility influence the archtiecture.
+1. Will an organization only have 1 Security VPC? - Probably not as the scale models of cloud combined with application and traffic visibility influence the architecture.
 2. Can I get end to end IP transparency with this topology on my instances? - Yes you can.
 3. Can this support both ingress (reverse proxy) and egress (forward proxy) scenarios? - Yes it can.
 4. Can I use a CI/CD pipeline? - Yes you can.
-5. What license models can I use for my F5 systems and can I share licenses between environments? - The SCA works with Marketplace, Subscription, ELA and BYOL licensing; and you can mix/match. If you have an ELA/Subscrition a license can be deprovisioned in one environment and migrated to another. 
-6. Does the SCA support both mutable and immutable use cases? - Yes it does.  This is an operationl decision more than a technical decision. 
-7. Can I aggregate my cloud logging with the rest of my logs to get an enterprise wide view? - Yes you can, F5 HSL is stil an option as well as migrating to [F5 Telemtry Streaming](https://clouddocs.f5.com/products/extensions/f5-telemetry-streaming/latest/)
-8. Will I need to make modificaitons to the architecture and templates? - Yes this is a getting started/discovery tool.  Your organizations cloud applicaitons will be unique to you. F5 teams can assist. 
-9. In this topology the teanant VPCs can talk to each other, can I prevent that? - Yes there are several methods to do so, but it seperate TGW route tables to the use of Security Groups and NACLs.
-10. My orgnaization needs to perforam deep inspection between tenant VPCs (east/west). Is this possible? Yes it is but the details matter here. Please work with F5 to find the correct solution for you.
-11. I need to build this same functionality in another Cloud.  Will it be identical? In concept and function yes, but some of the technoligies will differ in how they are used to accomplish the goal. Each Cloud has unique behaivros in their SDN that need to be accounted for. 
+5. What license models can I use for my F5 systems and can I share licenses between environments? - The SCA works with Marketplace, Subscription, ELA and BYOL licensing; and you can mix/match. If you have an ELA/Subscription a license can be deprovisioned in one environment and migrated to another. 
+6. Does the SCA support both mutable and immutable use cases? - Yes it does.  This is an operational decision more than a technical decision. 
+7. Can I aggregate my cloud logging with the rest of my logs to get an enterprise-wide view? - Yes you can, F5 HSL is still an option as well as migrating to [F5 Telemetry Streaming](https://clouddocs.f5.com/products/extensions/f5-telemetry-streaming/latest/)
+8. Will I need to make modifications to the architecture and templates? - Yes this is a getting started/discovery tool.  Your organizations cloud applications will be unique to you. F5 teams can assist. 
+9. In this topology the tenant VPCs can talk to each other, can I prevent that? - Yes there are several methods to do so, but it requires separate TGW route tables and the use of Security Groups and NACLs.
+10. My organization needs to perform deep inspection between tenant VPCs (east/west). Is this possible? Yes it is but the details matter here. Please work with F5 to find the correct solution for you.
+11. I need to build this same functionality in another Cloud.  Will it be identical? In concept and function yes, but some of the technologies will differ in how they are used to accomplish the goal. Each cloud has unique behaviors in their SDN that need to be accounted for. 
 
 
 ## Filing issues
@@ -224,7 +224,7 @@ If you find an issue, we would love to hear about it. You have a choice when it 
 
 Although this repository is community-supported, the VE instances deployed from the images generated by this tool are supported by [F5 Support](https://www.f5.com/company/contact/regional-offices#product-support).
 
-To file an issue, report defects, security vulnerabilties, or submit enhancements and general questions open an issue within the GitHub repository.
+To file an issue, report defects, security vulnerabilities, or submit enhancements and general questions open an issue within the GitHub repository.
 
 1. Click [New issue](https://github.com/f5devcentral/terraform-aws-f5-sca/issues/new).
 2. Enter a title, a description, and then click **Submit new issue**.
